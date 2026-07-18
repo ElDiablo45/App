@@ -13,12 +13,22 @@ interface LoginPanelProps {
 export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
   const [accepted, setAccepted] = useState(false)
   const [pending, setPending] = useState(false)
-  const errorMessage = getAuthErrorMessage(errorCode)
+  const [localError, setLocalError] = useState<string>()
+  const errorMessage = localError ?? getAuthErrorMessage(errorCode)
 
   async function startDiscordLogin() {
     setPending(true)
-    await signIn("discord", { callbackUrl: "/perfil" })
-    setPending(false)
+    setLocalError(undefined)
+
+    try {
+      await signIn("discord", { callbackUrl: "/perfil" })
+    } catch {
+      setLocalError(
+        "No se pudo conectar con Discord. Revisa tu conexión e inténtalo de nuevo.",
+      )
+    } finally {
+      setPending(false)
+    }
   }
 
   return (

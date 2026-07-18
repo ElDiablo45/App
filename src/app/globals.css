@@ -209,6 +209,21 @@ input:focus-visible {
     opacity 160ms ease;
 }
 
+.sign-out-control {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.inline-error {
+  max-width: 250px;
+  margin: 0;
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: right;
+}
+
 .primary-action {
   width: 100%;
   margin-top: 22px;
@@ -410,6 +425,16 @@ input:focus-visible {
 
   .secondary-action {
     width: 100%;
+  }
+
+  .sign-out-control {
+    width: 100%;
+    justify-items: stretch;
+  }
+
+  .inline-error {
+    max-width: none;
+    text-align: left;
   }
 
   .profile-card {

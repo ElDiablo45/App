@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth/options"
 import { LoginPanel } from "@/features/auth/login-panel"
+import { getDiscordProfile } from "@/features/profile/profile-session"
 
 interface HomeProps {
   searchParams: Promise<{ error?: string | string[] }>
@@ -17,7 +18,10 @@ export default async function Home({ searchParams }: HomeProps) {
     <main className="login-shell">
       <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
-      <LoginPanel authenticated={Boolean(session)} errorCode={errorCode} />
+      <LoginPanel
+        authenticated={Boolean(getDiscordProfile(session))}
+        errorCode={errorCode}
+      />
     </main>
   )
 }

@@ -44,6 +44,24 @@ describe("LoginPanel", () => {
     )
   })
 
+  it("recovers when Discord OAuth cannot be opened", async () => {
+    signIn.mockRejectedValueOnce(new Error("network detail"))
+    const user = userEvent.setup()
+    render(<LoginPanel authenticated={false} />)
+
+    await user.click(screen.getByRole("checkbox"))
+    await user.click(
+      screen.getByRole("button", { name: /continuar con discord/i }),
+    )
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "No se pudo conectar con Discord. Revisa tu conexión e inténtalo de nuevo.",
+    )
+    expect(
+      screen.getByRole("button", { name: /continuar con discord/i }),
+    ).toBeEnabled()
+  })
+
   it("offers the profile instead of another consent form when authenticated", () => {
     render(<LoginPanel authenticated />)
 
