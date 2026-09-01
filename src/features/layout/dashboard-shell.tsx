@@ -2,6 +2,23 @@
 
 import type { ReactNode } from "react"
 import Link from "next/link"
+import {
+  Bell,
+  BookOpen,
+  Calendar,
+  ClipboardList,
+  Crown,
+  FileText,
+  GraduationCap,
+  House,
+  Scale,
+  Search,
+  Shield,
+  ShoppingBag,
+  Gavel,
+  Ticket,
+  User,
+} from "lucide-react"
 import { SignOutButton } from "@/features/profile/sign-out-button"
 
 interface DashboardShellProps {
@@ -20,8 +37,8 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
             <span>Hunt Hispano</span>
           </div>
           <div className="hunt-sidebar-search">
-            <span>⌕</span>
-            <span>🔔</span>
+            <Search size={14} />
+            <Bell size={14} />
           </div>
         </div>
 
@@ -29,67 +46,67 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
           <div className="hunt-nav-section">
             <p className="hunt-nav-title">General</p>
             <Link href="/" className={`hunt-nav-item ${active === "home" ? "hunt-nav-item--active" : ""}`}>
-              <span>⌂</span> Home
+              <House size={14} /> Home
             </Link>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>🛡</span> Equipo
+              <Shield size={14} /> Equipo
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>♛</span> Dynasty 8
+              <Crown size={14} /> Dynasty 8
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>📅</span> Calendario
+              <Calendar size={14} /> Calendario
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>🏪</span> Comercios
+              <ShoppingBag size={14} /> Comercios
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>⚖</span> Postulaciones ilegales
+              <Scale size={14} /> Postulaciones ilegales
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>⚖</span> Justicia
+              <Gavel size={14} /> Justicia
             </a>
           </div>
 
           <div className="hunt-nav-section">
             <p className="hunt-nav-title">Espacio de trabajo</p>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>📄</span> Documentos
+              <FileText size={14} /> Documentos
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>📝</span> Formularios
+              <ClipboardList size={14} /> Formularios
             </a>
           </div>
 
           <div className="hunt-nav-section">
             <p className="hunt-nav-title">Mi Cuenta</p>
             <Link href="/perfil" className={`hunt-nav-item ${active === "perfil" ? "hunt-nav-item--active" : ""}`}>
-              <span>👤</span> Mi Perfil
+              <User size={14} /> Mi Perfil
             </Link>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>📖</span> Historias personaje
+              <BookOpen size={14} /> Historias personaje
             </a>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>🎫</span> Tickets
+              <Ticket size={14} /> Tickets
             </a>
           </div>
 
           <div className="hunt-nav-section">
             <p className="hunt-nav-title">LSPD</p>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>🎓</span> Academia
+              <GraduationCap size={14} /> Academia
             </a>
           </div>
           <div className="hunt-nav-section">
             <p className="hunt-nav-title">LSSD</p>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>🎓</span> Academia
+              <GraduationCap size={14} /> Academia
             </a>
           </div>
           <div className="hunt-nav-section">
             <p className="hunt-nav-title">SAHP</p>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <span>🎓</span> Academia
+              <GraduationCap size={14} /> Academia
             </a>
           </div>
         </nav>

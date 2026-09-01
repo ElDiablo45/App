@@ -2,6 +2,27 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import {
+  Activity,
+  AlertTriangle,
+  BadgeCheck,
+  BookMarked,
+  BookOpen,
+  Cake,
+  Calendar,
+  Clock,
+  FileText,
+  Heart,
+  Image as ImageIcon,
+  Info,
+  Lightbulb,
+  Link2,
+  Lock,
+  Mail,
+  Shield,
+  Ticket,
+  Users,
+} from "lucide-react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
 
 interface HuntProfileProps {
@@ -11,7 +32,6 @@ interface HuntProfileProps {
 }
 
 function discordCreationDate(id: string): Date {
-  // Discord snowflake: (id >> 22) + 1420070400000
   try {
     const ts = Number(BigInt(id) >> BigInt(22)) + 1420070400000
     return new Date(ts)
@@ -36,9 +56,8 @@ function timeAgoEs(date: Date): string {
 
 function medalsFromFlags(flags: number): string[] {
   const medals: string[] = []
-  if (flags & 64) medals.push("🏠") // HypeSquad Bravery placeholder
+  if (flags & 64) medals.push("🏠")
   if (flags & 1) medals.push("👑")
-  // siempre mostramos al menos Hunt placeholders como en captura hasta tener datos reales
   if (medals.length === 0) return ["🇪🇸", "🍃", "💗"]
   return medals
 }
@@ -52,12 +71,10 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
 
   const creationDate = discordCreationDate(profile.id)
   const huntJoinedAt = huntMember?.joinedAt ? new Date(huntMember.joinedAt) : null
-  // Si no hay bot configurado, mantenemos el placeholder del diseño para no romper UI; cuando haya guild se muestra la fecha real
   const huntCreatedPlaceholder = new Date("2026-04-05T10:00:00Z")
   const avatarInitial = profile.displayName.trim().charAt(0).toUpperCase() || "?"
 
   const medals = medalsFromFlags(profile.publicFlags)
-  // Roles: prefer Discord guild roles if provided, else Hunt placeholders + primaryGuild
   const roles = discordRoles?.length
     ? discordRoles
     : [
@@ -68,7 +85,6 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
 
   return (
     <div className="hunt-profile">
-      {/* Banner */}
       <div className="hunt-banner">
         {profile.bannerUrl ? (
           <Image src={profile.bannerUrl} alt="" fill priority sizes="(max-width: 1024px) 100vw, 900px" className="hunt-banner-img" />
@@ -88,7 +104,6 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
       </div>
 
       <div className="hunt-profile-grid">
-        {/* LEFT */}
         <div className="hunt-profile-left">
           <div className="hunt-avatar-wrap">
             {profile.avatarUrl ? (
@@ -109,7 +124,7 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
           </div>
 
           <h2 className="hunt-name">
-            {profile.displayName} <span className="hunt-heart">🤍</span>
+            {profile.displayName} <Heart size={16} className="hunt-heart-icon" />
           </h2>
           <p className="hunt-handle">
             @{profile.username} · {profile.id}
@@ -133,9 +148,7 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
           <div className="hunt-section">
             <p className="hunt-label">ROLES</p>
             <p className="hunt-roles-hint" style={{ fontSize: "11px", color: huntMember ? "#22c55e" : "#f59e0b", margin: "0 0 8px" }}>
-              {huntMember
-                ? `Roles de Discord · en vivo (${roles.length})`
-                : "Roles de Discord · placeholder (conecta bot para ver los reales)"}
+              {huntMember ? `Roles de Discord · en vivo (${roles.length})` : "Roles de Discord · placeholder (conecta bot para ver los reales)"}
             </p>
             <div className="hunt-roles">
               {roles.map((r) => (
@@ -151,27 +164,27 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
             <p className="hunt-label">INFO</p>
             <ul className="hunt-info">
               <li>
-                <span>✉</span> mdavidrp2007@outlook.com
+                <Mail size={12} /> mdavidrp2007@outlook.com
               </li>
               <li>
                 <a href="https://steamcommunity.com/id/ELDI..." target="_blank" rel="noreferrer">
-                  <span>◎</span> https://steamcommunity.com/id/ELDI...
+                  <Link2 size={12} /> https://steamcommunity.com/id/ELDI...
                 </a>
               </li>
               <li>
-                <span>🎂</span> Nacimiento 15 de febrero de 2002
+                <Cake size={12} /> Nacimiento 15 de febrero de 2002
               </li>
               <li>
-                <span>📅</span> Se unió {huntJoinedAt ? timeAgoEs(huntJoinedAt) : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder)`}
+                <Calendar size={12} /> Se unió {huntJoinedAt ? timeAgoEs(huntJoinedAt) : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder)`}
               </li>
               <li>
-                <span>🛡</span> Whitelist aprobada
+                <Shield size={12} /> Whitelist aprobada
               </li>
               <li>
-                <span>✔</span> Verificado {huntJoinedAt ? formatDateEs(huntJoinedAt) : `${formatDateEs(huntCreatedPlaceholder)} (placeholder)`}
+                <BadgeCheck size={12} /> Verificado {huntJoinedAt ? formatDateEs(huntJoinedAt) : `${formatDateEs(huntCreatedPlaceholder)} (placeholder)`}
               </li>
               <li>
-                <span>📖</span> Última historia aprobada: No especificada
+                <BookMarked size={12} /> Última historia aprobada: No especificada
               </li>
             </ul>
             {!huntMember ? (
@@ -182,18 +195,21 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
           </div>
         </div>
 
-        {/* RIGHT */}
         <div className="hunt-profile-right">
           <div className="hunt-stats">
             <div className="hunt-stat">
-              <div className="hunt-stat-icon hunt-stat-icon--blue">👥</div>
+              <div className="hunt-stat-icon hunt-stat-icon--blue">
+                <Users size={16} />
+              </div>
               <div>
                 <p className="hunt-stat-label">Personajes</p>
                 <p className="hunt-stat-value">0</p>
               </div>
             </div>
             <div className="hunt-stat">
-              <div className="hunt-stat-icon hunt-stat-icon--green">◷</div>
+              <div className="hunt-stat-icon hunt-stat-icon--green">
+                <Clock size={16} />
+              </div>
               <div>
                 <p className="hunt-stat-label">Tiempo en Hunt Hispano</p>
                 <p className="hunt-stat-value">0h 0m</p>
@@ -202,11 +218,10 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
           </div>
 
           <div className="hunt-accordion">
-            {/* Información - expanded by default */}
             <div className={`hunt-acc-item ${openSections.informacion ? "hunt-acc-item--open" : ""}`}>
               <button className="hunt-acc-head" onClick={() => toggle("informacion")} type="button">
                 <span>
-                  <span className="hunt-acc-icon">ⓘ</span> Información
+                  <Info size={14} className="hunt-acc-icon" /> Información
                 </span>
                 <span className="hunt-acc-chevron">⌃</span>
               </button>
@@ -254,19 +269,19 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
             </div>
 
             {[
-              { key: "personajes", label: "Personajes", icon: "👥" },
-              { key: "historias", label: "Historias", icon: "📖" },
-              { key: "tickets", label: "Tickets", icon: "🎫" },
-              { key: "sugerencias", label: "Sugerencias y bugs", icon: "💡" },
-              { key: "sanciones", label: "Sanciones", icon: "⚠" },
-              { key: "actividad", label: "Actividad", icon: "〰" },
-              { key: "paso", label: "Tu paso por Hunt Hispano", icon: "🖼" },
-              { key: "privacidad", label: "Privacidad", icon: "🔒" },
+              { key: "personajes", label: "Personajes", icon: Users },
+              { key: "historias", label: "Historias", icon: BookOpen },
+              { key: "tickets", label: "Tickets", icon: Ticket },
+              { key: "sugerencias", label: "Sugerencias y bugs", icon: Lightbulb },
+              { key: "sanciones", label: "Sanciones", icon: AlertTriangle },
+              { key: "actividad", label: "Actividad", icon: Activity },
+              { key: "paso", label: "Tu paso por Hunt Hispano", icon: ImageIcon },
+              { key: "privacidad", label: "Privacidad", icon: Lock },
             ].map((s) => (
               <div key={s.key} className={`hunt-acc-item ${openSections[s.key] ? "hunt-acc-item--open" : ""}`}>
                 <button className="hunt-acc-head" onClick={() => toggle(s.key)} type="button">
                   <span>
-                    <span className="hunt-acc-icon">{s.icon}</span> {s.label}
+                    <s.icon size={14} className="hunt-acc-icon" /> {s.label}
                   </span>
                   <span className="hunt-acc-chevron">⌄</span>
                 </button>
