@@ -11,7 +11,6 @@ import {
   Cake,
   Calendar,
   Clock,
-  FileText,
   Heart,
   Image as ImageIcon,
   Info,
