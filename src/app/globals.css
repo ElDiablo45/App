@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #080a12;
+  --background: #080808;
   --surface: rgba(19, 22, 36, 0.92);
   --surface-strong: #181c2c;
   --surface-soft: rgba(255, 255, 255, 0.055);
@@ -14,6 +14,10 @@
   --danger: #ffb4b4;
   --danger-bg: rgba(248, 113, 113, 0.1);
   --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  --eleven-bg: #0b0b0b;
+  --eleven-card: #131313;
+  --eleven-border: rgba(255, 255, 255, 0.07);
+  --eleven-muted: #9aa0b5;
 }
 
 * {
@@ -22,16 +26,14 @@
 
 html {
   min-width: 320px;
-  background: var(--background);
+  background: var(--eleven-bg);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   color: var(--text);
-  background:
-    radial-gradient(circle at 50% -20%, rgba(88, 101, 242, 0.14), transparent 42%),
-    var(--background);
+  background: var(--eleven-bg);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -69,29 +71,271 @@ input:focus-visible {
   padding: 32px 18px;
 }
 
-.ambient {
+.eleven-page {
+  min-height: 100vh;
+  background: var(--eleven-bg);
+}
+
+/* === ELEVEN LOGIN (imagen 1) === */
+.eleven-login-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--eleven-bg);
+}
+
+.eleven-login-left {
+  flex: 0 0 52%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  padding: 32px 32px 32px 48px;
+  background: var(--eleven-bg);
+}
+
+.eleven-login-left-inner {
+  width: 100%;
+  max-width: 360px;
+}
+
+.eleven-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: #fffaf0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 28px;
+}
+
+.eleven-brand-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.eleven-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #0f2a5a;
+}
+
+.eleven-brand-text strong {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #0f2a5a;
+}
+
+.eleven-brand-text span {
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: #b7791f;
+  font-weight: 800;
+}
+
+.eleven-title {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: #fff;
+}
+
+.eleven-subtitle {
+  margin: 12px 0 0;
+  color: #8b90a3;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.eleven-error {
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 180, 180, 0.18);
+  border-radius: 10px;
+  background: rgba(248, 113, 113, 0.08);
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.eleven-consent {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  align-items: start;
+  margin-top: 28px;
+  color: #b8bdd0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.eleven-consent input {
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  accent-color: #fff;
+  border-radius: 3px;
+}
+
+.eleven-link {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.eleven-link:hover {
+  color: #d9dcff;
+}
+
+.eleven-consent-hint {
+  margin: 10px 0 0;
+  color: #6f7589;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.eleven-primary-btn {
+  width: 100%;
+  margin-top: 16px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: #1a1a1a;
+  color: #9aa0b5;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.eleven-primary-btn:not(:disabled) {
+  background: #202020;
+  color: #fff;
+}
+
+.eleven-primary-btn:hover:not(:disabled) {
+  background: #2a2a2a;
+}
+
+.eleven-primary-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.eleven-primary-btn--active {
+  background: #fff !important;
+  color: #0b0b0b !important;
+  text-decoration: none;
+  font-weight: 750;
+}
+
+.eleven-primary-btn--active:hover {
+  background: #f0f0f0 !important;
+}
+
+.eleven-discord-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.9;
+}
+
+.eleven-socials {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.eleven-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #6f7589;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.eleven-socials a:hover {
+  color: #a8aec2;
+}
+
+.eleven-login-right {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  background: var(--eleven-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eleven-hero-stack {
+  flex: 1;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px;
+  min-height: 0;
+}
+
+.eleven-hero-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #1b1b1e;
+  border: 1px solid var(--eleven-border);
+  min-height: 0;
+}
+
+.eleven-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.eleven-hero-overlay {
   position: absolute;
-  z-index: -1;
+  left: 14px;
+  bottom: 12px;
+  padding: 4px 8px;
   border-radius: 999px;
-  filter: blur(8px);
-  opacity: 0.72;
-  pointer-events: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 650;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.ambient-one {
-  top: -220px;
-  right: -190px;
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, rgba(88, 101, 242, 0.32), transparent 68%);
+.eleven-hero-note {
+  margin: 0;
+  color: #4a4e5e;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
 }
 
-.ambient-two {
-  bottom: -260px;
-  left: -180px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(130, 82, 255, 0.2), transparent 68%);
+.eleven-hero-note code {
+  color: #7a80a3;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10.5px;
 }
 
 .login-card {
@@ -407,6 +651,25 @@ input:focus-visible {
 
 .guild-detail img {
   border-radius: 6px;
+}
+
+@media (max-width: 960px) {
+  .eleven-login-shell {
+    flex-direction: column;
+  }
+
+  .eleven-login-left {
+    flex: none;
+    max-width: none;
+    width: 100%;
+    min-height: 100vh;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+
+  .eleven-login-right {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {

@@ -32,60 +32,134 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
   }
 
   return (
-    <section className="login-card" aria-labelledby="login-title">
-      <div className="brand-mark" aria-hidden="true">
-        DP
-      </div>
-      <p className="eyebrow">Tu espacio de Discord</p>
-      <h1 id="login-title">Discord Panel</h1>
-      <p className="login-intro">
-        Conecta tu cuenta para descubrir qué información básica comparte
-        Discord y preparar tu futuro panel de gestión.
-      </p>
-
-      <div className="permission-note">
-        <span className="permission-dot" aria-hidden="true" />
-        Solicitaremos únicamente acceso a tu identidad básica.
-      </div>
-
-      {errorMessage ? (
-        <p className="auth-error" role="alert" aria-live="polite">
-          {errorMessage}
-        </p>
-      ) : null}
-
-      {authenticated ? (
-        <Link className="primary-action" href="/perfil">
-          Ver mi perfil
-        </Link>
-      ) : (
-        <>
-          <label className="consent-control">
-            <input
-              checked={accepted}
-              onChange={(event) => setAccepted(event.target.checked)}
-              type="checkbox"
-            />
-            <span>
-              Autorizo a Discord Panel a leer y mostrar temporalmente la
-              información básica de mi perfil de Discord.
+    <div className="eleven-login-shell">
+      {/* LEFT */}
+      <div className="eleven-login-left">
+        <div className="eleven-login-left-inner">
+          <div className="eleven-brand" aria-hidden="true">
+            <span className="eleven-brand-icon">🌴</span>
+            <span className="eleven-brand-text">
+              <strong>ELEVEN</strong>
+              <span>PROJECT</span>
             </span>
-          </label>
+          </div>
 
-          <button
-            className="primary-action"
-            disabled={!accepted || pending}
-            onClick={startDiscordLogin}
-            type="button"
-          >
-            {pending ? "Conectando…" : "Continuar con Discord"}
-          </button>
-        </>
-      )}
+          <h1 id="login-title" className="eleven-title">
+            ¿Quieres formar
+            <br />
+            parte de Eleven?
+          </h1>
+          <p className="eleven-subtitle">
+            Inicia sesión con Discord para solicitar tu whitelist y empezar a escribir tu historia.
+          </p>
 
-      <p className="privacy-footnote">
-        No pedimos tu correo, servidores, mensajes ni permisos de bot.
-      </p>
-    </section>
+          {errorMessage ? (
+            <p className="eleven-error" role="alert" aria-live="polite">
+              {errorMessage}
+            </p>
+          ) : null}
+
+          {authenticated ? (
+            <Link className="eleven-primary-btn eleven-primary-btn--active" href="/perfil">
+              <span className="eleven-discord-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M20.6 4.2a19.5 19.5 0 0 0-4.9-1.5 14.6 14.6 0 0 0-.7 1.5 17.3 17.3 0 0 0-5 0 14.6 14.6 0 0 0-.7-1.5A19.5 19.5 0 0 0 3.4 4.2a15 15 0 0 0-2 8.2 19.7 19.7 0 0 0 6 3.1l1-1.4a13.5 13.5 0 0 1-1.9-.9l.4-.3a14.1 14.1 0 0 0 8.3 0l.4.3a13.5 13.5 0 0 1-1.9.9l1 1.4a19.7 19.7 0 0 0 6-3.1 15 15 0 0 0-2-8.2ZM9.7 15.3a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8Zm4.6 0a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8Z" />
+                </svg>
+              </span>
+              Ver mi perfil
+            </Link>
+          ) : (
+            <>
+              <label className="eleven-consent">
+                <input
+                  checked={accepted}
+                  onChange={(event) => setAccepted(event.target.checked)}
+                  type="checkbox"
+                />
+                <span>
+                  Acepto{" "}
+                  <a
+                    href="#"
+                    onClick={(e) => e.preventDefault()}
+                    className="eleven-link"
+                  >
+                    términos y condiciones
+                  </a>{" "}
+                  de Eleven
+                </span>
+              </label>
+
+              <button
+                className="eleven-primary-btn"
+                disabled={!accepted || pending}
+                onClick={startDiscordLogin}
+                type="button"
+              >
+                <span className="eleven-discord-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M20.6 4.2a19.5 19.5 0 0 0-4.9-1.5 14.6 14.6 0 0 0-.7 1.5 17.3 17.3 0 0 0-5 0 14.6 14.6 0 0 0-.7-1.5A19.5 19.5 0 0 0 3.4 4.2a15 15 0 0 0-2 8.2 19.7 19.7 0 0 0 6 3.1l1-1.4a13.5 13.5 0 0 1-1.9-.9l.4-.3a14.1 14.1 0 0 0 8.3 0l.4.3a13.5 13.5 0 0 1-1.9.9l1 1.4a19.7 19.7 0 0 0 6-3.1 15 15 0 0 0-2-8.2ZM9.7 15.3a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8Zm4.6 0a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8Z" />
+                  </svg>
+                </span>
+                {pending ? "Conectando…" : "Iniciar sesión"}
+              </button>
+              <p className="eleven-consent-hint">
+                Autorizo a Eleven a leer y mostrar temporalmente la información básica de mi perfil de Discord.
+              </p>
+            </>
+          )}
+
+          <nav className="eleven-socials" aria-label="Redes sociales">
+            <a href="https://twitter.com" target="_blank" rel="noreferrer">
+              <span aria-hidden>𝕏</span> Twitter
+            </a>
+            <a href="https://discord.com" target="_blank" rel="noreferrer">
+              <span aria-hidden>◈</span> Discord
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noreferrer">
+              <span aria-hidden>▶</span> YouTube
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer">
+              <span aria-hidden>◎</span> Instagram
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      {/* RIGHT */}
+      <div className="eleven-login-right" aria-hidden="true">
+        <div className="eleven-hero-stack">
+          <div className="eleven-hero-card">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&h=500&fit=crop&auto=format"
+              alt=""
+              className="eleven-hero-img"
+              loading="eager"
+            />
+            <div className="eleven-hero-overlay">LSPD — Eleven 2.0</div>
+          </div>
+          <div className="eleven-hero-card">
+            <img
+              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&h=500&fit=crop&auto=format"
+              alt=""
+              className="eleven-hero-img"
+              loading="lazy"
+            />
+            <div className="eleven-hero-overlay">Seguridad — Operativos</div>
+          </div>
+          <div className="eleven-hero-card">
+            <img
+              src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&h=500&fit=crop&auto=format"
+              alt=""
+              className="eleven-hero-img"
+              loading="lazy"
+            />
+            <div className="eleven-hero-overlay">Calles — Tu historia</div>
+          </div>
+        </div>
+        <p className="eleven-hero-note">
+          Pon tus imágenes reales en <code>public/eleven/</code> como <code>hero-1.jpg</code>, <code>hero-2.jpg</code>, <code>hero-3.jpg</code> para reemplazar estos placeholders.
+        </p>
+      </div>
+    </div>
   )
 }

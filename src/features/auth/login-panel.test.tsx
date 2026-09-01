@@ -16,14 +16,15 @@ describe("LoginPanel", () => {
     const user = userEvent.setup()
     render(<LoginPanel authenticated={false} />)
 
+    expect(screen.getByText(/términos y condiciones/i)).toBeInTheDocument()
     expect(
       screen.getByText(
-        "Autorizo a Discord Panel a leer y mostrar temporalmente la información básica de mi perfil de Discord.",
+        "Autorizo a Eleven a leer y mostrar temporalmente la información básica de mi perfil de Discord.",
       ),
     ).toBeInTheDocument()
 
     const button = screen.getByRole("button", {
-      name: /continuar con discord/i,
+      name: /iniciar sesión/i,
     })
     expect(button).toBeDisabled()
 
@@ -51,14 +52,14 @@ describe("LoginPanel", () => {
 
     await user.click(screen.getByRole("checkbox"))
     await user.click(
-      screen.getByRole("button", { name: /continuar con discord/i }),
+      screen.getByRole("button", { name: /iniciar sesión/i }),
     )
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "No se pudo conectar con Discord. Revisa tu conexión e inténtalo de nuevo.",
     )
     expect(
-      screen.getByRole("button", { name: /continuar con discord/i }),
+      screen.getByRole("button", { name: /iniciar sesión/i }),
     ).toBeEnabled()
   })
 

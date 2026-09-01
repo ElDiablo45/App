@@ -3,8 +3,8 @@ import type { ReactNode } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Discord Panel",
-  description: "Prueba de concepto de autenticación con Discord",
+  title: "Eleven Project — Whitelist",
+  description: "Inicia sesión con Discord para solicitar tu whitelist en Eleven Project",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
