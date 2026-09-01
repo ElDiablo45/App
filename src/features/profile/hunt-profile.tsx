@@ -26,6 +26,7 @@ import type { DiscordProfile } from "@/features/discord/discord-profile"
 
 interface HuntProfileProps {
   profile: DiscordProfile
+  email?: string | null
   discordRoles?: Array<{ id: string; name: string; color: string }>
   huntMember?: { joinedAt?: string; nick?: string | null } | null
 }
@@ -61,7 +62,7 @@ function medalsFromFlags(flags: number): string[] {
   return medals
 }
 
-export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfileProps) {
+export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntProfileProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     informacion: true,
   })
@@ -163,7 +164,7 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
             <p className="hunt-label">INFO</p>
             <ul className="hunt-info">
               <li>
-                <Mail size={12} /> mdavidrp2007@outlook.com
+                <Mail size={12} /> {email ?? profile.email ?? "—"}
               </li>
               <li>
                 <a href="https://steamcommunity.com/id/ELDI..." target="_blank" rel="noreferrer">
@@ -228,34 +229,12 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
                 <div className="hunt-acc-body">
                   <div className="hunt-info-card">
                     <div className="hunt-info-row">
-                      <span>Cuenta creada</span>
-                      <strong>{huntJoinedAt ? formatDateEs(huntJoinedAt) : `${formatDateEs(huntCreatedPlaceholder)} (placeholder)`}</strong>
-                    </div>
-                    <div className="hunt-info-row">
-                      <span>Se unió a Hunt Discord</span>
-                      <strong>{huntJoinedAt ? `${formatDateEs(huntJoinedAt)} · ${timeAgoEs(huntJoinedAt)}` : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder — configura bot)`}</strong>
-                    </div>
-                    <div className="hunt-info-row">
                       <span>Discord creado</span>
                       <strong>{formatDateEs(creationDate)}</strong>
                     </div>
                     <div className="hunt-info-row">
-                      <span>Balance total</span>
-                      <strong>0 US$ (requiere API Hunt)</strong>
-                    </div>
-                    <div className="hunt-info-row">
-                      <span>Idioma</span>
-                      <strong>{profile.locale ?? "es-ES"}</strong>
-                    </div>
-                    {profile.primaryGuild ? (
-                      <div className="hunt-info-row">
-                        <span>Guild principal</span>
-                        <strong>{profile.primaryGuild.tag}</strong>
-                      </div>
-                    ) : null}
-                    <div className="hunt-info-row">
-                      <span>Nick en Hunt</span>
-                      <strong>{huntMember?.nick ?? profile.displayName}</strong>
+                      <span>Se unió a Hunt Discord</span>
+                      <strong>{huntJoinedAt ? `${formatDateEs(huntJoinedAt)} · ${timeAgoEs(huntJoinedAt)}` : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder — configura bot)`}</strong>
                     </div>
                   </div>
                   {!huntMember ? (

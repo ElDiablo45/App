@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest"
 import { authOptions, toAuthUser } from "./options"
 
 describe("Discord auth options", () => {
-  it("requests only identify and uses an eight-hour JWT session", () => {
+  it("requests identify and email and uses an eight-hour JWT session", () => {
     const provider = authOptions.providers[0]
 
     expect(provider.id).toBe("discord")
     expect(provider.options?.authorization).toEqual({
-      params: { scope: "identify" },
+      params: { scope: "identify email" },
     })
     expect(authOptions.session).toEqual({ strategy: "jwt", maxAge: 28_800 })
   })

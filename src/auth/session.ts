@@ -2,15 +2,18 @@ import type { DiscordProfile } from "@/features/discord/discord-profile"
 
 export type AuthToken = Record<string, unknown> & {
   discordProfile?: DiscordProfile
+  email?: string | null
 }
 
 export interface AuthUser {
   discordProfile?: DiscordProfile
+  email?: string | null
 }
 
 export interface PublicSession {
   user?: Record<string, unknown> & {
     discordProfile?: DiscordProfile
+    email?: string | null
   }
   expires: string
 }
@@ -23,7 +26,9 @@ export function persistDiscordProfile<T extends AuthToken>(
     return token
   }
 
-  return { ...token, discordProfile: user.discordProfile }
+  const emailPatch = user.email ? { email: user.email } : {}
+
+  return { ...token, discordProfile: user.discordProfile, ...emailPatch }
 }
 
 export function exposeDiscordProfile<T extends PublicSession>(
@@ -34,10 +39,14 @@ export function exposeDiscordProfile<T extends PublicSession>(
     return session
   }
 
+  const email = (token.email as string | undefined) ?? (session.user as { email?: string | null } | undefined)?.email
+  const emailPatch = email ? { email } : {}
+
   return {
     ...session,
     user: {
       ...session.user,
+      ...emailPatch,
       discordProfile: token.discordProfile,
     },
   }

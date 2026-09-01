@@ -7,6 +7,8 @@ export interface DiscordApiProfile {
   accent_color?: number | null
   locale?: string | null
   public_flags?: number | null
+  email?: string | null
+  verified?: boolean | null
   avatar_decoration_data?: {
     asset?: string | null
     sku_id?: string | null
@@ -34,6 +36,7 @@ export interface DiscordProfile {
   accentColor?: string
   locale?: string
   publicFlags: number
+  email?: string | null
   avatarDecorationUrl?: string
   primaryGuild?: PrimaryGuild
 }
@@ -86,6 +89,7 @@ export function normalizeDiscordProfile(
       : {}),
     ...(raw.locale ? { locale: raw.locale } : {}),
     publicFlags: raw.public_flags ?? 0,
+    ...(raw.email ? { email: raw.email } : {}),
     ...(raw.avatar_decoration_data?.asset
       ? {
           avatarDecorationUrl: `https://cdn.discordapp.com/avatar-decoration-presets/${raw.avatar_decoration_data.asset}.png?size=96&passthrough=true`,

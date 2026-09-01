@@ -52,7 +52,6 @@ export async function getHuntGuildMember(profile: DiscordProfile): Promise<HuntG
       .filter(Boolean)
       .map((r) => ({ id: r!.id, name: r!.name, color: colorToHex(r!.color) }))
       .filter((r) => r.name !== "@everyone")
-      .slice(0, 12)
 
     return { roles, joinedAt: member.joined_at, nick: member.nick }
   } catch {

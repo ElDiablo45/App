@@ -10,11 +10,13 @@ declare module "next-auth" {
 
   interface User {
     discordProfile?: DiscordProfile
+    email?: string | null
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     discordProfile?: DiscordProfile
+    email?: string | null
   }
 }

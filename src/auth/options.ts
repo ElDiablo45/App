@@ -10,7 +10,7 @@ import { exposeDiscordProfile, persistDiscordProfile } from "./session"
 interface DiscordAuthUser {
   id: string
   name: string
-  email: null
+  email: string | null
   image: string | null
   discordProfile: DiscordProfile
 }
@@ -21,7 +21,7 @@ export function toAuthUser(profile: DiscordApiProfile): DiscordAuthUser {
   return {
     id: discordProfile.id,
     name: discordProfile.displayName,
-    email: null,
+    email: profile.email ?? discordProfile.email ?? null,
     image: discordProfile.avatarUrl ?? null,
     discordProfile,
   }
@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID ?? "",
       clientSecret: process.env.AUTH_DISCORD_SECRET ?? "",
-      authorization: { params: { scope: "identify" } },
+      authorization: { params: { scope: "identify email" } },
       profile(profile) {
         return toAuthUser(profile as DiscordApiProfile)
       },
