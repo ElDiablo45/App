@@ -17,7 +17,7 @@ export default async function ProfilePage() {
     <main className="profile-shell">
       <div className="profile-page-heading">
         <div>
-          <p className="eyebrow">Discord Panel</p>
+          <p className="eyebrow">Hunt Hispano</p>
           <p className="page-kicker">Información disponible con identify</p>
         </div>
         <SignOutButton />

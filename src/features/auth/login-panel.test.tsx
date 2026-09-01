@@ -19,7 +19,7 @@ describe("LoginPanel", () => {
     expect(screen.getByText(/términos y condiciones/i)).toBeInTheDocument()
     expect(
       screen.getByText(
-        "Autorizo a Eleven a leer y mostrar temporalmente la información básica de mi perfil de Discord.",
+        "Autorizo a Hunt Hispano a leer y mostrar temporalmente la información básica de mi perfil de Discord.",
       ),
     ).toBeInTheDocument()
 

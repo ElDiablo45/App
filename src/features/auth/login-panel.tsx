@@ -37,20 +37,20 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
       <div className="eleven-login-left">
         <div className="eleven-login-left-inner">
           <div className="eleven-brand" aria-hidden="true">
-            <span className="eleven-brand-icon">🌴</span>
+            <span className="eleven-brand-icon">🦌</span>
             <span className="eleven-brand-text">
-              <strong>ELEVEN</strong>
-              <span>PROJECT</span>
+              <strong>HUNT</strong>
+              <span>HISPANO</span>
             </span>
           </div>
 
           <h1 id="login-title" className="eleven-title">
             ¿Quieres formar
             <br />
-            parte de Eleven?
+            parte de Hunt Hispano?
           </h1>
           <p className="eleven-subtitle">
-            Inicia sesión con Discord para solicitar tu whitelist y empezar a escribir tu historia.
+            Inicia sesión con Discord para solicitar tu whitelist y empezar a escribir tu historia en Hunt Hispano.
           </p>
 
           {errorMessage ? (
@@ -85,7 +85,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
                   >
                     términos y condiciones
                   </a>{" "}
-                  de Eleven
+                  de Hunt Hispano
                 </span>
               </label>
 
@@ -103,7 +103,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
                 {pending ? "Conectando…" : "Iniciar sesión"}
               </button>
               <p className="eleven-consent-hint">
-                Autorizo a Eleven a leer y mostrar temporalmente la información básica de mi perfil de Discord.
+                Autorizo a Hunt Hispano a leer y mostrar temporalmente la información básica de mi perfil de Discord.
               </p>
             </>
           )}
@@ -135,7 +135,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
               className="eleven-hero-img"
               loading="eager"
             />
-            <div className="eleven-hero-overlay">LSPD — Eleven 2.0</div>
+            <div className="eleven-hero-overlay">Hunt Hispano — Territorio</div>
           </div>
           <div className="eleven-hero-card">
             <img
@@ -144,7 +144,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
               className="eleven-hero-img"
               loading="lazy"
             />
-            <div className="eleven-hero-overlay">Seguridad — Operativos</div>
+            <div className="eleven-hero-overlay">Hunt Hispano — Operativos</div>
           </div>
           <div className="eleven-hero-card">
             <img
@@ -153,11 +153,11 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
               className="eleven-hero-img"
               loading="lazy"
             />
-            <div className="eleven-hero-overlay">Calles — Tu historia</div>
+            <div className="eleven-hero-overlay">Hunt Hispano — Tu historia</div>
           </div>
         </div>
         <p className="eleven-hero-note">
-          Pon tus imágenes reales en <code>public/eleven/</code> como <code>hero-1.jpg</code>, <code>hero-2.jpg</code>, <code>hero-3.jpg</code> para reemplazar estos placeholders.
+          Pon tus imágenes reales en <code>public/hunt/</code> como <code>hero-1.jpg</code>, <code>hero-2.jpg</code>, <code>hero-3.jpg</code> para reemplazar estos placeholders.
         </p>
       </div>
     </div>

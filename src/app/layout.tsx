@@ -3,8 +3,8 @@ import type { ReactNode } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Eleven Project — Whitelist",
-  description: "Inicia sesión con Discord para solicitar tu whitelist en Eleven Project",
+  title: "Hunt Hispano — Whitelist",
+  description: "Inicia sesión con Discord para solicitar tu whitelist en Hunt Hispano",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
