@@ -130,34 +130,34 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
         <div className="eleven-hero-stack">
           <div className="eleven-hero-card">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&h=700&fit=crop&auto=format"
               alt=""
               className="eleven-hero-img"
               loading="eager"
             />
-            <div className="eleven-hero-overlay">Hunt Hispano — Territorio</div>
+            <div className="eleven-hero-overlay">Hunt Hispano — Bosque</div>
           </div>
           <div className="eleven-hero-card">
             <img
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=1200&h=700&fit=crop&auto=format"
               alt=""
               className="eleven-hero-img"
               loading="lazy"
             />
-            <div className="eleven-hero-overlay">Hunt Hispano — Operativos</div>
+            <div className="eleven-hero-overlay">Hunt Hispano — Fauna</div>
           </div>
           <div className="eleven-hero-card">
             <img
-              src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&h=500&fit=crop&auto=format"
+              src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=700&fit=crop&auto=format"
               alt=""
               className="eleven-hero-img"
               loading="lazy"
             />
-            <div className="eleven-hero-overlay">Hunt Hispano — Tu historia</div>
+            <div className="eleven-hero-overlay">Hunt Hispano — Aventura</div>
           </div>
         </div>
         <p className="eleven-hero-note">
-          Pon tus imágenes reales en <code>public/hunt/</code> como <code>hero-1.jpg</code>, <code>hero-2.jpg</code>, <code>hero-3.jpg</code> para reemplazar estos placeholders.
+          Reemplaza en <code>public/hunt/hero-1.jpg</code>, <code>hero-2.jpg</code>, <code>hero-3.jpg</code> con tus 3 capturas GTA
         </p>
       </div>
     </div>

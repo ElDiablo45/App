@@ -78,23 +78,27 @@ input:focus-visible {
 
 /* === ELEVEN LOGIN (imagen 1) === */
 .eleven-login-shell {
-  display: flex;
-  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   background: var(--eleven-bg);
 }
 
 .eleven-login-left {
-  flex: 0 0 52%;
-  max-width: 560px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 32px 32px 32px 48px;
+  padding: 24px;
   background: var(--eleven-bg);
+  overflow-y: auto;
 }
 
 .eleven-login-left-inner {
   width: 100%;
   max-width: 360px;
+  padding: 12px 0;
 }
 
 .eleven-brand {
@@ -274,19 +278,21 @@ input:focus-visible {
 }
 
 .eleven-login-right {
-  flex: 1;
   min-width: 0;
   padding: 14px;
   background: var(--eleven-bg);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 .eleven-hero-stack {
   flex: 1;
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
   gap: 10px;
   min-height: 0;
 }
@@ -294,7 +300,7 @@ input:focus-visible {
 .eleven-hero-card {
   position: relative;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 22px;
   background: #1b1b1e;
   border: 1px solid var(--eleven-border);
   min-height: 0;
@@ -304,6 +310,7 @@ input:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   filter: saturate(1.05) contrast(1.02);
 }
@@ -655,15 +662,15 @@ input:focus-visible {
 
 @media (max-width: 960px) {
   .eleven-login-shell {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
   }
 
   .eleven-login-left {
-    flex: none;
-    max-width: none;
-    width: 100%;
     min-height: 100vh;
-    justify-content: center;
+    height: auto;
     padding: 32px 20px;
   }
 
