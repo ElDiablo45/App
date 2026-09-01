@@ -50,6 +50,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
               className="avatar-decoration"
               height={136}
               src={profile.avatarDecorationUrl}
+              unoptimized
               width={136}
             />
           ) : null}
