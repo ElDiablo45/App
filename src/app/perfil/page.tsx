@@ -4,7 +4,7 @@ import { authOptions } from "@/auth/options"
 import { getDiscordProfile } from "@/features/profile/profile-session"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
 import { HuntProfile } from "@/features/profile/hunt-profile"
-import { getHuntGuildRoles } from "@/features/profile/discord-roles"
+import { getHuntGuildMember } from "@/features/profile/discord-roles"
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
@@ -14,13 +14,13 @@ export default async function ProfilePage() {
     redirect("/")
   }
 
-  const discordRoles = await getHuntGuildRoles(profile)
+  const huntMember = await getHuntGuildMember(profile)
 
   return (
     <DashboardShell active="perfil" breadcrumb="Mi Perfil">
-      <HuntProfile profile={profile} discordRoles={discordRoles} />
+      <HuntProfile profile={profile} discordRoles={huntMember?.roles} huntMember={huntMember ?? null} />
       <p className="profile-disclaimer" style={{ textAlign: "center", marginTop: "22px" }}>
-        Esta información vive únicamente en tu sesión cifrada y desaparecerá cuando cierres sesión. Roles {discordRoles ? "en vivo desde Discord" : "placeholder — configura HUNT_GUILD_ID + DISCORD_BOT_TOKEN para ver roles reales"}.
+        Sesión cifrada 8h. {huntMember ? `Conectado a Hunt Discord · ${huntMember.roles.length} roles · unido ${huntMember.joinedAt ? new Date(huntMember.joinedAt).toLocaleDateString("es-ES") : ""}` : "Sin conexión a Hunt Discord — añade HUNT_GUILD_ID + DISCORD_BOT_TOKEN en .env.local para datos reales (roles y fecha de entrada). Personajes/Tiempo/Balance vienen de tu base Hunt, no de Discord."}
       </p>
     </DashboardShell>
   )

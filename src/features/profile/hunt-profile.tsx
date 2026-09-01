@@ -6,8 +6,8 @@ import type { DiscordProfile } from "@/features/discord/discord-profile"
 
 interface HuntProfileProps {
   profile: DiscordProfile
-  // Roles will come from Discord guild later; for now we render Discord-derived + Hunt placeholders
   discordRoles?: Array<{ id: string; name: string; color: string }>
+  huntMember?: { joinedAt?: string; nick?: string | null } | null
 }
 
 function discordCreationDate(id: string): Date {
@@ -43,7 +43,7 @@ function medalsFromFlags(flags: number): string[] {
   return medals
 }
 
-export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
+export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfileProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     informacion: true,
   })
@@ -51,8 +51,9 @@ export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
   const toggle = (key: string) => setOpenSections((s) => ({ ...s, [key]: !s[key] }))
 
   const creationDate = discordCreationDate(profile.id)
-  // Mock Hunt account creation: 5 abril 2026 as in screenshot
-  const huntCreated = new Date("2026-04-05T10:00:00Z")
+  const huntJoinedAt = huntMember?.joinedAt ? new Date(huntMember.joinedAt) : null
+  // Si no hay bot configurado, mantenemos el placeholder del diseño para no romper UI; cuando haya guild se muestra la fecha real
+  const huntCreatedPlaceholder = new Date("2026-04-05T10:00:00Z")
   const avatarInitial = profile.displayName.trim().charAt(0).toUpperCase() || "?"
 
   const medals = medalsFromFlags(profile.publicFlags)
@@ -131,8 +132,10 @@ export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
 
           <div className="hunt-section">
             <p className="hunt-label">ROLES</p>
-            <p className="hunt-roles-hint" style={{ fontSize: "11px", color: "#6f7589", margin: "0 0 8px" }}>
-              Roles de Discord {discordRoles ? "· en vivo" : "· placeholder (conecta bot)"}
+            <p className="hunt-roles-hint" style={{ fontSize: "11px", color: huntMember ? "#22c55e" : "#f59e0b", margin: "0 0 8px" }}>
+              {huntMember
+                ? `Roles de Discord · en vivo (${roles.length})`
+                : "Roles de Discord · placeholder (conecta bot para ver los reales)"}
             </p>
             <div className="hunt-roles">
               {roles.map((r) => (
@@ -159,18 +162,23 @@ export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
                 <span>🎂</span> Nacimiento 15 de febrero de 2002
               </li>
               <li>
-                <span>📅</span> Se unió {timeAgoEs(huntCreated)}
+                <span>📅</span> Se unió {huntJoinedAt ? timeAgoEs(huntJoinedAt) : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder)`}
               </li>
               <li>
                 <span>🛡</span> Whitelist aprobada
               </li>
               <li>
-                <span>✔</span> Verificado {formatDateEs(huntCreated)}
+                <span>✔</span> Verificado {huntJoinedAt ? formatDateEs(huntJoinedAt) : `${formatDateEs(huntCreatedPlaceholder)} (placeholder)`}
               </li>
               <li>
                 <span>📖</span> Última historia aprobada: No especificada
               </li>
             </ul>
+            {!huntMember ? (
+              <p style={{ marginTop: "8px", color: "#f59e0b", fontSize: "11px", lineHeight: "1.4" }}>
+                ⚠ Sin conexión a Hunt Discord — añade HUNT_GUILD_ID + DISCORD_BOT_TOKEN en .env.local para ver tu fecha real de entrada.
+              </p>
+            ) : null}
           </div>
         </div>
 
@@ -207,11 +215,11 @@ export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
                   <div className="hunt-info-card">
                     <div className="hunt-info-row">
                       <span>Cuenta creada</span>
-                      <strong>{formatDateEs(huntCreated)}</strong>
+                      <strong>{huntJoinedAt ? formatDateEs(huntJoinedAt) : `${formatDateEs(huntCreatedPlaceholder)} (placeholder)`}</strong>
                     </div>
                     <div className="hunt-info-row">
-                      <span>Se unió al Discord</span>
-                      <strong>{timeAgoEs(huntCreated)}</strong>
+                      <span>Se unió a Hunt Discord</span>
+                      <strong>{huntJoinedAt ? `${formatDateEs(huntJoinedAt)} · ${timeAgoEs(huntJoinedAt)}` : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder — configura bot)`}</strong>
                     </div>
                     <div className="hunt-info-row">
                       <span>Discord creado</span>
@@ -219,7 +227,7 @@ export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
                     </div>
                     <div className="hunt-info-row">
                       <span>Balance total</span>
-                      <strong>0 US$</strong>
+                      <strong>0 US$ (requiere API Hunt)</strong>
                     </div>
                     <div className="hunt-info-row">
                       <span>Idioma</span>
@@ -231,7 +239,16 @@ export function HuntProfile({ profile, discordRoles }: HuntProfileProps) {
                         <strong>{profile.primaryGuild.tag}</strong>
                       </div>
                     ) : null}
+                    <div className="hunt-info-row">
+                      <span>Nick en Hunt</span>
+                      <strong>{huntMember?.nick ?? profile.displayName}</strong>
+                    </div>
                   </div>
+                  {!huntMember ? (
+                    <p style={{ marginTop: "8px", color: "#f59e0b", fontSize: "11px" }}>
+                      Datos de Hunt Discord no conectados — añade HUNT_GUILD_ID y DISCORD_BOT_TOKEN y revalida.
+                    </p>
+                  ) : null}
                 </div>
               ) : null}
             </div>
