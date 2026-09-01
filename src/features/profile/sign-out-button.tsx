@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react"
 import { useState } from "react"
 
-export function SignOutButton() {
+export function SignOutButton({ compact }: { compact?: boolean }) {
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -18,6 +18,17 @@ export function SignOutButton() {
     } finally {
       setPending(false)
     }
+  }
+
+  if (compact) {
+    return (
+      <div className="sign-out-compact">
+        <button className="hunt-icon-btn" disabled={pending} onClick={endSession} type="button" aria-label="Cerrar sesión">
+          ⎋
+        </button>
+        {error ? <span className="hunt-inline-error">{error}</span> : null}
+      </div>
+    )
   }
 
   return (

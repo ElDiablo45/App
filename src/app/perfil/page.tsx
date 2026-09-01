@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { authOptions } from "@/auth/options"
-import { ProfileCard } from "@/features/profile/profile-card"
 import { getDiscordProfile } from "@/features/profile/profile-session"
-import { SignOutButton } from "@/features/profile/sign-out-button"
+import { DashboardShell } from "@/features/layout/dashboard-shell"
+import { HuntProfile } from "@/features/profile/hunt-profile"
+import { getHuntGuildRoles } from "@/features/profile/discord-roles"
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
@@ -13,20 +14,14 @@ export default async function ProfilePage() {
     redirect("/")
   }
 
+  const discordRoles = await getHuntGuildRoles(profile)
+
   return (
-    <main className="profile-shell">
-      <div className="profile-page-heading">
-        <div>
-          <p className="eyebrow">Hunt Hispano</p>
-          <p className="page-kicker">Información disponible con identify</p>
-        </div>
-        <SignOutButton />
-      </div>
-      <ProfileCard profile={profile} />
-      <p className="profile-disclaimer">
-        Esta información vive únicamente en tu sesión cifrada y desaparecerá
-        cuando cierres sesión.
+    <DashboardShell active="perfil" breadcrumb="Mi Perfil">
+      <HuntProfile profile={profile} discordRoles={discordRoles} />
+      <p className="profile-disclaimer" style={{ textAlign: "center", marginTop: "22px" }}>
+        Esta información vive únicamente en tu sesión cifrada y desaparecerá cuando cierres sesión. Roles {discordRoles ? "en vivo desde Discord" : "placeholder — configura HUNT_GUILD_ID + DISCORD_BOT_TOKEN para ver roles reales"}.
       </p>
-    </main>
+    </DashboardShell>
   )
 }
