@@ -885,7 +885,7 @@ input:focus-visible {
 
 .hunt-banner {
   position: relative;
-  height: 220px;
+  height: 260px;
   overflow: hidden;
   border-radius: 16px;
   background: #1a1a1a;
@@ -894,6 +894,7 @@ input:focus-visible {
 
 .hunt-banner-img {
   object-fit: cover;
+  object-position: center;
 }
 
 .hunt-banner-edit {
@@ -926,13 +927,13 @@ input:focus-visible {
 
 .hunt-avatar-wrap {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
 }
 
 .hunt-avatar {
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   border-radius: 16px;
   object-fit: cover;
   border: 1px solid #1e1e1e;
@@ -951,8 +952,8 @@ input:focus-visible {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 168px;
-  height: 168px;
+  width: 180px;
+  height: 180px;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }

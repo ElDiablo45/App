@@ -110,8 +110,8 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
               <Image
                 src={profile.avatarUrl}
                 alt={`Avatar de ${profile.displayName}`}
-                width={140}
-                height={140}
+                width={150}
+                height={150}
                 className="hunt-avatar"
                 priority
               />
@@ -119,7 +119,7 @@ export function HuntProfile({ profile, discordRoles, huntMember }: HuntProfilePr
               <div className="hunt-avatar hunt-avatar-fallback">{avatarInitial}</div>
             )}
             {profile.avatarDecorationUrl ? (
-              <Image src={profile.avatarDecorationUrl} alt="" width={160} height={160} className="hunt-avatar-decoration" unoptimized />
+              <Image src={profile.avatarDecorationUrl} alt="" width={180} height={180} className="hunt-avatar-decoration" unoptimized />
             ) : null}
           </div>
 
