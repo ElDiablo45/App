@@ -20,7 +20,7 @@ export default async function ProfilePage() {
   const email = (session?.user?.email as string | null) ?? profile.email ?? null
 
   return (
-    <DashboardShell active="perfil" breadcrumb="Mi Perfil">
+    <DashboardShell active="perfil" breadcrumb="Mi Perfil" profile={profile}>
       <HuntProfile
         profile={profile}
         email={email}
