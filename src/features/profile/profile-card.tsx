@@ -43,17 +43,6 @@ export function ProfileCard({ profile }: ProfileCardProps) {
               {initials}
             </span>
           )}
-          {profile.avatarDecorationUrl ? (
-            <Image
-              alt=""
-              aria-hidden="true"
-              className="avatar-decoration"
-              height={136}
-              src={profile.avatarDecorationUrl}
-              unoptimized
-              width={136}
-            />
-          ) : null}
         </div>
 
         <header className="profile-heading">

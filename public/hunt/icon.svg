@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Hunt Hispano icon">
+  <rect width="256" height="256" rx="48" fill="#000000"/>
+  <g fill="#7a0f13" stroke="#8f151a" stroke-width="1" opacity="0.99">
+    <!-- left cross -->
+    <path d="M70 46 L78 40 L80 88 L110 90 L112 112 L80 114 L80 198 L62 202 L58 114 L26 112 L24 90 L58 88 Z"/>
+    <!-- right cross -->
+    <path d="M162 18 L170 14 L172 86 L208 88 L210 112 L172 114 L174 212 L156 218 L150 114 L118 112 L116 88 L150 86 Z"/>
+  </g>
+</svg>

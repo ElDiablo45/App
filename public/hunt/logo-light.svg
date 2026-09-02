@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="Hunt Hispano logo claro">
+  <rect width="300" height="120" rx="16" fill="#f4f4f5"/>
+  <g opacity="0.12" fill="#a1a1aa">
+    <rect x="0" y="0" width="300" height="120" rx="16"/>
+  </g>
+  <g fill="#6b0f12" stroke="#7a1215" stroke-width="0.8" opacity="0.98">
+    <path d="M62 22 L68 18 L70 42 L92 44 L94 56 L70 58 L70 102 L58 104 L56 58 L34 58 L32 44 L56 42 Z" />
+    <path d="M172 10 L178 8 L180 44 L210 46 L212 62 L180 64 L182 108 L168 112 L164 64 L134 62 L132 48 L164 44 Z" />
+  </g>
+</svg>

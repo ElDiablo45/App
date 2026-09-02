@@ -35,7 +35,7 @@ describe("ProfileCard", () => {
     expect(screen.getByText("DISC")).toBeInTheDocument()
     expect(screen.getByAltText("Avatar de Nelly")).toBeInTheDocument()
     expect(container.querySelector(".profile-banner")).toBeInTheDocument()
-    expect(container.querySelector(".avatar-decoration")).toBeInTheDocument()
+    expect(container.querySelector(".avatar-decoration")).not.toBeInTheDocument()
   })
 
   it("uses initials and omits absent optional details", () => {

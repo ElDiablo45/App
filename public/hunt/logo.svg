@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="Hunt Hispano logo">
+  <rect width="300" height="120" rx="16" fill="#0a0a0a"/>
+  <!-- Crosses - brush style approximated -->
+  <g fill="#6b0f12" stroke="#8b1518" stroke-width="0.8" opacity="0.98">
+    <!-- left cross -->
+    <path d="M62 22 L68 18 L70 42 L92 44 L94 56 L70 58 L70 102 L58 104 L56 58 L34 58 L32 44 L56 42 Z" />
+    <!-- right cross -->
+    <path d="M172 10 L178 8 L180 44 L210 46 L212 62 L180 64 L182 108 L168 112 L164 64 L134 62 L132 48 L164 44 Z" />
+  </g>
+  <!-- subtle texture overlay -->
+  <g opacity="0.08" fill="white">
+    <circle cx="40" cy="80" r="60"/>
+    <circle cx="250" cy="30" r="80"/>
+  </g>
+</svg>

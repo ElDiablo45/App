@@ -5,30 +5,24 @@ import { useState } from "react"
 import {
   Activity,
   AlertTriangle,
-  BadgeCheck,
-  BookMarked,
   BookOpen,
-  Cake,
-  Calendar,
-  Clock,
-  Heart,
   Image as ImageIcon,
   Info,
   Lightbulb,
-  Link2,
   Lock,
   Mail,
-  Shield,
+  MessageSquare,
   Ticket,
-  Users,
 } from "lucide-react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
+import type { HuntMessage } from "@/features/profile/discord-messages"
 
 interface HuntProfileProps {
   profile: DiscordProfile
   email?: string | null
   discordRoles?: Array<{ id: string; name: string; color: string }>
   huntMember?: { joinedAt?: string; nick?: string | null } | null
+  huntMessages?: HuntMessage[]
 }
 
 function discordCreationDate(id: string): Date {
@@ -62,7 +56,7 @@ function medalsFromFlags(flags: number): string[] {
   return medals
 }
 
-export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntProfileProps) {
+export function HuntProfile({ profile, email, discordRoles, huntMember, huntMessages }: HuntProfileProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     informacion: true,
   })
@@ -82,6 +76,8 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
         { id: "2", name: "Historia Aceptada", color: "#22c55e" },
         ...(profile.primaryGuild ? [{ id: "pg", name: profile.primaryGuild.tag, color: "#a78bfa" }] : []),
       ]
+
+  const messageCount = huntMessages?.length
 
   return (
     <div className="hunt-profile">
@@ -118,14 +114,9 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
             ) : (
               <div className="hunt-avatar hunt-avatar-fallback">{avatarInitial}</div>
             )}
-            {profile.avatarDecorationUrl ? (
-              <Image src={profile.avatarDecorationUrl} alt="" width={180} height={180} className="hunt-avatar-decoration" unoptimized />
-            ) : null}
           </div>
 
-          <h2 className="hunt-name">
-            {profile.displayName} <Heart size={16} className="hunt-heart-icon" />
-          </h2>
+          <h2 className="hunt-name">{profile.displayName}</h2>
           <p className="hunt-handle">
             @{profile.username} · {profile.id}
           </p>
@@ -147,9 +138,6 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
 
           <div className="hunt-section">
             <p className="hunt-label">ROLES</p>
-            <p className="hunt-roles-hint" style={{ fontSize: "11px", color: huntMember ? "#22c55e" : "#f59e0b", margin: "0 0 8px" }}>
-              {huntMember ? `Roles de Discord · en vivo (${roles.length})` : "Roles de Discord · placeholder (conecta bot para ver los reales)"}
-            </p>
             <div className="hunt-roles">
               {roles.map((r) => (
                 <span key={r.id} className="hunt-role" style={{ borderColor: r.color }}>
@@ -166,32 +154,7 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
               <li>
                 <Mail size={12} /> {email ?? profile.email ?? "—"}
               </li>
-              <li>
-                <a href="https://steamcommunity.com/id/ELDI..." target="_blank" rel="noreferrer">
-                  <Link2 size={12} /> https://steamcommunity.com/id/ELDI...
-                </a>
-              </li>
-              <li>
-                <Cake size={12} /> Nacimiento 15 de febrero de 2002
-              </li>
-              <li>
-                <Calendar size={12} /> Se unió {huntJoinedAt ? timeAgoEs(huntJoinedAt) : `${timeAgoEs(huntCreatedPlaceholder)} (placeholder)`}
-              </li>
-              <li>
-                <Shield size={12} /> Whitelist aprobada
-              </li>
-              <li>
-                <BadgeCheck size={12} /> Verificado {huntJoinedAt ? formatDateEs(huntJoinedAt) : `${formatDateEs(huntCreatedPlaceholder)} (placeholder)`}
-              </li>
-              <li>
-                <BookMarked size={12} /> Última historia aprobada: No especificada
-              </li>
             </ul>
-            {!huntMember ? (
-              <p style={{ marginTop: "8px", color: "#f59e0b", fontSize: "11px", lineHeight: "1.4" }}>
-                ⚠ Sin conexión a Hunt Discord — añade HUNT_GUILD_ID + DISCORD_BOT_TOKEN en .env.local para ver tu fecha real de entrada.
-              </p>
-            ) : null}
           </div>
         </div>
 
@@ -199,20 +162,11 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
           <div className="hunt-stats">
             <div className="hunt-stat">
               <div className="hunt-stat-icon hunt-stat-icon--blue">
-                <Users size={16} />
+                <MessageSquare size={16} />
               </div>
               <div>
-                <p className="hunt-stat-label">Personajes</p>
-                <p className="hunt-stat-value">0</p>
-              </div>
-            </div>
-            <div className="hunt-stat">
-              <div className="hunt-stat-icon hunt-stat-icon--green">
-                <Clock size={16} />
-              </div>
-              <div>
-                <p className="hunt-stat-label">Tiempo en Hunt Hispano</p>
-                <p className="hunt-stat-value">0h 0m</p>
+                <p className="hunt-stat-label">Mensajes</p>
+                <p className="hunt-stat-value">{typeof messageCount === "number" ? messageCount : "—"}</p>
               </div>
             </div>
           </div>
@@ -247,7 +201,7 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
             </div>
 
             {[
-              { key: "personajes", label: "Personajes", icon: Users },
+              { key: "mensajes", label: "Mensajes", icon: MessageSquare },
               { key: "historias", label: "Historias", icon: BookOpen },
               { key: "tickets", label: "Tickets", icon: Ticket },
               { key: "sugerencias", label: "Sugerencias y bugs", icon: Lightbulb },
@@ -265,7 +219,42 @@ export function HuntProfile({ profile, email, discordRoles, huntMember }: HuntPr
                 </button>
                 {openSections[s.key] ? (
                   <div className="hunt-acc-body">
-                    <p className="hunt-acc-empty">Próximamente — esta sección se conectará a la base de datos de Hunt Hispano.</p>
+                    {s.key === "mensajes" ? (
+                      huntMessages === undefined ? (
+                        <p className="hunt-acc-empty">
+                          Sin conexión a Discord o sin permisos — añade HUNT_GUILD_ID + DISCORD_BOT_TOKEN con permisos de lectura para ver tus mensajes en Hunt Hispano.
+                        </p>
+                      ) : huntMessages.length === 0 ? (
+                        <p className="hunt-acc-empty">No se encontraron mensajes recientes tuyos en los canales de texto de Hunt Hispano (últimos 100 por canal).</p>
+                      ) : (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                          <p style={{ margin: 0, color: "#9aa0b5", fontSize: "11px" }}>
+                            Mostrando {huntMessages.length} mensajes recientes (muestra limitada a 100 por canal).
+                          </p>
+                          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+                            {huntMessages.map((m) => (
+                              <li
+                                key={m.id}
+                                style={{
+                                  padding: "10px 12px",
+                                  borderRadius: "10px",
+                                  background: "#0a0a0a",
+                                  border: "1px solid #1e1e1e",
+                                }}
+                              >
+                                <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", marginBottom: "4px" }}>
+                                  <span style={{ color: "#a78bfa", fontSize: "11px", fontWeight: 600 }}>#{m.channelName}</span>
+                                  <span style={{ color: "#6f7589", fontSize: "10px" }}>{new Date(m.timestamp).toLocaleString("es-ES")}</span>
+                                </div>
+                                <p style={{ margin: 0, color: "#e8e9ef", fontSize: "12px", lineHeight: 1.5, overflowWrap: "anywhere" }}>{m.content}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    ) : (
+                      <p className="hunt-acc-empty">Próximamente — esta sección se conectará a la base de datos de Hunt Hispano.</p>
+                    )}
                   </div>
                 ) : null}
               </div>

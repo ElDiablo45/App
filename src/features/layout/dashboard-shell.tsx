@@ -1,6 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import {
   Bell,
@@ -33,7 +34,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
       <aside className="hunt-sidebar">
         <div className="hunt-sidebar-top">
           <div className="hunt-sidebar-brand">
-            <span className="hunt-sidebar-brand-icon">🦌</span>
+            <Image src="/hunt/icon.svg" alt="Hunt Hispano" width={28} height={28} className="hunt-sidebar-logo" priority />
             <span>Hunt Hispano</span>
           </div>
           <div className="hunt-sidebar-search">

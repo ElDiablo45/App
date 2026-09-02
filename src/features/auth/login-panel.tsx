@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { useState } from "react"
@@ -37,7 +38,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
       <div className="eleven-login-left">
         <div className="eleven-login-left-inner">
           <div className="eleven-brand" aria-hidden="true">
-            <span className="eleven-brand-icon">🦌</span>
+            <Image src="/hunt/mark.svg" alt="Hunt Hispano" width={42} height={22} priority style={{ objectFit: "contain" }} />
             <span className="eleven-brand-text">
               <strong>HUNT</strong>
               <span>HISPANO</span>
