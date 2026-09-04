@@ -2,17 +2,17 @@ import type { Loadout } from "./types"
 
 export const TOPICS = [
   "pvp",
-  "pve",
-  "extracción",
   "principiante",
-  "avanzado",
   "equipo",
   "solo",
-  "tácticas",
-  "sigilo",
-  "combate",
+  "eficiencia",
+  "consejos",
+  "completo",
+  "gestion",
   "defensivo",
-  "gestión",
+  "combate",
+  "tacticas",
+  "nocturno",
 ]
 
 export const MOCK_LOADOUTS: Loadout[] = [

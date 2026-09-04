@@ -1,3 +1,4 @@
+create extension if not exists "pgcrypto";
 create table if not exists public.loadouts (
   id uuid primary key default gen_random_uuid(),
   owner_discord_id text not null,

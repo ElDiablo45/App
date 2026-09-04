@@ -76,7 +76,7 @@ npm run build
 
 - El perfil normalizado vive únicamente en una cookie de sesión JWT cifrada durante un máximo de ocho horas.
 - Los tokens OAuth de Discord nunca se copian a la sesión disponible en el navegador.
-- No hay base de datos, persistencia de usuarios ni integración con Supabase.
+- Supabase se usa solo como base de datos (tabla `loadouts`); sin él, la app usa datos de ejemplo.
 - La futura gestión de servidores requerirá añadir un bot de Discord y solicitar permisos concretos en una fase separada.
 
 ## Supabase

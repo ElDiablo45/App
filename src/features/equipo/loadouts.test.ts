@@ -33,4 +33,11 @@ describe("getLoadouts", () => {
     })
     await expect(getLoadouts()).resolves.toBe(MOCK_LOADOUTS)
   })
+
+  it("falls back to mocks when Supabase returns an error", async () => {
+    getServiceSupabase.mockReturnValueOnce({
+      from: () => ({ select: () => ({ order: async () => ({ data: null, error: { message: "boom" } }) }) }),
+    })
+    await expect(getLoadouts()).resolves.toBe(MOCK_LOADOUTS)
+  })
 })

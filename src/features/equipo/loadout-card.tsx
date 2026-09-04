@@ -2,7 +2,7 @@ import Image from "next/image"
 import type { Loadout } from "./types"
 
 function formatViews(views: number): string {
-  if (views >= 1000) return `${(views / 1000).toFixed(1)}K`
+  if (views >= 1000) return `${(views / 1000).toFixed(1).replace(/\.0$/, "")}K`
   return `${views}`
 }
 
@@ -26,7 +26,8 @@ export function LoadoutCard({ item }: { item: Loadout }) {
 
   return (
     <article className="eq-card">
-      <div className="eq-card-main">
+      <div className="eq-card-body">
+        <div className="eq-card-main">
         <div className="eq-card-author">
           {item.authorAvatarUrl ? (
             <Image
@@ -73,7 +74,8 @@ export function LoadoutCard({ item }: { item: Loadout }) {
             unoptimized
           />
         </div>
-      ) : null}
+        ) : null}
+      </div>
 
       <footer className="eq-card-foot">
         <span>☆ {item.ratingAvg.toFixed(1)}</span>
