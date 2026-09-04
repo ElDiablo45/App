@@ -78,3 +78,18 @@ npm run build
 - Los tokens OAuth de Discord nunca se copian a la sesión disponible en el navegador.
 - No hay base de datos, persistencia de usuarios ni integración con Supabase.
 - La futura gestión de servidores requerirá añadir un bot de Discord y solicitar permisos concretos en una fase separada.
+
+## Supabase
+
+El proyecto usa Supabase solo como base de datos (el login sigue en NextAuth + Discord). El servidor accede con `service_role`; esa key jamás va al navegador.
+
+1. Crea un proyecto en [Supabase](https://supabase.com).
+2. En **SQL Editor** ejecuta `supabase/migrations/0001_create_loadouts.sql` (crea la tabla `loadouts`, RLS y 4 filas de ejemplo).
+3. Copia `.env.example` a `.env.local` y completa:
+   ```dotenv
+   SUPABASE_URL=https://<tu-proyecto>.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
+   ```
+   La `service_role` está en **Project Settings → API**. No la publiques ni la subas a Git.
+4. En Vercel añade `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` en **Project Settings → Environment Variables**.
+5. Sin estas variables (o si la lectura falla) la app usa datos de ejemplo automáticamente.

@@ -36,7 +36,7 @@ import {
 
 interface DashboardShellProps {
   children: ReactNode
-  active?: "home" | "perfil"
+  active?: "home" | "perfil" | "equipo"
   breadcrumb?: string
   profile?: DiscordProfile | null
 }
@@ -83,9 +83,9 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
             <Link href="/" className={`hunt-nav-item ${active === "home" ? "hunt-nav-item--active" : ""}`}>
               <House size={14} /> Home
             </Link>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
+            <Link href="/equipo" className={`hunt-nav-item ${active === "equipo" ? "hunt-nav-item--active" : ""}`}>
               <Shield size={14} /> Equipo
-            </a>
+            </Link>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
               <Crown size={14} /> Dynasty 8
             </a>
