@@ -1,3 +1,5 @@
+// Tests run server-side so the server-only guard is a no-op in tests.
+vi.mock("server-only", () => ({}))
 import { afterEach, describe, expect, it, vi } from "vitest"
 import { getServiceSupabase } from "./server"
 
