@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { describe, expect, it } from "vitest"
 import { LoadoutCard } from "./loadout-card"
+import { EquipoBrowser } from "./equipo-browser"
 import { EquipoHeader } from "./equipo-header"
 import { MOCK_LOADOUTS } from "./data"
 
@@ -24,5 +26,20 @@ describe("EquipoHeader", () => {
   it("enables a placeholder create action when registro is complete", () => {
     render(<EquipoHeader registroComplete />)
     expect(screen.getByRole("link", { name: /crear equipo/i })).toHaveAttribute("href", "#")
+  })
+})
+
+describe("EquipoBrowser", () => {
+  it("filters by search and topic and shows an empty state", async () => {
+    const user = userEvent.setup()
+    render(<EquipoBrowser items={MOCK_LOADOUTS} />)
+    expect(screen.getAllByRole("article").length).toBe(4)
+    await user.type(screen.getByPlaceholderText(/buscar/i), "escudos")
+    expect(screen.getAllByRole("article").length).toBe(1)
+    await user.clear(screen.getByPlaceholderText(/buscar/i))
+    await user.click(screen.getByRole("button", { name: "pvp" }))
+    expect(screen.getAllByRole("article").length).toBe(1)
+    await user.type(screen.getByPlaceholderText(/buscar/i), "zzz-sin-nada")
+    expect(screen.getByText(/sin resultados/i)).toBeInTheDocument()
   })
 })
