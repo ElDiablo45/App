@@ -7,27 +7,20 @@ import Link from "next/link"
 import { signOut } from "next-auth/react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
 import { useTheme } from "@/features/theme/theme-provider"
+import { RefreshButton } from "@/features/layout/refresh-button"
 import {
   Bell,
-  BookOpen,
   Calendar,
   Check,
   ChevronRight,
   ChevronsUpDown,
-  ClipboardList,
-  Crown,
-  FileText,
   Gamepad2,
   Globe,
-  GraduationCap,
   House,
   LogOut,
   Moon,
-  Scale,
   Search,
   Shield,
-  ShoppingBag,
-  Gavel,
   Sun,
   Ticket,
   User,
@@ -87,29 +80,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
               <Shield size={14} /> Equipo
             </Link>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <Crown size={14} /> Dynasty 8
-            </a>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
               <Calendar size={14} /> Calendario
-            </a>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <ShoppingBag size={14} /> Comercios
-            </a>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <Scale size={14} /> Postulaciones ilegales
-            </a>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <Gavel size={14} /> Justicia
-            </a>
-          </div>
-
-          <div className="hunt-nav-section">
-            <p className="hunt-nav-title">Espacio de trabajo</p>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <FileText size={14} /> Documentos
-            </a>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <ClipboardList size={14} /> Formularios
             </a>
           </div>
 
@@ -119,29 +90,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
               <User size={14} /> Mi Perfil
             </Link>
             <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <BookOpen size={14} /> Historias personaje
-            </a>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
               <Ticket size={14} /> Tickets
-            </a>
-          </div>
-
-          <div className="hunt-nav-section">
-            <p className="hunt-nav-title">LSPD</p>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <GraduationCap size={14} /> Academia
-            </a>
-          </div>
-          <div className="hunt-nav-section">
-            <p className="hunt-nav-title">LSSD</p>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <GraduationCap size={14} /> Academia
-            </a>
-          </div>
-          <div className="hunt-nav-section">
-            <p className="hunt-nav-title">SAHP</p>
-            <a className="hunt-nav-item" href="#" onClick={(e) => e.preventDefault()}>
-              <GraduationCap size={14} /> Academia
             </a>
           </div>
         </nav>
@@ -258,9 +207,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
             <span>{breadcrumb}</span>
           </div>
           <div className="hunt-topbar-actions">
-            <button className="hunt-icon-btn" aria-label="Refrescar" type="button">
-              ↻
-            </button>
+            <RefreshButton />
             <a className="hunt-help-btn" href="#">
               ◎ Ayuda
             </a>

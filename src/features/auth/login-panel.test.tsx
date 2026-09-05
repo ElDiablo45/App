@@ -33,7 +33,7 @@ describe("LoginPanel", () => {
 
     await user.click(button)
     expect(signIn).toHaveBeenCalledWith("discord", {
-      callbackUrl: "/perfil",
+      callbackUrl: "/registro",
     })
   })
 

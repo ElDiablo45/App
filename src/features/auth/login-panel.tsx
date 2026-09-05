@@ -22,7 +22,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
     setLocalError(undefined)
 
     try {
-      await signIn("discord", { callbackUrl: "/perfil" })
+      await signIn("discord", { callbackUrl: "/registro" })
     } catch {
       setLocalError(
         "No se pudo conectar con Discord. Revisa tu conexión e inténtalo de nuevo.",
@@ -38,7 +38,15 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
       <div className="eleven-login-left">
         <div className="eleven-login-left-inner">
           <div className="eleven-brand" aria-hidden="true">
-            <Image src="/hunt/mark.svg" alt="Hunt Hispano" width={42} height={22} priority style={{ objectFit: "contain" }} />
+            <Image
+              src="/hunt/mark.svg"
+              alt="Hunt Hispano"
+              width={42}
+              height={22}
+              priority
+              style={{ width: "42px", height: "22px", objectFit: "contain" }}
+              unoptimized
+            />
             <span className="eleven-brand-text">
               <strong>HUNT</strong>
               <span>HISPANO</span>

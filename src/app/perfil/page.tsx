@@ -1,10 +1,16 @@
+import { cookies } from "next/headers"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { authOptions } from "@/auth/options"
 import { getDiscordProfile } from "@/features/profile/profile-session"
+import {
+  REGISTRO_COOKIE,
+  isRegistroCompleteForDiscord,
+  parseRegistroCookie,
+} from "@/features/registro/registro-store"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
 import { HuntProfile } from "@/features/profile/hunt-profile"
-import { getHuntGuildMember } from "@/features/profile/discord-roles"
+import { getHuntGuildMember, getMedalGrantedDates } from "@/features/profile/discord-roles"
 import { getHuntUserMessages } from "@/features/profile/discord-messages"
 
 export default async function ProfilePage() {
@@ -15,9 +21,24 @@ export default async function ProfilePage() {
     redirect("/")
   }
 
+  const store = await cookies()
+  const registroRaw = store.get(REGISTRO_COOKIE)?.value ?? null
+  if (!isRegistroCompleteForDiscord(registroRaw, profile.id)) {
+    redirect("/registro")
+  }
+  const verifiedAt = parseRegistroCookie(registroRaw)?.completedAt ?? null
+
   const [huntMember, huntMessagesResult] = await Promise.all([getHuntGuildMember(profile), getHuntUserMessages(profile)])
 
   const email = (session?.user?.email as string | null) ?? profile.email ?? null
+
+  // Fechas reales de concesión de medallas (audit-log; {} si no hay bot/permisos).
+  const medalDates = huntMember
+    ? await getMedalGrantedDates(
+        profile.id,
+        huntMember.roles.map((r) => r.id),
+      )
+    : null
 
   return (
     <DashboardShell active="perfil" breadcrumb="Mi Perfil" profile={profile}>
@@ -27,6 +48,8 @@ export default async function ProfilePage() {
         discordRoles={huntMember?.roles}
         huntMember={huntMember ?? null}
         huntMessages={huntMessagesResult?.messages}
+        verifiedAt={verifiedAt}
+        medalDates={medalDates}
       />
       <p className="profile-disclaimer" style={{ textAlign: "center", marginTop: "22px" }}>
         Sesión cifrada 8h.{" "}
