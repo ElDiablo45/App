@@ -1,9 +1,15 @@
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth/options"
 import { LoginPanel } from "@/features/auth/login-panel"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
 import { HomePage } from "@/features/home/home-page"
 import { getDiscordProfile } from "@/features/profile/profile-session"
+import {
+  REGISTRO_COOKIE,
+  isRegistroCompleteForDiscord,
+} from "@/features/registro/registro-store"
 import { getRecentHuntMembers } from "@/features/home/discord-members"
 import { getHuntSteamNews } from "@/features/steam/steam-news"
 import { getLiveCommunityChannels } from "@/features/twitch/twitch-live"
@@ -26,6 +32,16 @@ export default async function Home({ searchParams }: HomeProps) {
         <LoginPanel authenticated={false} errorCode={errorCode} />
       </main>
     )
+  }
+
+  const store = await cookies()
+  if (
+    !isRegistroCompleteForDiscord(
+      store.get(REGISTRO_COOKIE)?.value ?? null,
+      profile.id,
+    )
+  ) {
+    redirect("/registro")
   }
 
   const [recentMembers, steamNews, liveChannels] = await Promise.all([

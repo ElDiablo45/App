@@ -5,6 +5,7 @@ import { useState } from "react"
 import {
   Activity,
   AlertTriangle,
+  BadgeCheck,
   BookOpen,
   Image as ImageIcon,
   Info,
@@ -13,9 +14,13 @@ import {
   Mail,
   MessageSquare,
   Ticket,
+  Users,
 } from "lucide-react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
 import type { HuntMessage } from "@/features/profile/discord-messages"
+import { buildActivity } from "@/features/profile/profile-activity"
+import { medalsForRoles, VERIFIED_ROLE_ID } from "@/features/profile/role-medals"
+import { RoleMedalBadge } from "@/features/profile/role-medal"
 
 interface HuntProfileProps {
   profile: DiscordProfile
@@ -23,6 +28,8 @@ interface HuntProfileProps {
   discordRoles?: Array<{ id: string; name: string; color: string }>
   huntMember?: { joinedAt?: string; nick?: string | null } | null
   huntMessages?: HuntMessage[]
+  verifiedAt?: string | null
+  medalDates?: Record<string, string> | null
 }
 
 function discordCreationDate(id: string): Date {
@@ -39,24 +46,18 @@ function formatDateEs(date: Date): string {
 }
 
 function timeAgoEs(date: Date): string {
-  const diff = Date.now() - date.getTime()
-  const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30))
-  if (months <= 0) return "hace menos de un mes"
+  const diffDays = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24))
+  if (diffDays <= 0) return "hoy"
+  if (diffDays === 1) return "ayer"
+  if (diffDays < 30) return `hace ${diffDays} días`
+  const months = Math.floor(diffDays / 30)
   if (months === 1) return "hace 1 mes"
   if (months < 12) return `hace ${months} meses`
   const years = Math.floor(months / 12)
   return years === 1 ? "hace 1 año" : `hace ${years} años`
 }
 
-function medalsFromFlags(flags: number): string[] {
-  const medals: string[] = []
-  if (flags & 64) medals.push("🏠")
-  if (flags & 1) medals.push("👑")
-  if (medals.length === 0) return ["🇪🇸", "🍃", "💗"]
-  return medals
-}
-
-export function HuntProfile({ profile, email, discordRoles, huntMember, huntMessages }: HuntProfileProps) {
+export function HuntProfile({ profile, email, discordRoles, huntMember, huntMessages, verifiedAt, medalDates }: HuntProfileProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     informacion: true,
   })
@@ -68,7 +69,6 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
   const huntCreatedPlaceholder = new Date("2026-04-05T10:00:00Z")
   const avatarInitial = profile.displayName.trim().charAt(0).toUpperCase() || "?"
 
-  const medals = medalsFromFlags(profile.publicFlags)
   const roles = discordRoles?.length
     ? discordRoles
     : [
@@ -76,6 +76,34 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
         { id: "2", name: "Historia Aceptada", color: "#22c55e" },
         ...(profile.primaryGuild ? [{ id: "pg", name: profile.primaryGuild.tag, color: "#a78bfa" }] : []),
       ]
+  const medals = medalsForRoles(roles)
+  const verifiedDate = verifiedAt ? new Date(verifiedAt) : null
+  const verifiedDateLabel =
+    verifiedDate && !Number.isNaN(verifiedDate.getTime())
+      ? timeAgoEs(verifiedDate)
+      : undefined
+  const isVerified = roles.some((r) => r.id === VERIFIED_ROLE_ID)
+  const validIso = (iso?: string | null) => {
+    if (!iso) return null
+    const d = new Date(iso)
+    return Number.isNaN(d.getTime()) ? null : iso
+  }
+  const verifiedISO = validIso(verifiedAt)
+  const joinedISO = huntJoinedAt ? huntJoinedAt.toISOString() : null
+  // Fecha por medalla: audit-log real > registro (verificada) > unión. Nunca inventada.
+  const medalAt = (m: { roleId: string }) =>
+    medalDates?.[m.roleId] ??
+    (m.roleId === VERIFIED_ROLE_ID ? (verifiedISO ?? joinedISO) : joinedISO)
+  const activityEvents = buildActivity({
+    guildJoinedAt: joinedISO,
+    registroAt: verifiedISO,
+    verifiedAt: verifiedISO,
+    medals: medals.map((m) => ({
+      title: m.title,
+      verified: m.roleId === VERIFIED_ROLE_ID,
+      at: medalAt(m),
+    })),
+  })
 
   const messageCount = huntMessages?.length
 
@@ -116,7 +144,14 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
             )}
           </div>
 
-          <h2 className="hunt-name">{profile.displayName}</h2>
+          <h2 className="hunt-name">
+            {profile.displayName}
+            {isVerified ? (
+              <span className="hunt-verified">
+                <BadgeCheck size={14} aria-hidden="true" /> Verificado
+              </span>
+            ) : null}
+          </h2>
           <p className="hunt-handle">
             @{profile.username} · {profile.id}
           </p>
@@ -128,11 +163,19 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
           <div className="hunt-section">
             <p className="hunt-label">MEDALLAS</p>
             <div className="hunt-medals">
-              {medals.map((m, i) => (
-                <span key={i} className="hunt-medal">
-                  {m}
-                </span>
-              ))}
+              {medals.length ? (
+                medals.map((m) => (
+                  <RoleMedalBadge
+                    key={m.roleId}
+                    medal={m}
+                    dateLabel={
+                      medalAt(m) ? timeAgoEs(new Date(medalAt(m) as string)) : undefined
+                    }
+                  />
+                ))
+              ) : (
+                <p className="hunt-acc-empty">Sin medallas todavía.</p>
+              )}
             </div>
           </div>
 
@@ -154,6 +197,20 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
               <li>
                 <Mail size={12} /> {email ?? profile.email ?? "—"}
               </li>
+              {verifiedDateLabel ? (
+                <li>
+                  <BadgeCheck size={12} /> Verificado {verifiedDateLabel}
+                </li>
+              ) : null}
+              {huntJoinedAt ? (
+                <li>
+                  <Users size={12} /> Se unió al Discord {formatDateEs(huntJoinedAt)}
+                </li>
+              ) : (
+                <li>
+                  <Users size={12} /> En Discord desde {formatDateEs(creationDate)}
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -177,7 +234,7 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
                 <span>
                   <Info size={14} className="hunt-acc-icon" /> Información
                 </span>
-                <span className="hunt-acc-chevron">⌃</span>
+                <span className="hunt-acc-chevron">⌄</span>
               </button>
               {openSections.informacion ? (
                 <div className="hunt-acc-body">
@@ -251,6 +308,23 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
                             ))}
                           </ul>
                         </div>
+                      )
+                    ) : s.key === "actividad" ? (
+                      activityEvents.length ? (
+                        <div className="hunt-info-card">
+                          <div className="hunt-info-row hunt-act-head">
+                            <span>Evento</span>
+                            <span>Fecha</span>
+                          </div>
+                          {activityEvents.map((e) => (
+                            <div key={e.id} className="hunt-info-row hunt-act-row">
+                              <span>{e.label}</span>
+                              <strong>{e.at ? timeAgoEs(new Date(e.at)) : "—"}</strong>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="hunt-acc-empty">Sin actividad registrada todavía.</p>
                       )
                     ) : (
                       <p className="hunt-acc-empty">Próximamente — esta sección se conectará a la base de datos de Hunt Hispano.</p>
