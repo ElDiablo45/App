@@ -7,10 +7,10 @@ import {
   REGISTRO_COOKIE,
   isRegistroCompleteForDiscord,
 } from "@/features/registro/registro-store"
-import { DotacionesGuardadas } from "@/features/equipo/dotaciones-guardadas"
+import { DotacionEditor } from "@/features/equipo/dotacion-editor"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
 
-export default async function EquipoPage() {
+export default async function NuevaDotacionPage() {
   const session = await getServerSession(authOptions)
   const profile = getDiscordProfile(session)
   if (!profile) redirect("/")
@@ -24,7 +24,7 @@ export default async function EquipoPage() {
 
   return (
     <DashboardShell active="equipo" breadcrumb="Equipo" profile={profile}>
-      <DotacionesGuardadas />
+      <DotacionEditor title="Nueva dotación" />
     </DashboardShell>
   )
 }

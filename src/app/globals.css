@@ -3221,3 +3221,245 @@ button.eq-create:disabled {
     display: none;
   }
 }
+
+/* === DOTACIONES HUNT (solo visual, sin imágenes) === */
+.dz-root {
+  background: #000;
+  background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.06), transparent 70%);
+  border: 1px solid #1b1b1b;
+  border-radius: 8px;
+  padding: 16px;
+  color: #e8e9ef;
+}
+
+.dz-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  background: transparent;
+  color: #e8e9ef;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.dz-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  margin: 12px 0 16px;
+  color: #fff;
+}
+
+.dz-layout {
+  display: grid;
+  grid-template-columns: 300px 24px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.dz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dz-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #262626;
+  border-radius: 6px;
+  background: #0d0d0d;
+}
+
+.dz-row--selected {
+  border-color: #5a1111;
+  background: #140b0b;
+}
+
+.dz-row--highlighted {
+  border-color: #8b90a3;
+}
+
+.dz-weapon {
+  width: 40px;
+  height: 20px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #2a2a2a, #1a1a1a);
+  border: 1px solid #333;
+  flex-shrink: 0;
+}
+
+.dz-name {
+  flex: 1;
+  font-size: 13px;
+}
+
+.dz-cost {
+  font-size: 12px;
+  color: #d4af37;
+}
+
+.dz-unlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px dashed #333;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #a8aec2;
+}
+
+.dz-unlock-cost {
+  margin-left: auto;
+  color: #f59e0b;
+}
+
+.dz-empty {
+  min-height: 44px;
+  border: 1px solid #1e1e1e;
+  border-radius: 6px;
+  background: #080808;
+}
+
+.dz-diamond {
+  width: 12px;
+  height: 12px;
+  margin: 120px auto 0;
+  transform: rotate(45deg);
+  border: 1px solid #555;
+  background: #111;
+}
+
+.dz-detail,
+.dz-editor-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dz-panel {
+  border: 1px solid #262626;
+  border-radius: 6px;
+  background: #0d0d0d;
+  padding: 10px;
+}
+
+.dz-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #a8aec2;
+  margin: 0 0 8px;
+}
+
+.dz-count {
+  font-size: 12px;
+  color: #e8e9ef;
+}
+
+.dz-slots {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dz-slot {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #111;
+}
+
+.dz-big-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #080808;
+  color: #555;
+}
+
+.dz-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dz-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #080808;
+  color: #555;
+}
+
+.dz-cost-line {
+  font-size: 12px;
+  color: #a8aec2;
+}
+
+.dz-order {
+  font-size: 13px;
+  color: #a8aec2;
+}
+
+.dz-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.dz-filter {
+  padding: 6px 10px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  background: transparent;
+  color: #777;
+  font-size: 12px;
+}
+
+.dz-search {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #0d0d0d;
+  color: #e8e9ef;
+}
+
+.dz-empty-msg {
+  font-size: 13px;
+  color: #777;
+}
+
+@media (max-width: 960px) {
+  .dz-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dz-diamond {
+    display: none;
+  }
+}
+
+[data-theme="light"] .dz-root {
+  background: #000;
+  color: #e8e9ef;
+}
+
+[data-theme="light"] .dz-title {
+  color: #fff;
+}
