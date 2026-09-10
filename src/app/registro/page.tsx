@@ -33,12 +33,12 @@ export default async function RegistroPage() {
         <div style={{ width: "100%", maxWidth: 360 }}>
           <div className="eleven-brand" aria-hidden="true">
             <Image
-              src="/hunt/mark.svg"
+              src="/hunt/mark.png"
               alt="Hunt Hispano"
-              width={42}
-              height={22}
+              width={72}
+              height={44}
               priority
-              style={{ width: "42px", height: "22px", objectFit: "contain" }}
+              style={{ width: "72px", height: "44px", objectFit: "contain" }}
               unoptimized
             />
             <span className="eleven-brand-text">
@@ -57,7 +57,7 @@ export default async function RegistroPage() {
 
       <div className="eleven-registro-right" aria-hidden="true">
         <img
-          src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&h=1200&fit=crop&auto=format"
+          src="/hunt/hero-1.jpg"
           alt=""
           className="eleven-registro-img"
           loading="eager"
