@@ -5,6 +5,7 @@ import { authOptions } from "@/auth/options"
 import { LoginPanel } from "@/features/auth/login-panel"
 import { GUEST_COOKIE } from "@/features/auth/guest-cookie"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
+import { SiteFooter } from "@/features/layout/site-footer"
 import { HomePage } from "@/features/home/home-page"
 import { getDiscordProfile } from "@/features/profile/profile-session"
 import {
@@ -47,6 +48,7 @@ export default async function Home({ searchParams }: HomeProps) {
     return (
       <main className="eleven-page">
         <LoginPanel authenticated={false} errorCode={errorCode} />
+        <SiteFooter />
       </main>
     )
   }

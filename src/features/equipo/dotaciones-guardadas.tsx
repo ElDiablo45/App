@@ -118,7 +118,7 @@ export function DotacionesGuardadas() {
               Ranura principal <span className="dz-inline-cost">◉ {current.principalCost}</span>
             </h2>
             <div className="dz-weapon-row">
-              <Link href="/equipo/nueva" className="dz-weapon-card" aria-label="Editar ranura principal">
+              <Link href="/equipo/nueva?ranura=principal" className="dz-weapon-card" aria-label="Editar ranura principal">
                 <Plus size={18} aria-hidden className="dz-plus" />
               </Link>
               {current.principalCost > 0 ? <span className="dz-ammo" aria-hidden="true" /> : null}
@@ -129,7 +129,7 @@ export function DotacionesGuardadas() {
             <span className="dz-check" aria-hidden="true"><Check size={12} /></span>
             <h2 className="dz-sec-title">Ranura secundaria</h2>
             <div className="dz-weapon-row">
-              <Link href="/equipo/nueva" className="dz-weapon-card dz-weapon-card--short" aria-label="Editar ranura secundaria">
+              <Link href="/equipo/nueva?ranura=secundaria" className="dz-weapon-card dz-weapon-card--short" aria-label="Editar ranura secundaria">
                 <Plus size={18} aria-hidden className="dz-plus" />
               </Link>
               {current.secundariaCost > 0 ? <span className="dz-ammo" aria-hidden="true" /> : null}
@@ -143,7 +143,7 @@ export function DotacionesGuardadas() {
               {Array.from({ length: 8 }).map((_, i) => (
                 <Link
                   key={i}
-                  href="/equipo/nueva"
+                  href="/equipo/nueva?ranura=herramientas"
                   className="dz-tool"
                   aria-label={`Herramienta ${i + 1}`}
                 >

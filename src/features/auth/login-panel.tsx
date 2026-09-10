@@ -96,13 +96,9 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
                 />
                 <span>
                   Acepto{" "}
-                  <a
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
-                    className="eleven-link"
-                  >
+                  <Link href="/terminos" className="eleven-link">
                     términos y condiciones
-                  </a>{" "}
+                  </Link>{" "}
                   de Hunt Hispano
                 </span>
               </label>

@@ -1257,9 +1257,10 @@ input:focus-visible {
 }
 
 .hunt-prestige-num {
+  font-family: "Cinzel", Georgia, "Times New Roman", serif;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #e8e9ef;
   white-space: nowrap;
@@ -3812,6 +3813,12 @@ button.eq-create:disabled {
   max-width: 1240px;
 }
 
+/* Editor (/equipo/nueva): el panel derecho necesita ancho completo
+   para que la barra de filtros quepa en una sola línea sin scroll. */
+.dz-layout:has(.dz-editor-main) {
+  grid-template-columns: 330px minmax(0, 1fr);
+}
+
 .dz-list {
   display: flex;
   flex-direction: column;
@@ -4022,6 +4029,11 @@ button.eq-create:disabled {
   align-items: center;
   justify-content: center;
   min-height: 88px;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
   text-decoration: none;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 60%),
@@ -4032,6 +4044,17 @@ button.eq-create:disabled {
 
 .dz-weapon-card:hover {
   border-color: #8a8a8a;
+}
+
+.dz-weapon-card--active {
+  border-color: #d4af37;
+  box-shadow:
+    inset 0 0 0 1px #d4af37,
+    0 0 12px rgba(212, 175, 55, 0.25);
+}
+
+.dz-weapon-card--active:hover {
+  border-color: #d4af37;
 }
 
 .dz-weapon-card--short {
@@ -4074,6 +4097,30 @@ button.eq-create:disabled {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 6px;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 120ms ease;
+}
+
+.dz-tools:hover {
+  border-color: #3a3a3a;
+}
+
+.dz-tools--active {
+  border-color: #d4af37;
+  box-shadow:
+    inset 0 0 0 1px #d4af37,
+    0 0 12px rgba(212, 175, 55, 0.25);
+}
+
+.dz-tools--active:hover {
+  border-color: #d4af37;
 }
 
 .dz-tool {
@@ -4171,6 +4218,131 @@ button.eq-create:disabled {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
 }
 
+/* Editor de dotación (panel derecho: orden, búsqueda, filtros, vacío) */
+.dz-editor-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.dz-order {
+  margin: 0;
+  font-size: 13px;
+  color: #8b90a3;
+}
+
+.dz-editor-searchrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  background: #141414;
+  border: 1px solid #2e2e2e;
+  border-radius: 6px;
+}
+
+.dz-editor-searchrow:focus-within {
+  border-color: #6b6b6b;
+}
+
+.dz-editor-searchrow .dz-search:focus-visible {
+  outline: none;
+}
+
+.dz-editor-searchicon {
+  color: #8b90a3;
+  flex: 0 0 auto;
+}
+
+.dz-search {
+  width: 100%;
+  padding: 10px 0;
+  font: inherit;
+  font-size: 13px;
+  color: #e8e9ef;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.dz-search::placeholder {
+  color: #6f7589;
+}
+
+.dz-filters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.dz-filter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  flex: 0 0 auto;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: #8b90a3;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 60%),
+    #141414;
+  border: 1px solid #2e2e2e;
+  border-radius: 4px;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.dz-filter:hover {
+  color: #e8e9ef;
+  border-color: #6b6b6b;
+}
+
+.dz-filter--active {
+  color: #e8e9ef;
+  border-color: #d4af37;
+  box-shadow: inset 0 0 0 1px #d4af37;
+}
+
+.dz-filter-pips {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.dz-filter-pips span {
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.dz-empty-msg {
+  margin: 48px auto;
+  max-width: 320px;
+  padding: 24px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #8b90a3;
+  background: rgba(20, 20, 20, 0.7);
+  border: 1px solid #232323;
+  border-radius: 6px;
+}
+
+.dz-editor-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #6f7589;
+}
+
 @media (max-width: 960px) {
   .dz-root {
     margin: 0;
@@ -4189,4 +4361,202 @@ button.eq-create:disabled {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+/* === HUNT FOOTER (todas las páginas) === */
+.hunt-footer {
+  border-top: 1px solid #1b1b1b;
+  background: #0a0a0a;
+  color: #8b90a3;
+}
+
+.hunt-footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 18px 18px;
+}
+
+.hunt-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 20px;
+}
+
+.hunt-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.hunt-footer-brand {
+  margin: 0;
+  color: #f2ede1;
+  font-family: "Cinzel", Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.hunt-footer-disclaimer {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #8b90a3;
+  max-width: 48ch;
+}
+
+.hunt-footer-title {
+  margin: 0 0 2px;
+  color: #f2ede1;
+  font-family: "Cinzel", Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hunt-footer-link {
+  color: #a8aec2;
+  font-size: 12.5px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.hunt-footer-link:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hunt-footer-link--inline {
+  display: inline;
+  font-size: inherit;
+}
+
+.hunt-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #1b1b1b;
+  font-size: 11.5px;
+  color: #6f7589;
+}
+
+.hunt-footer-sep {
+  opacity: 0.6;
+}
+
+.eleven-page .hunt-footer {
+  background: var(--eleven-bg);
+  border-top-color: var(--eleven-border);
+}
+
+@media (max-width: 720px) {
+  .hunt-footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === HUNT LEGAL (/terminos, /privacidad) === */
+.hunt-legal-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #0e0e0e;
+  color: #e8e9ef;
+}
+
+.hunt-legal-main {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 18px 32px;
+}
+
+.hunt-legal-back {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #8b90a3;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.hunt-legal-back:hover {
+  color: #fff;
+}
+
+.hunt-legal-kicker {
+  margin: 0;
+  color: #8b90a3;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.hunt-legal-title {
+  margin: 8px 0 0;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.hunt-legal-updated {
+  margin: 6px 0 18px;
+  color: #6f7589;
+  font-size: 12px;
+}
+
+.hunt-legal-card {
+  margin: 0 0 12px;
+  padding: 16px;
+  background: #111111;
+  border: 1px solid #1e1e1e;
+  border-radius: 14px;
+}
+
+.hunt-legal-card h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hunt-legal-card p,
+.hunt-legal-card li {
+  margin: 0;
+  color: #a8aec2;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.hunt-legal-card p + p {
+  margin-top: 8px;
+}
+
+.hunt-legal-card ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hunt-legal-card a {
+  color: #fff;
+  text-underline-offset: 2px;
+}
+
+.hunt-legal-note {
+  margin: 14px 0 0;
+  color: #6f7589;
+  font-size: 11.5px;
+  line-height: 1.5;
 }

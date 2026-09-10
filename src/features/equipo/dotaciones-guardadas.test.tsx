@@ -40,4 +40,20 @@ describe("DotacionesGuardadas", () => {
     await user.click(screen.getByRole("option", { name: /dotación 1/i }))
     expect(screen.getByRole("option", { name: /dotación 1/i })).toHaveAttribute("aria-selected", "true")
   })
+
+  it("links each slot to the editor with its ranura param", () => {
+    render(<DotacionesGuardadas />)
+    expect(screen.getByRole("link", { name: /editar ranura principal/i })).toHaveAttribute(
+      "href",
+      "/equipo/nueva?ranura=principal",
+    )
+    expect(screen.getByRole("link", { name: /editar ranura secundaria/i })).toHaveAttribute(
+      "href",
+      "/equipo/nueva?ranura=secundaria",
+    )
+    expect(screen.getByRole("link", { name: /herramienta 1/i })).toHaveAttribute(
+      "href",
+      "/equipo/nueva?ranura=herramientas",
+    )
+  })
 })

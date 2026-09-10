@@ -5,6 +5,7 @@ import Image from "next/image"
 import { authOptions } from "@/auth/options"
 import { getDiscordProfile } from "@/features/profile/profile-session"
 import { RegistroForm } from "@/features/registro/registro-form"
+import { SiteFooter } from "@/features/layout/site-footer"
 import {
   REGISTRO_COOKIE,
   isRegistroCompleteForDiscord,
@@ -30,6 +31,7 @@ export default async function RegistroPage() {
     (session?.user?.email as string | null) ?? profile.email ?? null
 
   return (
+    <div className="eleven-page">
     <main className="eleven-registro-shell">
       <div className="eleven-registro-left">
         <div style={{ width: "100%", maxWidth: 360 }}>
@@ -67,5 +69,7 @@ export default async function RegistroPage() {
         <div className="eleven-registro-overlay" />
       </div>
     </main>
+    <SiteFooter />
+    </div>
   )
 }

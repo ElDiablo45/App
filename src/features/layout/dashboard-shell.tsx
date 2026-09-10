@@ -10,6 +10,7 @@ import { RefreshButton } from "@/features/layout/refresh-button"
 import { HelpMenu } from "@/features/layout/help-menu"
 import { HunterCluster } from "@/features/layout/hunter-cluster"
 import { PrestigeBadge } from "@/features/layout/prestige-badge"
+import { SiteFooter } from "@/features/layout/site-footer"
 import { version as appVersion } from "../../../package.json"
 
 interface DashboardShellProps {
@@ -119,6 +120,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
             children
           )}
         </div>
+        <SiteFooter />
       </div>
     </div>
   )
