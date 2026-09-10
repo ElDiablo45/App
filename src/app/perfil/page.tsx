@@ -26,7 +26,9 @@ export default async function ProfilePage() {
   if (!isRegistroCompleteForDiscord(registroRaw, profile.id)) {
     redirect("/registro")
   }
-  const verifiedAt = parseRegistroCookie(registroRaw)?.completedAt ?? null
+  const registro = parseRegistroCookie(registroRaw)
+  const verifiedAt = registro?.completedAt ?? null
+  const nationality = registro?.nationality ?? null
 
   const [huntMember, huntMessagesResult] = await Promise.all([getHuntGuildMember(profile), getHuntUserMessages(profile)])
 
@@ -50,6 +52,7 @@ export default async function ProfilePage() {
         huntMessages={huntMessagesResult?.messages}
         verifiedAt={verifiedAt}
         medalDates={medalDates}
+        nationality={nationality}
       />
       <p className="profile-disclaimer" style={{ textAlign: "center", marginTop: "22px" }}>
         Sesión cifrada 8h.{" "}
