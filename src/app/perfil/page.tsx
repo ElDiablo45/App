@@ -8,6 +8,7 @@ import {
   isRegistroCompleteForDiscord,
   parseRegistroCookie,
 } from "@/features/registro/registro-store"
+import { GUEST_COOKIE } from "@/features/auth/guest-cookie"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
 import { HuntProfile } from "@/features/profile/hunt-profile"
 import { getHuntGuildMember, getMedalGrantedDates } from "@/features/profile/discord-roles"
@@ -17,11 +18,19 @@ export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
   const profile = getDiscordProfile(session)
 
+  const store = await cookies()
   if (!profile) {
+    if (store.get(GUEST_COOKIE)?.value === "1") {
+      const guestProfile = { id: "guest", username: "invitado", displayName: "Invitado", publicFlags: 0 }
+      return (
+        <DashboardShell active="perfil" breadcrumb="Mi Perfil" profile={guestProfile} isGuest>
+          <HuntProfile profile={guestProfile} email={null} nationality={null} />
+        </DashboardShell>
+      )
+    }
     redirect("/")
   }
 
-  const store = await cookies()
   const registroRaw = store.get(REGISTRO_COOKIE)?.value ?? null
   if (!isRegistroCompleteForDiscord(registroRaw, profile.id)) {
     redirect("/registro")

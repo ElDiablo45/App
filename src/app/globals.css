@@ -386,6 +386,36 @@ input:focus-visible {
   opacity: 0.9;
 }
 
+.eleven-guest-btn {
+  width: 100%;
+  margin-top: 10px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--eleven-border);
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.eleven-guest-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.eleven-guest-hint {
+  margin: 8px 0 0;
+  color: #6f7589;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .eleven-socials {
   display: flex;
   gap: 14px;
@@ -1073,6 +1103,75 @@ input:focus-visible {
   filter: blur(0.4px);
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='8'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='8' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
   mask-size: 120px 4px;
+}
+
+.hunt-topnav-item--locked {
+  gap: 6px;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hunt-locked-wrap {
+  position: relative;
+  min-height: 320px;
+}
+
+.hunt-locked-blur {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.hunt-locked-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+}
+
+.hunt-locked-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.hunt-locked-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.hunt-locked-text {
+  margin: 0;
+  max-width: 340px;
+  color: #9aa0b5;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.hunt-locked-btn {
+  margin-top: 6px;
+  min-height: 38px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+  color: #0b0b0b;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
 }
 
 /* === HUD cazador: prestigio izq + avatar der === */

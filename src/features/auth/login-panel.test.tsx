@@ -3,9 +3,16 @@ import userEvent from "@testing-library/user-event"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { LoginPanel } from "./login-panel"
 
-const { signIn } = vi.hoisted(() => ({ signIn: vi.fn() }))
+const { signIn, push, refresh } = vi.hoisted(() => ({
+  signIn: vi.fn(),
+  push: vi.fn(),
+  refresh: vi.fn(),
+}))
 
 vi.mock("next-auth/react", () => ({ signIn }))
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push, refresh }),
+}))
 
 describe("LoginPanel", () => {
   beforeEach(() => {
@@ -61,6 +68,13 @@ describe("LoginPanel", () => {
     expect(
       screen.getByRole("button", { name: /iniciar sesión/i }),
     ).toBeEnabled()
+  })
+
+  it("offers guest entry without requiring consent", () => {
+    render(<LoginPanel authenticated={false} />)
+
+    const guest = screen.getByRole("button", { name: /invitado/i })
+    expect(guest).toBeEnabled()
   })
 
   it("offers the profile instead of another consent form when authenticated", () => {

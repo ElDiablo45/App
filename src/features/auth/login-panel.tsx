@@ -3,8 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { getAuthErrorMessage } from "./auth-errors"
+import { GUEST_COOKIE, GUEST_MAX_AGE } from "./guest-cookie"
 
 interface LoginPanelProps {
   authenticated: boolean
@@ -12,10 +14,17 @@ interface LoginPanelProps {
 }
 
 export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
+  const router = useRouter()
   const [accepted, setAccepted] = useState(false)
   const [pending, setPending] = useState(false)
   const [localError, setLocalError] = useState<string>()
   const errorMessage = localError ?? getAuthErrorMessage(errorCode)
+
+  function enterAsGuest() {
+    document.cookie = `${GUEST_COOKIE}=1; path=/; max-age=${GUEST_MAX_AGE}; SameSite=Lax`
+    router.push("/")
+    router.refresh()
+  }
 
   async function startDiscordLogin() {
     setPending(true)
@@ -39,12 +48,12 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
         <div className="eleven-login-left-inner">
           <div className="eleven-brand" aria-hidden="true">
             <Image
-              src="/hunt/mark.svg"
+              src="/hunt/mark.png"
               alt="Hunt Hispano"
-              width={42}
-              height={22}
+              width={72}
+              height={44}
               priority
-              style={{ width: "42px", height: "22px", objectFit: "contain" }}
+              style={{ width: "72px", height: "44px", objectFit: "contain" }}
               unoptimized
             />
             <span className="eleven-brand-text">
@@ -59,7 +68,7 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
             parte de Hunt Hispano?
           </h1>
           <p className="eleven-subtitle">
-            Inicia sesión con Discord para solicitar tu whitelist y empezar a escribir tu historia en Hunt Hispano.
+            Inicia sesión con Discord para poder disfrutar de más ventajas y conocer más de Hunt Hispano.
           </p>
 
           {errorMessage ? (
@@ -114,6 +123,16 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
               <p className="eleven-consent-hint">
                 Autorizo a Hunt Hispano a leer y mostrar temporalmente la información básica de mi perfil de Discord.
               </p>
+              <button
+                className="eleven-guest-btn"
+                onClick={enterAsGuest}
+                type="button"
+              >
+                Entrar como invitado
+              </button>
+              <p className="eleven-guest-hint">
+                Solo podrás ver el home. Para el resto necesitas Discord.
+              </p>
             </>
           )}
 
@@ -139,35 +158,29 @@ export function LoginPanel({ authenticated, errorCode }: LoginPanelProps) {
         <div className="eleven-hero-stack">
           <div className="eleven-hero-card">
             <img
-              src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&h=700&fit=crop&auto=format"
+              src="/hunt/hero-1.jpg"
               alt=""
               className="eleven-hero-img"
               loading="eager"
             />
-            <div className="eleven-hero-overlay">Hunt Hispano — Bosque</div>
           </div>
           <div className="eleven-hero-card">
             <img
-              src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=1200&h=700&fit=crop&auto=format"
+              src="/hunt/hero-2.jpg"
               alt=""
               className="eleven-hero-img"
               loading="lazy"
             />
-            <div className="eleven-hero-overlay">Hunt Hispano — Fauna</div>
           </div>
           <div className="eleven-hero-card">
             <img
-              src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=700&fit=crop&auto=format"
+              src="/hunt/hero-3.jpg"
               alt=""
               className="eleven-hero-img"
               loading="lazy"
             />
-            <div className="eleven-hero-overlay">Hunt Hispano — Aventura</div>
           </div>
         </div>
-        <p className="eleven-hero-note">
-          Reemplaza en <code>public/hunt/hero-1.jpg</code>, <code>hero-2.jpg</code>, <code>hero-3.jpg</code> con tus 3 capturas GTA
-        </p>
       </div>
     </div>
   )
