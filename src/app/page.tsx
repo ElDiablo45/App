@@ -11,6 +11,7 @@ import {
   REGISTRO_COOKIE,
   isRegistroCompleteForDiscord,
 } from "@/features/registro/registro-store"
+import { getUserByDiscordId } from "@/features/registro/users-repo"
 import { getRecentHuntMembers } from "@/features/home/discord-members"
 import { getHuntSteamNews } from "@/features/steam/steam-news"
 import { getLiveCommunityChannels } from "@/features/twitch/twitch-live"
@@ -50,7 +51,9 @@ export default async function Home({ searchParams }: HomeProps) {
     )
   }
 
+  const dbUser = await getUserByDiscordId(profile.id).catch(() => null)
   if (
+    !dbUser &&
     !isRegistroCompleteForDiscord(
       store.get(REGISTRO_COOKIE)?.value ?? null,
       profile.id,

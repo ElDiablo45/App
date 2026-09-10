@@ -7,6 +7,7 @@ import { Lock } from "lucide-react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
 import { GUEST_COOKIE } from "@/features/auth/guest-cookie"
 import { RefreshButton } from "@/features/layout/refresh-button"
+import { HelpMenu } from "@/features/layout/help-menu"
 import { HunterCluster } from "@/features/layout/hunter-cluster"
 import { PrestigeBadge } from "@/features/layout/prestige-badge"
 import { version as appVersion } from "../../../package.json"
@@ -48,7 +49,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
     <div className="hunt-dashboard hunt-dashboard--topnav">
       <header className="hunt-topnav">
         <div className="hunt-topnav-left">
-          <PrestigeBadge />
+          <PrestigeBadge disabled={isGuest} />
         </div>
         <nav className="hunt-topnav-nav" aria-label="Navegación superior">
           <Link
@@ -106,9 +107,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
           </div>
           <div className="hunt-topbar-actions">
             <RefreshButton />
-            <a className="hunt-help-btn" href="#">
-              ◎ Ayuda
-            </a>
+            <HelpMenu />
           </div>
         </header>
         <div className="hunt-content">

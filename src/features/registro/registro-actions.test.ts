@@ -3,9 +3,12 @@ import { getServerSession } from "next-auth"
 import { cookies } from "next/headers"
 import { VERIFIED_ROLE_ID } from "@/features/profile/role-medals"
 import { completarRegistro } from "./registro-actions"
+import { upsertUser } from "./users-repo"
 
 vi.mock("next-auth", () => ({ getServerSession: vi.fn() }))
 vi.mock("next/headers", () => ({ cookies: vi.fn() }))
+vi.mock("server-only", () => ({}))
+vi.mock("./users-repo", () => ({ upsertUser: vi.fn(() => Promise.resolve({ ok: true })) }))
 
 const sessionMock = vi.mocked(getServerSession)
 const cookiesMock = vi.mocked(cookies)
@@ -19,7 +22,6 @@ const session = {
 }
 
 const validInput = {
-  email: "a@b.com",
   birthDate: "2000-01-15",
   nationality: "España",
   discordId: "user-1",
@@ -67,5 +69,46 @@ describe("completarRegistro verified role", () => {
 
     expect(result).toEqual({ ok: true })
     expect(set).toHaveBeenCalled()
+    expect(vi.mocked(upsertUser)).toHaveBeenCalledWith(
+      expect.objectContaining({ verified_at: null }),
+    )
+  })
+
+  it("stores the Discord email and verified_at when the role is granted", async () => {
+    vi.stubEnv("HUNT_GUILD_ID", "guild-1")
+    vi.stubEnv("DISCORD_BOT_TOKEN", "bot-token")
+    sessionMock.mockResolvedValue(session as never)
+    mockCookies()
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce({ ok: true }))
+
+    const result = await completarRegistro(validInput)
+
+    expect(result).toEqual({ ok: true })
+    expect(vi.mocked(upsertUser)).toHaveBeenCalledWith(
+      expect.objectContaining({
+        discord_id: "user-1",
+        email: "a@b.com",
+        verified_at: expect.any(String),
+      }),
+    )
+  })
+
+  it("blocks registro when Discord provides no email", async () => {
+    sessionMock.mockResolvedValue({
+      expires: "2099-01-01",
+      user: {
+        discordProfile: { id: "user-1", username: "u", displayName: "U", publicFlags: 0 },
+        email: null,
+      },
+    } as never)
+    mockCookies()
+
+    const result = await completarRegistro(validInput)
+
+    expect(result).toEqual({
+      ok: false,
+      error: "Añade y verifica un email en Discord para completar el registro.",
+    })
+    expect(vi.mocked(upsertUser)).not.toHaveBeenCalled()
   })
 })

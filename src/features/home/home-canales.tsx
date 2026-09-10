@@ -54,7 +54,7 @@ export function HomeCanales({ channels = MOCK_LIVE }: { channels?: AnyChannel[] 
       </div>
       {!channels.some((c) => isEnriched(c as AnyChannel)) && (
         <p style={{ marginTop: 8, color: "#6f7589", fontSize: 11, lineHeight: 1.4 }}>
-          Datos de ejemplo — añade <code>TWITCH_CLIENT_ID</code> + <code>TWITCH_CLIENT_SECRET</code> en <code>.env.local</code> para estado en directo real (usa tu Worker <code>list-subs</code> + <code>streamers</code>). El Worker ya filtra solo Hunt (`game.includes("hunt")`) para notificar Discord; aquí se refleja igual.
+          Datos de ejemplo — añade <code>TWITCH_CLIENT_ID</code> + <code>TWITCH_CLIENT_SECRET</code> en <code>.env.local</code> para estado en directo real (usa tu Worker <code>list-subs</code> + <code>streamers</code>). El Worker ya filtra solo Hunt (<code>game.includes(&quot;hunt&quot;)</code>) para notificar Discord; aquí se refleja igual.
         </p>
       )}
     </div>

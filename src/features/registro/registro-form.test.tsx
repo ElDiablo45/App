@@ -21,7 +21,7 @@ describe("RegistroForm", () => {
     refresh.mockReset()
   })
 
-  it("renders Eleven fields without any Steam input", () => {
+  it("renders Eleven fields with the Discord email read-only", () => {
     render(
       <RegistroForm
         username="joelernesto_50000"
@@ -34,25 +34,21 @@ describe("RegistroForm", () => {
       screen.getByRole("heading", { name: /completa tu registro/i }),
     ).toBeInTheDocument()
     expect(screen.getByText("joelernesto_50000")).toBeInTheDocument()
-    expect(screen.getByLabelText(/correo/i)).toHaveValue(
-      "agenciadakrox@proton.me",
-    )
+    expect(screen.getByText("agenciadakrox@proton.me")).toBeInTheDocument()
+    expect(screen.queryByLabelText(/correo/i)).not.toBeInTheDocument()
     expect(screen.getByLabelText(/fecha de nacimiento/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/nacionalidad/i)).toBeInTheDocument()
     expect(screen.queryByLabelText(/steam/i)).not.toBeInTheDocument()
     expect(screen.queryByPlaceholderText(/steamcommunity/i)).not.toBeInTheDocument()
   })
 
-  it("keeps submit disabled until email and birth date are filled", async () => {
+  it("keeps submit disabled until birth date is filled", async () => {
     const user = userEvent.setup()
     render(
-      <RegistroForm username="joelernesto_50000" discordId="1" initialEmail="" />,
+      <RegistroForm username="joelernesto_50000" discordId="1" initialEmail="user@example.com" />,
     )
 
     const submit = screen.getByRole("button", { name: /completar registro/i })
-    expect(submit).toBeDisabled()
-
-    await user.type(screen.getByLabelText(/correo/i), "user@example.com")
     expect(submit).toBeDisabled()
 
     await user.type(
@@ -80,7 +76,6 @@ describe("RegistroForm", () => {
     await user.click(screen.getByRole("button", { name: /completar registro/i }))
 
     expect(completarRegistro).toHaveBeenCalledWith({
-      email: "agenciadakrox@proton.me",
       birthDate: "2000-01-15",
       nationality: "",
       discordId: "1266910991384576041",

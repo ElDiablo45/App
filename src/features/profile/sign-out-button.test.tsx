@@ -11,12 +11,15 @@ beforeEach(() => {
   signOut.mockReset()
 })
 
-it("clears the session and returns to the login page", async () => {
+it("clears the guest cookie when closing a guest session", async () => {
+  document.cookie = "hh_guest=1; path=/"
+  expect(document.cookie).toContain("hh_guest=1")
   const user = userEvent.setup()
   render(<SignOutButton />)
 
   await user.click(screen.getByRole("button", { name: /cerrar sesión/i }))
 
+  expect(document.cookie).not.toContain("hh_guest=1")
   expect(signOut).toHaveBeenCalledWith({ callbackUrl: "/" })
 })
 

@@ -9,6 +9,7 @@ import {
   REGISTRO_COOKIE,
   isRegistroCompleteForDiscord,
 } from "@/features/registro/registro-store"
+import { getUserByDiscordId } from "@/features/registro/users-repo"
 
 export default async function RegistroPage() {
   const session = await getServerSession(authOptions)
@@ -20,7 +21,8 @@ export default async function RegistroPage() {
 
   const store = await cookies()
   const raw = store.get(REGISTRO_COOKIE)?.value ?? null
-  if (isRegistroCompleteForDiscord(raw, profile.id)) {
+  const dbUser = await getUserByDiscordId(profile.id).catch(() => null)
+  if (dbUser || isRegistroCompleteForDiscord(raw, profile.id)) {
     redirect("/")
   }
 

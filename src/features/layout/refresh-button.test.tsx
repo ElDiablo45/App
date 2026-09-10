@@ -24,6 +24,16 @@ beforeEach(() => {
 })
 
 describe("RefreshButton", () => {
+  it("shows an explanatory tooltip", () => {
+    render(<RefreshButton />)
+
+    expect(
+      screen.getByRole("tooltip", {
+        name: /vuelve a leer tus roles de discord/i,
+      }),
+    ).toBeInTheDocument()
+  })
+
   it("syncs roles, toasts no-change and refreshes the router", async () => {
     const user = userEvent.setup()
     syncMock.mockResolvedValueOnce({ ok: true, changed: false })

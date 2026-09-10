@@ -35,14 +35,27 @@ export function HomeSteamActividad({ news }: HomeSteamActividadProps) {
         Diles algo sobre este juego a tus amigos…
       </div>
 
-      {groups.map((group) => (
+      {groups.map((group, groupIdx) => (
         <div key={group.header} className="hunt-steam-group">
           <div className="hunt-steam-date">{group.header}</div>
           <div className="hunt-steam-list">
-            {group.items.map((item) => (
-              <Link key={item.id} href={`/noticia/${item.id}`} className="hunt-steam-card">
+            {group.items.map((item, itemIdx) => (
+              <Link
+                key={item.id}
+                href={`/noticia/${item.id}`}
+                className={`hunt-steam-card${groupIdx === 0 && itemIdx === 0 ? " hunt-steam-card--latest" : ""}`}
+              >
                 <div className="hunt-steam-thumb">
-                  <Image src={item.imageUrl!} alt="" width={280} height={158} className="hunt-steam-img" unoptimized />
+                  <Image
+                    src={item.imageUrl!}
+                    alt=""
+                    width={280}
+                    height={158}
+                    className="hunt-steam-img"
+                    unoptimized
+                    priority={groupIdx === 0 && itemIdx === 0}
+                    loading={groupIdx === 0 && itemIdx === 0 ? "eager" : "lazy"}
+                  />
                 </div>
                 <div className="hunt-steam-content">
                   <p className="hunt-steam-kicker">{item.feedLabel}</p>

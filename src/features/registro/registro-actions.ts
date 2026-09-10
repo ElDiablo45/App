@@ -5,6 +5,7 @@ import { authOptions } from "@/auth/options"
 import { getDiscordProfile } from "@/features/profile/profile-session"
 import { validateRegistro } from "./registro-validation"
 import { grantVerifiedRole } from "./verified-role"
+import { upsertUser } from "./users-repo"
 import {
   REGISTRO_COOKIE,
   REGISTRO_MAX_AGE,
@@ -12,7 +13,6 @@ import {
 } from "./registro-store"
 
 interface CompletarInput {
-  email: string
   birthDate: string
   nationality?: string
   discordId: string
@@ -26,7 +26,17 @@ export async function completarRegistro(input: CompletarInput) {
     return { ok: false as const, error: "Sesión no válida. Vuelve a iniciar sesión con Discord." }
   }
 
-  const email = input.email.trim()
+  // El email es el de Discord y no se puede cambiar: se ignora cualquier
+  // valor del cliente para evitar registros manipulados.
+  const email = (
+    (session?.user?.email as string | null) ??
+    profile.email ??
+    ""
+  ).trim()
+  if (!email) {
+    return { ok: false as const, error: "Añade y verifica un email en Discord para completar el registro." }
+  }
+
   const birthDate = input.birthDate.trim()
   const nationality = (input.nationality ?? "").trim()
 
@@ -36,9 +46,24 @@ export async function completarRegistro(input: CompletarInput) {
   }
 
   // El rol verificado no bloquea el registro: si Discord falla, la medalla
-  // aparece cuando el bot lea los roles. El fallo queda en el log.
-  if (!(await grantVerifiedRole(profile.id))) {
+  // aparece cuando el bot lea los roles. El fallo queda en el log y
+  // verified_at queda null (pendiente).
+  const roleGranted = await grantVerifiedRole(profile.id)
+  if (!roleGranted) {
     console.warn("[registro] verified role grant failed for", profile.id)
+  }
+
+  // Persistencia real: si Supabase falla, bloqueamos para no perder el registro.
+  const persisted = await upsertUser({
+    discord_id: profile.id,
+    email,
+    birth_date: birthDate,
+    nationality: nationality || null,
+    verified_at: roleGranted ? new Date().toISOString() : null,
+  })
+  if (!persisted.ok) {
+    console.warn("[registro] supabase upsert failed for", profile.id, persisted.error)
+    return { ok: false as const, error: "No se pudo guardar tu registro. Inténtalo de nuevo." }
   }
 
   const { cookies } = await import("next/headers")

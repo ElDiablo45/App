@@ -9,3 +9,10 @@ export function isGuestCookie(
     .split(";")
     .some((part) => part.trim().startsWith(`${GUEST_COOKIE}=1`))
 }
+
+// Client-only: la cookie de invitado no es httpOnly (la pone login-panel
+// con document.cookie), así que el propio navegador puede borrarla al salir.
+export function clearGuestCookie(): void {
+  if (typeof document === "undefined") return
+  document.cookie = `${GUEST_COOKIE}=; path=/; max-age=0; SameSite=Lax`
+}

@@ -12,16 +12,21 @@ interface ThemeCtx {
 
 const Ctx = createContext<ThemeCtx | null>(null)
 
+function getInitialTheme(): Theme {
+  if (typeof window === "undefined") return "dark"
+  const saved = window.localStorage.getItem("hunt-theme")
+  if (saved === "light" || saved === "dark") return saved
+  return window.matchMedia("(prefers-color-scheme: light)").matches
+    ? "light"
+    : "dark"
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark")
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme)
 
   useEffect(() => {
-    const saved = localStorage.getItem("hunt-theme") as Theme | null
-    const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches
-    const initial = saved ?? (prefersLight ? "light" : "dark")
-    setThemeState(initial)
-    document.documentElement.setAttribute("data-theme", initial)
-  }, [])
+    document.documentElement.setAttribute("data-theme", theme)
+  }, [theme])
 
   const setTheme = (t: Theme) => {
     setThemeState(t)

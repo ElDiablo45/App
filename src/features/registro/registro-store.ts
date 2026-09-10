@@ -1,7 +1,7 @@
 import { validateRegistro } from "./registro-validation"
 
 export const REGISTRO_COOKIE = "hh_registro"
-export const REGISTRO_MAX_AGE = 28_800
+export const REGISTRO_MAX_AGE = 30 * 24 * 60 * 60
 
 export interface RegistroData {
   email: string

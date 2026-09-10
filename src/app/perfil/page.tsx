@@ -64,7 +64,7 @@ export default async function ProfilePage() {
         nationality={nationality}
       />
       <p className="profile-disclaimer" style={{ textAlign: "center", marginTop: "22px" }}>
-        Sesión cifrada 8h.{" "}
+        Sesión cifrada 30 días.{" "}
         {huntMember
           ? `Conectado a Hunt Discord · ${huntMember.roles.length} roles · unido ${huntMember.joinedAt ? new Date(huntMember.joinedAt).toLocaleDateString("es-ES") : ""}${huntMessagesResult ? ` · ${huntMessagesResult.totalRecent} mensajes recientes` : ""}`
           : "Sin conexión a Hunt Discord — añade HUNT_GUILD_ID + DISCORD_BOT_TOKEN en .env.local para datos reales (roles, fecha de entrada y mensajes)."}

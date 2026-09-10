@@ -28,6 +28,12 @@ export function toAuthUser(profile: DiscordApiProfile): DiscordAuthUser {
 }
 
 export const authOptions: NextAuthOptions = {
+  // next-auth v4 solo lee NEXTAUTH_SECRET (o `secret` explícito). En este
+  // repo la env documentada es AUTH_SECRET, así que la aceptamos también
+  // como fallback. Sin secret estable, cada reinicio/despliegue genera
+  // uno aleatorio e invalida todas las sesiones JWT (el usuario tiene
+  // que volver a autorizar en Discord aunque no hayan pasado los 30 días).
+  secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
   providers: [
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID ?? "",
@@ -40,7 +46,8 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 28_800,
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
   },
   pages: {
     signIn: "/",

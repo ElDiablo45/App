@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react"
 import { useState } from "react"
+import { clearGuestCookie } from "@/features/auth/guest-cookie"
 
 export function SignOutButton({ compact }: { compact?: boolean }) {
   const [pending, setPending] = useState(false)
@@ -12,6 +13,7 @@ export function SignOutButton({ compact }: { compact?: boolean }) {
     setError(undefined)
 
     try {
+      clearGuestCookie()
       await signOut({ callbackUrl: "/" })
     } catch {
       setError("No se pudo cerrar la sesión. Inténtalo de nuevo.")

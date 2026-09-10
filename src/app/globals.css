@@ -1213,6 +1213,8 @@ input:focus-visible {
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 55%),
     #141414;
   border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
@@ -1223,10 +1225,10 @@ input:focus-visible {
 
 .hunt-slot--active {
   padding: 0;
-  border-color: #7c3aed;
+  border-color: #8b1a1a;
   box-shadow:
-    inset 0 0 0 1px #7c3aed,
-    0 0 12px rgba(124, 58, 237, 0.45);
+    inset 0 0 0 1px #8b1a1a,
+    0 0 12px rgba(139, 26, 26, 0.55);
 }
 
 .hunt-slot--active .hunt-avatar-btn {
@@ -1940,6 +1942,55 @@ input:focus-visible {
   cursor: pointer;
 }
 
+.hunt-refresh-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.hunt-refresh-tip {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 60;
+  width: max-content;
+  max-width: 260px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #141414;
+  border: 1px solid #2b2b2b;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  color: #e8e9ef;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  pointer-events: none;
+}
+
+.hunt-refresh-wrap:hover .hunt-refresh-tip,
+.hunt-refresh-wrap:focus-within .hunt-refresh-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hunt-refresh-tip {
+    transition: none;
+    transform: none;
+  }
+}
+
+[data-theme="light"] .hunt-refresh-tip {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  color: #4b5563;
+}
+
 .hunt-toast {
   position: fixed;
   left: 50%;
@@ -1948,6 +1999,7 @@ input:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  max-width: min(90vw, 420px);
   padding: 10px 16px;
   border-radius: 10px;
   background: #111111;
@@ -1966,13 +2018,100 @@ input:focus-visible {
 
 .hunt-help-btn {
   padding: 6px 10px;
-  border-radius: 999px;
+  border-radius: 8px;
   border: 1px solid #1e1e1e;
   background: #1a1a1a;
   color: #8b90a3;
   font-size: 11px;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
+}
+
+.hunt-help-btn:hover {
+  color: #e8e9ef;
+}
+
+.hunt-help-menu {
+  position: relative;
+}
+
+.hunt-help-drop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  min-width: 232px;
+  padding: 6px;
+  background: #141414;
+  border: 1px solid #2b2b2b;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.hunt-help-section {
+  margin: 6px 0 2px;
+  padding: 8px 12px 2px;
+  border-top: 1px solid #232323;
+  font-size: 12px;
+  color: #8b90a3;
+}
+
+.hunt-help-section--first {
+  margin-top: 0;
+  padding-top: 4px;
+  border-top: 0;
+}
+
+.hunt-help-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  color: #e8e9ef;
+  background: transparent;
+  border: 0;
+}
+
+.hunt-help-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hunt-help-item svg {
+  color: #8b90a3;
+  flex: 0 0 auto;
+}
+
+.hunt-help-item:hover svg {
+  color: #e8e9ef;
+}
+
+[data-theme="light"] .hunt-help-drop {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .hunt-help-section {
+  border-top-color: #e5e7eb;
+  color: #6b7280;
+}
+
+[data-theme="light"] .hunt-help-item {
+  color: #4b5563;
+}
+
+[data-theme="light"] .hunt-help-item:hover {
+  background: #f3f4f6;
+  color: #111827;
 }
 
 .sign-out-compact {
@@ -3059,6 +3198,18 @@ input:focus-visible {
 .hunt-steam-card:hover {
   background: #1a1a1a;
   border-color: #2a2a2a;
+}
+
+.hunt-steam-card--latest {
+  border-color: #8b1a1a;
+  box-shadow:
+    inset 0 0 0 1px #8b1a1a,
+    0 0 16px rgba(139, 26, 26, 0.45);
+}
+
+.hunt-steam-card--latest:hover {
+  background: #1a1a1a;
+  border-color: #a32222;
 }
 
 .hunt-steam-thumb {

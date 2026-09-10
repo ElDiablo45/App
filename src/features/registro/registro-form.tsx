@@ -30,7 +30,8 @@ export function RegistroForm({
   initialEmail,
 }: RegistroFormProps) {
   const router = useRouter()
-  const [email, setEmail] = useState(initialEmail ?? "")
+  // El correo es el de Discord y no se puede cambiar: solo lectura.
+  const email = (initialEmail ?? "").trim()
   const [birthDate, setBirthDate] = useState("")
   const [nationality, setNationality] = useState("")
   const [errors, setErrors] = useState<RegistroErrors>({})
@@ -38,7 +39,7 @@ export function RegistroForm({
   const [pending, setPending] = useState(false)
 
   const canSubmit = useMemo(
-    () => email.trim().length > 0 && birthDate.length > 0 && !pending,
+    () => email.length > 0 && birthDate.length > 0 && !pending,
     [email, birthDate, pending],
   )
 
@@ -47,11 +48,10 @@ export function RegistroForm({
     setFormError(undefined)
 
     const trimmed = {
-      email: email.trim(),
       birthDate: birthDate.trim(),
       nationality: nationality.trim(),
     }
-    const validation = validateRegistro(trimmed)
+    const validation = validateRegistro({ email, ...trimmed })
     setErrors(validation)
     if (Object.keys(validation).length > 0) return
 
@@ -98,19 +98,13 @@ export function RegistroForm({
 
       <form onSubmit={onSubmit} noValidate>
         <div className="eleven-field">
-          <label className="eleven-label" htmlFor="registro-email">
-            Correo
-          </label>
-          <input
-            id="registro-email"
-            className="eleven-input"
-            type="email"
-            autoComplete="email"
-            placeholder="agenciadakrox@proton.me"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <span className="eleven-label">Correo de Discord</span>
+          <p className="eleven-input" aria-live="polite">
+            {email || "Sin correo en Discord"}
+          </p>
+          <p className="eleven-hint">
+            Se usará tu correo de Discord y no se puede cambiar aquí.
+          </p>
           {errors.email ? (
             <p className="eleven-field-error" role="alert">
               {errors.email}

@@ -1,25 +1,43 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, within } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { describe, expect, it } from "vitest"
 import { DotacionesGuardadas } from "./dotaciones-guardadas"
 
 describe("DotacionesGuardadas", () => {
-  it("renders back link, serif title and fixed rows", () => {
+  it("renders esc back, serif title, one empty dotacion and create button", () => {
     render(<DotacionesGuardadas />)
-    expect(screen.getByRole("link", { name: /atrás/i })).toHaveAttribute("href", "/")
+    expect(screen.getByRole("link", { name: /esc/i })).toHaveAttribute("href", "/")
     expect(screen.getByRole("heading", { name: /dotaciones guardadas/i })).toBeInTheDocument()
-    for (const name of ["Dotación 1", "Dotación 2", "La Original", "Dotación 4", "Lebel", "Dotación 6", "Dotación 7"]) {
-      expect(screen.getByText(name)).toBeInTheDocument()
-    }
+    expect(screen.getByRole("option", { name: /dotación 1/i })).toBeInTheDocument()
+    expect(screen.getByText(/capacidad de armas \(0\/5\)/i)).toBeInTheDocument()
   })
 
-  it("renders unlock row and zeroed right panel", () => {
+  it("creates empty dotaciones with plus buttons up to 4, then shows unlock", async () => {
+    const user = userEvent.setup()
     render(<DotacionesGuardadas />)
+    const list = screen.getByRole("listbox", { name: /dotaciones/i })
+
+    // 1 dotación + 3 huecos con +
+    expect(within(list).getAllByRole("option")).toHaveLength(1)
+    expect(screen.getAllByRole("button", { name: /crear dotación/i })).toHaveLength(3)
+    expect(screen.queryByText(/desbloquear ranura/i)).not.toBeInTheDocument()
+
+    await user.click(screen.getAllByRole("button", { name: /crear dotación/i })[0])
+    expect(screen.getByRole("option", { name: /dotación 2/i })).toBeInTheDocument()
+
+    await user.click(screen.getAllByRole("button", { name: /crear dotación/i })[0])
+    await user.click(screen.getAllByRole("button", { name: /crear dotación/i })[0])
+
+    expect(screen.getByRole("option", { name: /dotación 4/i })).toBeInTheDocument()
     expect(screen.getByText(/desbloquear ranura/i)).toBeInTheDocument()
-    expect(screen.getByText(/capacidad de armas/i)).toBeInTheDocument()
-    expect(screen.getByText("0/5")).toBeInTheDocument()
-    expect(screen.getByText(/ranura principal/i)).toBeInTheDocument()
-    expect(screen.getByText(/ranura secundaria/i)).toBeInTheDocument()
-    expect(screen.getByText(/herramientas y consumibles/i)).toBeInTheDocument()
-    expect(screen.getByText("0/15")).toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: /crear dotación/i })).not.toBeInTheDocument()
+  })
+
+  it("selects a dotacion on click", async () => {
+    const user = userEvent.setup()
+    render(<DotacionesGuardadas />)
+    await user.click(screen.getAllByRole("button", { name: /crear dotación/i })[0])
+    await user.click(screen.getByRole("option", { name: /dotación 1/i }))
+    expect(screen.getByRole("option", { name: /dotación 1/i })).toHaveAttribute("aria-selected", "true")
   })
 })
