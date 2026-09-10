@@ -47,6 +47,15 @@ export function isoABandera(iso: string): string {
 }
 
 export function banderaParaPais(nombre: string): string | null {
-  const iso = PAIS_A_ISO[nombre?.trim() ?? ""]
+  const iso = isoDePais(nombre)
   return iso ? isoABandera(iso) : null
+}
+
+export function isoDePais(nombre: string): string | null {
+  return PAIS_A_ISO[nombre?.trim() ?? ""] ?? null
+}
+
+export function banderaImgUrl(nombre: string): string | null {
+  const iso = isoDePais(nombre)
+  return iso ? `https://flagcdn.com/w80/${iso.toLowerCase()}.png` : null
 }

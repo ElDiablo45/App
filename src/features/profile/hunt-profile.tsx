@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
 import type { HuntMessage } from "@/features/profile/discord-messages"
-import { banderaParaPais } from "@/features/registro/paises"
+import { banderaImgUrl } from "@/features/registro/paises"
 import { buildActivity } from "@/features/profile/profile-activity"
 import { medalsForRoles, VERIFIED_ROLE_ID } from "@/features/profile/role-medals"
 import { RoleMedalBadge } from "@/features/profile/role-medal"
@@ -60,7 +60,7 @@ function timeAgoEs(date: Date): string {
 }
 
 export function HuntProfile({ profile, email, discordRoles, huntMember, huntMessages, verifiedAt, medalDates, nationality }: HuntProfileProps) {
-  const flag = nationality ? banderaParaPais(nationality) : null
+  const flagUrl = nationality ? banderaImgUrl(nationality) : null
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     informacion: true,
   })
@@ -166,14 +166,23 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
           <div className="hunt-section">
             <p className="hunt-label">MEDALLAS</p>
             <div className="hunt-medals">
-              {flag && nationality ? (
+              {flagUrl && nationality ? (
                 <span
                   className="hunt-medal hunt-medal--flag"
                   aria-label={nationality}
                   title={nationality}
                   tabIndex={0}
                 >
-                  <span aria-hidden="true">{flag}</span>
+                  <img
+                    src={flagUrl}
+                    srcSet={`${flagUrl.replace("w80", "w40")} 1x, ${flagUrl} 2x`}
+                    alt=""
+                    aria-hidden="true"
+                    width={26}
+                    height={20}
+                    loading="lazy"
+                    className="hunt-flag-img"
+                  />
                   <span className="hunt-medal-tip" role="tooltip">
                     <strong>{nationality}</strong>
                     <span>Tu nacionalidad</span>
@@ -190,7 +199,7 @@ export function HuntProfile({ profile, email, discordRoles, huntMember, huntMess
                     }
                   />
                 ))
-              ) : !flag ? (
+              ) : !flagUrl ? (
                 <p className="hunt-acc-empty">Sin medallas todavía.</p>
               ) : null}
             </div>

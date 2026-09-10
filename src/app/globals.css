@@ -2200,6 +2200,15 @@ input:focus-visible {
   line-height: 1;
 }
 
+.hunt-flag-img {
+  width: 26px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
 .hunt-medal-tip {
   position: absolute;
   bottom: calc(100% + 10px);
