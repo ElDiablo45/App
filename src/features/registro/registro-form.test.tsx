@@ -34,7 +34,7 @@ describe("RegistroForm", () => {
       screen.getByRole("heading", { name: /completa tu registro/i }),
     ).toBeInTheDocument()
     expect(screen.getByText("joelernesto_50000")).toBeInTheDocument()
-    expect(screen.getByLabelText(/email/i)).toHaveValue(
+    expect(screen.getByLabelText(/correo/i)).toHaveValue(
       "agenciadakrox@proton.me",
     )
     expect(screen.getByLabelText(/fecha de nacimiento/i)).toBeInTheDocument()
@@ -52,7 +52,7 @@ describe("RegistroForm", () => {
     const submit = screen.getByRole("button", { name: /completar registro/i })
     expect(submit).toBeDisabled()
 
-    await user.type(screen.getByLabelText(/email/i), "user@example.com")
+    await user.type(screen.getByLabelText(/correo/i), "user@example.com")
     expect(submit).toBeDisabled()
 
     await user.type(

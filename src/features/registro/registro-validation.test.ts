@@ -31,14 +31,14 @@ describe("validateRegistro", () => {
         { email: "", birthDate: ADULT_BIRTH },
         new Date("2026-09-04"),
       ).email,
-    ).toBe("Introduce un email válido.")
+    ).toBe("Introduce un correo válido.")
 
     expect(
       validateRegistro(
         { email: "no-es-email", birthDate: ADULT_BIRTH },
         new Date("2026-09-04"),
       ).email,
-    ).toBe("Introduce un email válido.")
+    ).toBe("Introduce un correo válido.")
   })
 
   it("rejects a missing birth date", () => {

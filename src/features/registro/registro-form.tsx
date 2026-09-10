@@ -99,7 +99,7 @@ export function RegistroForm({
       <form onSubmit={onSubmit} noValidate>
         <div className="eleven-field">
           <label className="eleven-label" htmlFor="registro-email">
-            Email
+            Correo
           </label>
           <input
             id="registro-email"

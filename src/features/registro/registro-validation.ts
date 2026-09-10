@@ -69,7 +69,7 @@ export function validateRegistro(
 
   const email = input.email?.trim() ?? ""
   if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
-    errors.email = "Introduce un email válido."
+    errors.email = "Introduce un correo válido."
   }
 
   const rawBirth = input.birthDate?.trim() ?? ""
