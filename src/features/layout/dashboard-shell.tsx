@@ -58,58 +58,38 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
           >
             HOME
           </Link>
-          {isGuest ? (
-            <span className="hunt-topnav-item hunt-topnav-item--locked" title="Bloqueado">
-              <Lock size={12} aria-hidden="true" /> DOTACIONES
-            </span>
-          ) : (
-            <Link
-              href="/equipo"
-              className={`hunt-topnav-item ${active === "equipo" ? "hunt-topnav-item--active" : ""}`}
-              aria-current={active === "equipo" ? "page" : undefined}
-            >
-              DOTACIONES
-            </Link>
-          )}
-          {isGuest ? (
-            <span className="hunt-topnav-item hunt-topnav-item--locked" title="Bloqueado">
-              <Lock size={12} aria-hidden="true" />CALENDARIO
-            </span>
-          ) : (
-            <a
-              className="hunt-topnav-item"
-              href="#"
-              onClick={(e) => e.preventDefault()}
-            >
-              CALENDARIO
-            </a>
-          )}
-          {isGuest ? (
-            <span className="hunt-topnav-item hunt-topnav-item--locked" title="Bloqueado">
-              <Lock size={12} aria-hidden="true" /> CAZADOR
-            </span>
-          ) : (
-            <Link
-              href="/perfil"
-              className={`hunt-topnav-item ${active === "perfil" ? "hunt-topnav-item--active" : ""}`}
-              aria-current={active === "perfil" ? "page" : undefined}
-            >
-              CAZADOR
-            </Link>
-          )}
-          {isGuest ? (
-            <span className="hunt-topnav-item hunt-topnav-item--locked" title="Bloqueado">
-              <Lock size={12} aria-hidden="true" />TICKETS
-            </span>
-          ) : (
-            <a
-              className="hunt-topnav-item"
-              href="#"
-              onClick={(e) => e.preventDefault()}
-            >
-              TICKETS
-            </a>
-          )}
+          <Link
+            href="/equipo"
+            className={`hunt-topnav-item ${active === "equipo" ? "hunt-topnav-item--active" : ""} ${isGuest ? "hunt-topnav-item--locked" : ""}`}
+            aria-current={active === "equipo" ? "page" : undefined}
+            title={isGuest ? "Bloqueado" : undefined}
+          >
+            {isGuest ? <Lock size={12} aria-hidden="true" /> : null}DOTACIONES
+          </Link>
+          <a
+            className={`hunt-topnav-item ${isGuest ? "hunt-topnav-item--locked" : ""}`}
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            title={isGuest ? "Bloqueado" : undefined}
+          >
+            {isGuest ? <Lock size={12} aria-hidden="true" /> : null}CALENDARIO
+          </a>
+          <Link
+            href="/perfil"
+            className={`hunt-topnav-item ${active === "perfil" ? "hunt-topnav-item--active" : ""} ${isGuest ? "hunt-topnav-item--locked" : ""}`}
+            aria-current={active === "perfil" ? "page" : undefined}
+            title={isGuest ? "Bloqueado" : undefined}
+          >
+            {isGuest ? <Lock size={12} aria-hidden="true" /> : null}CAZADOR
+          </Link>
+          <a
+            className={`hunt-topnav-item ${isGuest ? "hunt-topnav-item--locked" : ""}`}
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            title={isGuest ? "Bloqueado" : undefined}
+          >
+            {isGuest ? <Lock size={12} aria-hidden="true" /> : null}TICKETS
+          </a>
         </nav>
         <div className="hunt-topnav-right">
           <HunterCluster avatarUrl={profile?.avatarUrl} displayName={profile?.displayName} />
