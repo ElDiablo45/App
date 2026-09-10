@@ -60,6 +60,7 @@ describe("DashboardShell topnav", () => {
     expect(screen.getByRole("link", { name: /CAZADOR/i })).toHaveAttribute("href", "/perfil")
     expect(screen.getByRole("dialog", { name: /bloqueado/i })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: /iniciar sesión con discord/i })).toBeInTheDocument()
+    expect(screen.queryByText("contenido invitado")).not.toBeInTheDocument()
   })
 
   it("marks CAZADOR as active when active=perfil", () => {

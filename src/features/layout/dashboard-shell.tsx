@@ -113,10 +113,7 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
         </header>
         <div className="hunt-content">
           {locked ? (
-            <div className="hunt-locked-wrap">
-              <div className="hunt-locked-blur" aria-hidden="true">
-                {children}
-              </div>
+            <div className="hunt-locked-full">
               <GuestLocked />
             </div>
           ) : (
