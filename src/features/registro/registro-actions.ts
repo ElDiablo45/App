@@ -53,6 +53,17 @@ export async function completarRegistro(input: CompletarInput) {
     console.warn("[registro] verified role grant failed for", profile.id)
   }
 
+  // Sincroniza el cache visible (display/roles staff-streamer) con 1 fetch
+  // Bot pequeño. Fire-and-forget: nunca bloquea el registro.
+  void import("@/features/community/discord-member-sync")
+    .then((m) =>
+      m.syncCommunityMember(profile.id, {
+        displayName: profile.displayName,
+        avatarUrl: profile.avatarUrl,
+      }),
+    )
+    .catch(() => {})
+
   // Persistencia real: si Supabase falla, bloqueamos para no perder el registro.
   const persisted = await upsertUser({
     discord_id: profile.id,

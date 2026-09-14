@@ -58,7 +58,12 @@ export function HomeSteamActividad({ news }: HomeSteamActividadProps) {
                   />
                 </div>
                 <div className="hunt-steam-content">
-                  <p className="hunt-steam-kicker">{item.feedLabel}</p>
+                  <p className="hunt-steam-kicker">
+                    {item.feedLabel}
+                    {groupIdx === 0 && itemIdx === 0 ? (
+                      <span className="hunt-verified hunt-verified--latest">Última noticia</span>
+                    ) : null}
+                  </p>
                   <h3 className="hunt-steam-title">{item.title}</h3>
                   <p className="hunt-steam-excerpt">{item.excerpt}</p>
                 </div>

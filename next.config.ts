@@ -37,6 +37,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "huntshowdown.wiki.gg",
+      },
+      {
+        protocol: "https",
         hostname: "i.pravatar.cc",
       },
       {

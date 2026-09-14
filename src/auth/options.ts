@@ -55,7 +55,22 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt({ token, user }) {
-      return persistDiscordProfile(token, user)
+      const next = persistDiscordProfile(token, user)
+      // Captura de roles staff/streamer al autorizar (opción A):
+      // 1 fetch Bot pequeño por login, fire-and-forget para no sumar latencia.
+      // Solo ocurre en el sign-in (user presente), no en cada request.
+      const profile = (user as DiscordAuthUser | undefined)?.discordProfile
+      if (profile) {
+        void import("@/features/community/discord-member-sync")
+          .then((m) =>
+            m.syncCommunityMember(profile.id, {
+              displayName: profile.displayName,
+              avatarUrl: profile.avatarUrl,
+            }),
+          )
+          .catch(() => {})
+      }
+      return next
     },
     session({ session, token }) {
       return exposeDiscordProfile(session, token)

@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
-import { getHuntSteamNewsById, getHuntSteamNews } from "@/features/steam/steam-news"
+import { getHuntSteamNewsById, getHuntSteamNews, stripSteamBbcode, extractSteamYoutubeIds } from "@/features/steam/steam-news"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth/options"
 import { getDiscordProfile } from "@/features/profile/profile-session"
@@ -13,16 +13,15 @@ interface NoticiaPageProps {
 }
 
 function renderContents(contents: string) {
-  // Separa por lineas, convierte URLs a <a> y mantiene imagenes ya extraidas arriba
-  // Simplificado: muestra texto con links clicables sin salir de app si es steam, externo si es otra url
-  const parts = contents.split(/(\s+)/)
+  const clean = stripSteamBbcode(contents)
+  // links sueltos restantes (no imagenes, esas ya van arriba)
+  const parts = clean.split(/(\s+)/)
   return parts.map((part, i) => {
     if (/^https?:\/\//.test(part)) {
-      // si es imagen ya mostrada como hero, no repetir como link pequeño
-      if (/\.(jpg|jpeg|png|gif|webp)$/i.test(part)) return null
+      const url = part.replace(/[),.;!?]+$/, "")
       return (
-        <a key={i} href={part} target="_blank" rel="noreferrer" style={{ color: "#60a5fa", wordBreak: "break-all" }}>
-          {part}
+        <a key={i} href={url} target="_blank" rel="noreferrer" style={{ color: "#60a5fa", wordBreak: "break-all" }}>
+          {url}
         </a>
       )
     }
@@ -30,9 +29,12 @@ function renderContents(contents: string) {
   })
 }
 
+export const dynamicParams = true
+export const revalidate = 600
+
 export async function generateStaticParams() {
-  // pre-generar las 4 ultimas para cache
-  const news = await getHuntSteamNews(4)
+  // pre-generar las ultimas para cache (ventana amplia, no solo 4)
+  const news = await getHuntSteamNews(20)
   return news.map((n) => ({ id: n.id }))
 }
 
@@ -54,8 +56,9 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
   })
 
   // extrae todas las imagenes del contenido para galeria
-  const images = Array.from(item.contents.matchAll(/https?:\/\/[^\s"']+\.(jpg|jpeg|png|gif|webp)/gi)).map((m) => m[0])
+  const images = Array.from(item.contents.matchAll(/https?:\/\/[^\s"'<>\]]+\.(jpg|jpeg|png|gif|webp)(\?[^\s"'<>\]]*)?/gi)).map((m) => m[0])
   const uniqueImages = Array.from(new Set([item.imageUrl, ...images].filter(Boolean))) as string[]
+  const youtubeIds = extractSteamYoutubeIds(item.contents)
 
   return (
     <DashboardShell active="home" breadcrumb="Noticia" profile={profile}>
@@ -75,6 +78,23 @@ export default async function NoticiaPage({ params }: NoticiaPageProps) {
           ) : null}
 
           <div className="hunt-steam-detail-body">
+            {youtubeIds.length > 0 ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 12 }}>
+                {youtubeIds.map((vid) => (
+                  <div key={vid} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #1e1e1e", background: "#000" }}>
+                    <iframe
+                      width="100%"
+                      height="360"
+                      src={`https://www.youtube.com/embed/${vid}`}
+                      title="Video de la noticia"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ display: "block", border: 0 }}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
             <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.7, color: "#d0d3de", fontSize: 13 }}>
               {renderContents(item.contents)}
             </p>

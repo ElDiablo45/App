@@ -13,9 +13,6 @@ import {
   isRegistroCompleteForDiscord,
 } from "@/features/registro/registro-store"
 import { getUserByDiscordId } from "@/features/registro/users-repo"
-import { getRecentHuntMembers } from "@/features/home/discord-members"
-import { getHuntSteamNews } from "@/features/steam/steam-news"
-import { getLiveCommunityChannels } from "@/features/twitch/twitch-live"
 
 interface HomeProps {
   searchParams: Promise<{ error?: string | string[] }>
@@ -34,14 +31,9 @@ export default async function Home({ searchParams }: HomeProps) {
   if (!profile) {
     if (isGuest) {
       const guestProfile = { id: "guest", username: "invitado", displayName: "Invitado", publicFlags: 0 }
-      const [recentMembers, steamNews, liveChannels] = await Promise.all([
-        getRecentHuntMembers(20),
-        getHuntSteamNews(4),
-        getLiveCommunityChannels(),
-      ])
       return (
         <DashboardShell active="home" breadcrumb="Home" profile={guestProfile} isGuest>
-          <HomePage profile={guestProfile} recentMembers={recentMembers} steamNews={steamNews} liveChannels={liveChannels.length ? liveChannels : undefined} />
+          <HomePage profile={guestProfile} />
         </DashboardShell>
       )
     }
@@ -53,26 +45,22 @@ export default async function Home({ searchParams }: HomeProps) {
     )
   }
 
-  const dbUser = await getUserByDiscordId(profile.id).catch(() => null)
-  if (
-    !dbUser &&
-    !isRegistroCompleteForDiscord(
-      store.get(REGISTRO_COOKIE)?.value ?? null,
-      profile.id,
-    )
-  ) {
-    redirect("/registro")
+  // La cookie es la prueba de registro: si es válida no tocamos Supabase
+  // (cada roundtrip cuesta 0.5-1.8s desde aquí). Solo consultamos la DB
+  // cuando no hay cookie, para no redirigir a un usuario ya registrado.
+  const registroRaw = store.get(REGISTRO_COOKIE)?.value ?? null
+  if (!isRegistroCompleteForDiscord(registroRaw, profile.id)) {
+    const dbUser = await getUserByDiscordId(profile.id).catch(() => null)
+    if (!dbUser) {
+      redirect("/registro")
+    }
   }
 
-  const [recentMembers, steamNews, liveChannels] = await Promise.all([
-    getRecentHuntMembers(20),
-    getHuntSteamNews(4),
-    getLiveCommunityChannels(),
-  ])
-
+  // Los datos pesados (Steam/Discord/Twitch) se cargan dentro de
+  // HomePage con Suspense: el shell pinta sin esperarlos.
   return (
     <DashboardShell active="home" breadcrumb="Home" profile={profile}>
-      <HomePage profile={profile} recentMembers={recentMembers} steamNews={steamNews} liveChannels={liveChannels.length ? liveChannels : undefined} />
+      <HomePage profile={profile} />
     </DashboardShell>
   )
 }

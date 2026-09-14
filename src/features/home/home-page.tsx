@@ -1,28 +1,29 @@
+import { Suspense } from "react"
 import type { DiscordProfile } from "@/features/discord/discord-profile"
 import { HomeWelcome } from "./home-welcome"
 import { HomeLoTuyo } from "./home-lo-tuyo"
-import { HomeCanales } from "./home-canales"
-import { HomeNuevasIncorporaciones } from "./home-nuevas-incorporaciones"
-import { HomeSteamActividad } from "./home-steam-actividad"
-import type { NewMember } from "./types"
-import type { SteamNewsItem } from "@/features/steam/steam-news"
-import type { LiveChannelEnriched } from "@/features/twitch/twitch-live"
+import {
+  HomeSteamSection,
+  HomeStreamersSection,
+  SteamSkeleton,
+  StreamersSkeleton,
+} from "./home-sections"
 
 interface HomePageProps {
   profile: DiscordProfile
-  recentMembers?: NewMember[]
-  steamNews?: SteamNewsItem[]
-  liveChannels?: LiveChannelEnriched[]
 }
 
-export function HomePage({ profile, recentMembers, steamNews, liveChannels }: HomePageProps) {
+export function HomePage({ profile }: HomePageProps) {
   return (
     <div className="hunt-home">
       <HomeWelcome profile={profile} />
       <HomeLoTuyo />
-      {steamNews && <HomeSteamActividad news={steamNews} />}
-      <HomeCanales channels={liveChannels} />
-      <HomeNuevasIncorporaciones members={recentMembers} />
+      <Suspense fallback={<SteamSkeleton />}>
+        <HomeSteamSection />
+      </Suspense>
+      <Suspense fallback={<StreamersSkeleton />}>
+        <HomeStreamersSection />
+      </Suspense>
     </div>
   )
 }

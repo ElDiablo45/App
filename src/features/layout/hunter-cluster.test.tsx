@@ -7,14 +7,18 @@ const { signOutMock } = vi.hoisted(() => ({ signOutMock: vi.fn() }))
 vi.mock("next-auth/react", () => ({ signOut: signOutMock }))
 
 describe("HunterCluster", () => {
-  it("renders hunter slots, system icons and version hook", async () => {
+  it("renders only the avatar with its dropdown menu", async () => {
     const user = userEvent.setup()
     render(<HunterCluster displayName="Kati" />)
 
     expect(screen.getByRole("button", { name: /menú de cazador/i })).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /ajustes/i })).toHaveAttribute("href", "/perfil")
+    expect(screen.queryByRole("button", { name: /mensajes/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole("link", { name: /ajustes/i })).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole("button", { name: /salir/i }))
+    await user.click(screen.getByRole("button", { name: /menú de cazador/i }))
+    expect(screen.getByRole("menuitem", { name: /^perfil$/i })).toHaveAttribute("href", "/perfil")
+
+    await user.click(screen.getByRole("menuitem", { name: /cerrar sesión/i }))
     expect(signOutMock).toHaveBeenCalledWith({ callbackUrl: "/" })
   })
 
@@ -23,7 +27,8 @@ describe("HunterCluster", () => {
     const user = userEvent.setup()
     render(<HunterCluster displayName="Invitado" />)
 
-    await user.click(screen.getByRole("button", { name: /salir/i }))
+    await user.click(screen.getByRole("button", { name: /menú de cazador/i }))
+    await user.click(screen.getByRole("menuitem", { name: /cerrar sesión/i }))
 
     expect(document.cookie).not.toContain("hh_guest=1")
     expect(signOutMock).toHaveBeenCalledWith({ callbackUrl: "/" })

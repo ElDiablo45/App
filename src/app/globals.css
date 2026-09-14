@@ -1212,23 +1212,22 @@ input:focus-visible {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 55%),
     #141414;
-  border: 1px solid #333;
+  border: 1px solid transparent;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+  box-shadow: none;
 }
 
 .hunt-slot:hover {
   color: #e8e9ef;
-  border-color: #6b6b6b;
+  border-color: transparent;
 }
 
 .hunt-slot--active {
   padding: 0;
-  border-color: #8b1a1a;
-  box-shadow:
-    inset 0 0 0 1px #8b1a1a,
-    0 0 12px rgba(139, 26, 26, 0.55);
+  border-color: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .hunt-slot--active .hunt-avatar-btn {
@@ -1268,6 +1267,7 @@ input:focus-visible {
 
 .hunt-avatar-menu {
   position: relative;
+  z-index: 60;
 }
 
 .hunt-avatar-btn {
@@ -3243,6 +3243,252 @@ input:focus-visible {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hunt-skeleton {
+  border-radius: 12px;
+  background: linear-gradient(90deg, #151515 25%, #1c1c1c 50%, #151515 75%);
+  background-size: 200% 100%;
+  animation: hunt-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.hunt-skeleton-card {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #151515;
+  border: 1px solid #1e1e1e;
+}
+
+.hunt-skeleton--thumb {
+  width: 260px;
+  height: 146px;
+  border-radius: 8px;
+}
+
+.hunt-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.hunt-skeleton--line {
+  height: 14px;
+}
+
+.hunt-skeleton--short {
+  width: 45%;
+}
+
+.hunt-home-heading--center {
+  text-align: center;
+}
+
+.hunt-streamers-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.hunt-streamers-track {
+  display: flex;
+  width: max-content;
+  animation: hunt-streamers-marquee 36s linear infinite;
+}
+
+.hunt-streamers-viewport:hover .hunt-streamers-track,
+.hunt-streamers-viewport:focus-within .hunt-streamers-track {
+  animation-play-state: paused;
+}
+
+.hunt-streamers-group {
+  display: flex;
+  gap: 22px;
+  padding: 6px 11px 6px 4px;
+}
+
+@keyframes hunt-streamers-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.hunt-streamer-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.hunt-streamer-portrait {
+  position: relative;
+  display: block;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid #2b2b2b;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.hunt-streamer-tile:hover .hunt-streamer-portrait {
+  border-color: #8b1a1a;
+  box-shadow: 0 0 18px rgba(139, 26, 26, 0.5);
+}
+
+.hunt-streamer-tile:focus-visible {
+  outline: 2px solid rgba(196, 181, 253, 0.7);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.hunt-streamer-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hunt-streamer-seal {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: #141414;
+  border: 1px solid #2b2b2b;
+  border-radius: 50%;
+}
+
+.hunt-streamer-seal .hunt-medal {
+  padding: 0;
+  cursor: pointer;
+}
+
+.hunt-streamer-seal .hunt-medal svg {
+  width: 15px;
+  height: 15px;
+}
+
+.hunt-streamer-name {
+  margin: 0;
+  max-width: 110px;
+  color: #e8e9ef;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hunt-streamers-track {
+    animation: none;
+  }
+  .hunt-streamer-portrait {
+    transition: none;
+  }
+}
+
+.hunt-streamer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.hunt-streamer-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 340px;
+  padding: 28px 24px 22px;
+  background: #141414;
+  border: 1px solid #2b2b2b;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.hunt-streamer-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  cursor: pointer;
+  color: #8b90a3;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+}
+
+.hunt-streamer-close:hover {
+  color: #e8e9ef;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hunt-streamer-modal-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hunt-streamer-modal-name {
+  margin: 6px 0 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.hunt-streamer-modal-since {
+  margin: 0;
+  color: #8b90a3;
+  font-size: 12px;
+}
+
+.hunt-streamer-modal-id {
+  margin: 0;
+  color: #6f7589;
+  font-size: 10px;
+}
+
+.hunt-streamer-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@keyframes hunt-skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.hunt-verified--latest {
+  background: rgba(220, 38, 38, 0.12);
+  border-color: rgba(220, 38, 38, 0.55);
+  color: #f87171;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .hunt-steam-title {
@@ -4017,6 +4263,11 @@ button.eq-create:disabled {
   box-shadow: 0 0 6px rgba(255, 40, 40, 0.5);
 }
 
+.dz-pips span.dz-pip--on {
+  background: #e8e9ef;
+  border-color: #e8e9ef;
+}
+
 .dz-weapon-row {
   display: grid;
   grid-template-columns: 1fr;
@@ -4104,23 +4355,20 @@ button.eq-create:disabled {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 120ms ease;
 }
 
-.dz-tools:hover {
-  border-color: #3a3a3a;
-}
-
-.dz-tools--active {
+.dz-tool--active {
   border-color: #d4af37;
   box-shadow:
     inset 0 0 0 1px #d4af37,
     0 0 12px rgba(212, 175, 55, 0.25);
 }
 
-.dz-tools--active:hover {
-  border-color: #d4af37;
+.dz-tool-img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
 .dz-tool {
@@ -4129,8 +4377,11 @@ button.eq-create:disabled {
   place-items: center;
   aspect-ratio: 1 / 1;
   min-height: 0;
+  padding: 0;
   overflow: hidden;
+  font: inherit;
   text-decoration: none;
+  cursor: pointer;
   background:
     radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.06), transparent 62%),
     radial-gradient(circle at 50% 115%, rgba(0, 0, 0, 0.5), transparent 60%),
@@ -4341,6 +4592,232 @@ button.eq-create:disabled {
   margin: 0;
   font-size: 12px;
   color: #6f7589;
+}
+
+/* Selector de armas live (wiki): rectángulo, nombre arriba-izq, imagen centro, coste abajo-dcha */
+.dz-arma-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Cajón con scroll propio: ~4 filas visibles, el resto con scroll interno */
+.dz-arma-scroll {
+  max-height: 632px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+
+.dz-arma-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dz-arma-scroll::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 4px;
+}
+
+/* Mini menú contextual de ranura (Quitar) */
+.dz-slot-menu {
+  position: fixed;
+  z-index: 50;
+  min-width: 150px;
+  padding: 4px;
+  background: rgba(16, 16, 16, 0.97);
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+}
+
+.dz-slot-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  color: #e8e9ef;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+}
+
+.dz-slot-menu button:hover,
+.dz-slot-menu button:focus-visible {
+  background: #2a2a2a;
+  outline: none;
+}
+
+.dz-arma-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font: inherit;
+  color: #e8e9ef;
+  text-align: left;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 60%),
+    #141414;
+  border: 1px solid #2e2e2e;
+  border-radius: 4px;
+  transition: border-color 120ms ease;
+}
+
+.dz-arma-card:hover {
+  border-color: #8a8a8a;
+}
+
+.dz-arma-card--selected {
+  border-color: #f2ede1;
+  box-shadow: inset 0 0 0 1px #f2ede1;
+}
+
+.dz-arma-card--locked {
+  opacity: 0.55;
+}
+
+.dz-arma-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dz-arma-fav {
+  display: inline-flex;
+  color: #8b90a3;
+  cursor: pointer;
+}
+
+.dz-arma-fav--active {
+  color: #d4af37;
+}
+
+.dz-arma-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.dz-arma-kind {
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b90a3;
+}
+
+.dz-arma-img {
+  width: 100%;
+  height: 84px;
+  margin: auto 0;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+}
+
+.dz-arma-cost {
+  margin-left: auto;
+  font-size: 12px;
+  color: #c9cddb;
+  white-space: nowrap;
+}
+
+.dz-arma-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.dz-arma-size,
+.dz-size-pips {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.dz-arma-size span,
+.dz-size-pips span {
+  width: 9px;
+  height: 8px;
+  background: #3a3a3a;
+  border: 1px solid #222;
+}
+
+.dz-arma-size span.dz-pip--on,
+.dz-size-pips span.dz-pip--on {
+  background: #e8e9ef;
+  border-color: #e8e9ef;
+}
+
+.dz-size-pips {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+}
+
+.dz-slot-img {
+  width: 100%;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+}
+
+/* Tooltip nombre + precio sobre ranuras y slots (hover / foco) */
+.dz-wtip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(4px);
+  padding: 8px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #e8e9ef;
+  background: rgba(16, 16, 16, 0.96);
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: 5;
+}
+
+.dz-weapon-card:hover .dz-wtip,
+.dz-weapon-card:focus-visible .dz-wtip,
+.dz-weapon-card:focus-within .dz-wtip,
+.dz-tool:hover .dz-wtip,
+.dz-tool:focus-visible .dz-wtip,
+.dz-tool:focus-within .dz-wtip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dz-arma-status {
+  margin: 0;
+  font-size: 12px;
+  color: #8b90a3;
+}
+
+.dz-arma-error {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 16px;
+  font-size: 13px;
+  color: #e8e9ef;
+  background: #141414;
+  border: 1px solid #2e2e2e;
+  border-radius: 6px;
 }
 
 @media (max-width: 960px) {

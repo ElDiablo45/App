@@ -58,20 +58,23 @@ export function AvatarMenu({ avatarUrl, displayName, size = 32 }: AvatarMenuProp
         )}
       </button>
       {open ? (
-        <div className="hunt-avatar-drop" role="menu" aria-label="Menú de cazador">
+        <div className="hunt-help-drop" role="menu" aria-label="Menú de cazador">
+          <p className="hunt-help-section hunt-help-section--first" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {displayName?.trim() || "Usuario"}
+          </p>
           <Link
             href="/perfil"
             role="menuitem"
-            className="hunt-avatar-item"
+            className="hunt-help-item"
             onClick={() => setOpen(false)}
           >
             <User size={15} aria-hidden="true" />
-            Mi perfil
+            Perfil
           </Link>
           <button
             type="button"
             role="menuitem"
-            className="hunt-avatar-item"
+            className="hunt-help-item"
             onClick={() => {
               clearGuestCookie()
               signOut({ callbackUrl: "/" })

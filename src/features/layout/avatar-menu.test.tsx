@@ -16,7 +16,7 @@ describe("AvatarMenu", () => {
 
     await user.click(screen.getByRole("button", { name: /menú de cazador/i }))
     expect(screen.getByRole("menu", { name: /menú de cazador/i })).toBeInTheDocument()
-    expect(screen.getByRole("menuitem", { name: /mi perfil/i })).toHaveAttribute("href", "/perfil")
+    expect(screen.getByRole("menuitem", { name: /^perfil$/i })).toHaveAttribute("href", "/perfil")
 
     await user.click(screen.getByRole("menuitem", { name: /cerrar sesión/i }))
     expect(signOutMock).toHaveBeenCalledWith({ callbackUrl: "/" })

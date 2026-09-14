@@ -15,18 +15,3 @@ export interface FeaturedMember {
   joinedLabel: string
   logros: string
 }
-
-export interface LiveChannel {
-  id: string
-  username: string
-  thumbUrl: string
-  offline?: boolean
-}
-
-export interface NewMember {
-  id: string
-  name: string
-  avatarUrl: string
-  sinceLabel: string
-  flags: string[]
-}

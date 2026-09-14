@@ -1,4 +1,5 @@
 import { Award, BadgeCheck, Video, Wrench, type LucideIcon } from "lucide-react"
+import { STREAMER_ROLE_ID } from "@/features/discord/roles"
 
 export interface RoleMedalDef {
   icon?: LucideIcon
@@ -32,7 +33,7 @@ export const ROLE_MEDALS: Record<string, RoleMedalDef> = {
     title: "Staff",
     description: "Miembro del staff de Hunt Hispano.",
   },
-  "1352786191593767022": {
+  [STREAMER_ROLE_ID]: {
     icon: Video,
     color: "#c4b5fd",
     title: "Streamer",
