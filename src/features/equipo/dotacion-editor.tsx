@@ -91,7 +91,14 @@ function RanuraArma({
               </span>
             </>
           ) : (
-            <Plus size={18} aria-hidden className="dz-plus" />
+            <>
+              <Plus size={20} aria-hidden className="dz-plus" />
+              <span className="dz-size-pips" aria-hidden="true">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span key={i} />
+                ))}
+              </span>
+            </>
           )}
         </button>
       </div>

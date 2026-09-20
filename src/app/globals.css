@@ -4062,7 +4062,147 @@ button.eq-create:disabled {
 /* Editor (/equipo/nueva): el panel derecho necesita ancho completo
    para que la barra de filtros quepa en una sola línea sin scroll. */
 .dz-layout:has(.dz-editor-main) {
-  grid-template-columns: 330px minmax(0, 1fr);
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 12px 48px;
+  align-items: start;
+}
+
+/* Dotaciones (editor y guardadas): panel de dotación como "armero".
+   Las ranuras de arma bloquean su proporción (armero, no tablón),
+   la columna recupera aire y el pie queda bajo el pliegue. */
+.hunt-content:has(.dz-root) .dz-root {
+  min-height: calc(100dvh - 116px);
+  padding: 16px 24px 36px 64px;
+}
+
+.hunt-content:has(.dz-root) .dz-top {
+  margin-bottom: 14px;
+}
+
+.hunt-content:has(.dz-root) .dz-title {
+  font-size: 30px;
+}
+
+.hunt-content:has(.dz-root) .dz-detail {
+  gap: 14px;
+}
+
+.hunt-content:has(.dz-root) .dz-sec-title {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+/* Ranura de arma: proporción de armero bloqueada (~3.2/1).
+   La principal manda (más alta), la secundaria acompaña. */
+.hunt-content:has(.dz-root) .dz-weapon-card {
+  aspect-ratio: 3.1 / 1;
+  min-height: 92px;
+  border-radius: 3px;
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 40%, rgba(255, 255, 255, 0.06), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 60%),
+    #141414;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 22px rgba(0, 0, 0, 0.65);
+}
+
+.hunt-content:has(.dz-root) .dz-weapon-card--short {
+  aspect-ratio: 3.5 / 1;
+  min-height: 84px;
+}
+
+.hunt-content:has(.dz-root) .dz-weapon-card .dz-plus {
+  width: 20px;
+  height: 20px;
+  opacity: 0.65;
+}
+
+.hunt-content:has(.dz-root) .dz-slot-img {
+  height: 64px;
+}
+
+/* Herramientas y atributos: mismo lenguaje de tesela metálica,
+   las herramientas mandan (4 grandes), los atributos acompañan. */
+.hunt-content:has(.dz-root) .dz-tools {
+  gap: 6px;
+}
+
+.hunt-content:has(.dz-root) .dz-attrs {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.hunt-content:has(.dz-editor-main) .dz-editor-main {
+  gap: 10px;
+}
+
+.hunt-content:has(.dz-editor-main) .dz-filter {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+}
+
+.hunt-content:has(.dz-editor-main) .dz-arma-grid {
+  gap: 8px;
+}
+
+.hunt-content:has(.dz-editor-main) .dz-arma-card {
+  min-height: 140px;
+}
+
+.hunt-content:has(.dz-editor-main) .dz-arma-img {
+  height: 76px;
+}
+
+/* La rejilla hace scroll interno: el pie queda bajo el pliegue
+   y aparece al hacer scroll de página. */
+.hunt-content:has(.dz-editor-main) .dz-arma-scroll {
+  max-height: calc(100dvh - 330px);
+  min-height: 420px;
+}
+
+/* Pantallas bajas (≤950px): compactar aire sin romper
+   proporciones para que los atributos entren en primera vista. */
+@media (max-height: 950px) {
+  .hunt-content:has(.dz-root) .dz-root {
+    padding-top: 12px;
+  }
+
+  .hunt-content:has(.dz-root) .dz-top {
+    margin-bottom: 10px;
+  }
+
+  .hunt-content:has(.dz-root) .dz-title {
+    font-size: 28px;
+  }
+
+  .hunt-content:has(.dz-root) .dz-detail {
+    gap: 10px;
+  }
+
+  .hunt-content:has(.dz-root) .dz-sec-title {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .hunt-content:has(.dz-root) .dz-weapon-card {
+    aspect-ratio: 3.4 / 1;
+    min-height: 88px;
+  }
+
+  .hunt-content:has(.dz-root) .dz-weapon-card--short {
+    aspect-ratio: 3.9 / 1;
+    min-height: 80px;
+  }
+
+  .dz-layout:has(.dz-editor-main) {
+    grid-template-columns: 312px minmax(0, 1fr);
+  }
+
+  .dz-layout {
+    grid-template-columns: 320px minmax(0, 312px);
+  }
 }
 
 .dz-list {
@@ -4526,11 +4666,13 @@ button.eq-create:disabled {
   flex-wrap: nowrap;
   gap: 6px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding: 40px 0 4px;
+  margin-top: -30px;
   scrollbar-width: thin;
 }
 
 .dz-filter {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -4549,6 +4691,61 @@ button.eq-create:disabled {
   border: 1px solid #2e2e2e;
   border-radius: 4px;
   transition: border-color 120ms ease, color 120ms ease;
+}
+
+/* Popup con el nombre del filtro (reutiliza su aria-label).
+   Vive en el padding superior de la fila para que el scroll
+   horizontal no lo recorte. */
+.dz-filter[aria-label]::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(3px);
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #e8e9ef;
+  background: rgba(16, 16, 16, 0.97);
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: 30;
+}
+
+.dz-filter[aria-label]:hover::after,
+.dz-filter[aria-label]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dz-filter--active[aria-label]::after {
+  border-color: #d4af37;
+}
+
+/* Los extremos se alinean al borde para no recortarse. */
+.dz-filter[aria-label]:first-child::after {
+  left: 0;
+  transform: translateY(3px);
+}
+
+.dz-filter[aria-label]:first-child:hover::after,
+.dz-filter[aria-label]:first-child:focus-visible::after {
+  transform: translateY(0);
+}
+
+.dz-filter[aria-label]:last-child::after {
+  left: auto;
+  right: 0;
+  transform: translateY(3px);
+}
+
+.dz-filter[aria-label]:last-child:hover::after,
+.dz-filter[aria-label]:last-child:focus-visible::after {
+  transform: translateY(0);
 }
 
 .dz-filter:hover {
@@ -4824,6 +5021,16 @@ button.eq-create:disabled {
   .dz-root {
     margin: 0;
     padding: 16px 16px 40px;
+  }
+
+  .hunt-content:has(.dz-editor-main) .dz-weapon-card,
+  .hunt-content:has(.dz-editor-main) .dz-weapon-card--short {
+    aspect-ratio: auto;
+    min-height: 84px;
+  }
+
+  .hunt-content:has(.dz-editor-main) .dz-arma-scroll {
+    max-height: 632px;
   }
 
   .dz-layout {

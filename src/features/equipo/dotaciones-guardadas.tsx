@@ -119,7 +119,12 @@ export function DotacionesGuardadas() {
             </h2>
             <div className="dz-weapon-row">
               <Link href="/equipo/nueva?ranura=principal" className="dz-weapon-card" aria-label="Editar ranura principal">
-                <Plus size={18} aria-hidden className="dz-plus" />
+                <Plus size={20} aria-hidden className="dz-plus" />
+                <span className="dz-size-pips" aria-hidden="true">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span key={i} />
+                  ))}
+                </span>
               </Link>
               {current.principalCost > 0 ? <span className="dz-ammo" aria-hidden="true" /> : null}
             </div>
@@ -130,7 +135,12 @@ export function DotacionesGuardadas() {
             <h2 className="dz-sec-title">Ranura secundaria</h2>
             <div className="dz-weapon-row">
               <Link href="/equipo/nueva?ranura=secundaria" className="dz-weapon-card dz-weapon-card--short" aria-label="Editar ranura secundaria">
-                <Plus size={18} aria-hidden className="dz-plus" />
+                <Plus size={20} aria-hidden className="dz-plus" />
+                <span className="dz-size-pips" aria-hidden="true">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span key={i} />
+                  ))}
+                </span>
               </Link>
               {current.secundariaCost > 0 ? <span className="dz-ammo" aria-hidden="true" /> : null}
             </div>
