@@ -41,6 +41,7 @@ const CATEGORY_FILTERS = [
 interface DotacionEditorProps {
   title?: string
   initialSlot?: SlotKind
+  initialArmaSlugs?: string[]
 }
 
 function RanuraArma({
@@ -106,7 +107,7 @@ function RanuraArma({
   )
 }
 
-export function DotacionEditor({ title = "Dotación 7", initialSlot = "principal" }: DotacionEditorProps) {
+export function DotacionEditor({ title = "Dotación 7", initialSlot = "principal", initialArmaSlugs = [] }: DotacionEditorProps) {
   const [slot, setSlot] = useState<SlotKind>(initialSlot)
   const [query, setQuery] = useState("")
   const [searchOpen, setSearchOpen] = useState(false)
@@ -129,6 +130,8 @@ export function DotacionEditor({ title = "Dotación 7", initialSlot = "principal
   const [tools, setTools] = useState<Array<ArmaCardData | null>>(() => Array(8).fill(null))
   const [toolSlot, setToolSlot] = useState(0)
   const cargandoEquipoRef = useRef(false)
+  // Slugs de ?copiar=id: se aplican una vez al cargar el catálogo.
+  const copiaSlugsRef = useRef(initialArmaSlugs)
 
   useEffect(() => {
     let cancelado = false
@@ -138,7 +141,17 @@ export function DotacionEditor({ title = "Dotación 7", initialSlot = "principal
         if (!res.ok) throw new Error("wiki down")
         const json = (await res.json()) as ArmaCardData[]
         if (!cancelado) {
-          setArmas(Array.isArray(json) ? json : [])
+          const lista = Array.isArray(json) ? json : []
+          setArmas(lista)
+          const slugs = copiaSlugsRef.current
+          if (slugs.length > 0) {
+            setSeleccion({
+              principal: lista.find((a) => a.slug === slugs[0]) ?? null,
+              secundaria: slugs[1]
+                ? (lista.find((a) => a.slug === slugs[1]) ?? null)
+                : null,
+            })
+          }
           setErrorWiki(false)
         }
       } catch {
