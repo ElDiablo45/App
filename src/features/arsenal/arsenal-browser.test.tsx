@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { ArsenalBrowser } from "./arsenal-browser"
 import type { ArsenalItem } from "./types"
 
@@ -57,5 +57,23 @@ describe("ArsenalBrowser", () => {
     await user.click(screen.getByRole("button", { name: /recientes/i }))
     const headings = screen.getAllByRole("heading")
     expect(headings[0]).toHaveTextContent(/caza mayor/i)
+  })
+
+  it("calls onToggleLike and updates the count", async () => {
+    const user = userEvent.setup()
+    const onToggleLike = vi.fn(async () => ({ liked: true, likeCount: 4 }))
+    render(
+      <ArsenalBrowser
+        items={ITEMS}
+        armas={ARMAS}
+        likedIds={new Set()}
+        onToggleLike={onToggleLike}
+      />,
+    )
+    await user.click(screen.getByRole("button", { name: /3 me gusta/i }))
+    expect(onToggleLike).toHaveBeenCalledWith("a")
+    expect(
+      await screen.findByRole("button", { name: /4 me gusta/i }),
+    ).toBeInTheDocument()
   })
 })

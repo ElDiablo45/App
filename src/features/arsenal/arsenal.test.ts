@@ -1,7 +1,9 @@
 import { describe, expect, it, vi } from "vitest"
 import {
   filterArsenalItems,
+  getArsenalItem,
   getArsenalItems,
+  getLikedIds,
   incrementView,
   mapRowToArsenalItem,
   sortArsenalItems,
@@ -182,5 +184,56 @@ describe("incrementView", () => {
   it("resolves silently without Supabase", async () => {
     getServiceSupabase.mockReturnValueOnce(null)
     await expect(incrementView("r1")).resolves.toBeUndefined()
+  })
+})
+
+describe("getArsenalItem", () => {
+  it("returns the mapped item with likedByMe", async () => {
+    const single = vi.fn(async () => ({ data: BASE_ROW, error: null }))
+    const maybeSingle = vi.fn(async () => ({
+      data: { loadout_id: "r1" },
+      error: null,
+    }))
+    const eqChain: Record<string, unknown> = {}
+    eqChain.eq = () => eqChain
+    eqChain.single = single
+    eqChain.maybeSingle = maybeSingle
+    getServiceSupabase.mockReturnValueOnce({
+      from: (table: string) =>
+        table === "loadouts"
+          ? { select: () => ({ eq: () => eqChain }) }
+          : { select: () => eqChain },
+    })
+    const result = await getArsenalItem("r1", "user-1")
+    expect(result?.item.id).toBe("r1")
+    expect(result?.likedByMe).toBe(true)
+  })
+
+  it("returns null when the row is missing", async () => {
+    getServiceSupabase.mockReturnValueOnce({
+      from: () => ({ select: () => ({ eq: async () => ({ data: null, error: null }) }) }),
+    })
+    await expect(getArsenalItem("missing")).resolves.toBeNull()
+  })
+})
+
+describe("getLikedIds", () => {
+  it("returns the set of liked loadout ids", async () => {
+    getServiceSupabase.mockReturnValueOnce({
+      from: () => ({
+        select: () => ({
+          eq: async () => ({
+            data: [{ loadout_id: "a" }, { loadout_id: "b" }],
+            error: null,
+          }),
+        }),
+      }),
+    })
+    await expect(getLikedIds("user-1")).resolves.toEqual(new Set(["a", "b"]))
+  })
+
+  it("returns an empty set without Supabase", async () => {
+    getServiceSupabase.mockReturnValueOnce(null)
+    await expect(getLikedIds("user-1")).resolves.toEqual(new Set())
   })
 })

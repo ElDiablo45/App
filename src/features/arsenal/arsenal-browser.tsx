@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { ArsenalCard } from "./arsenal-card"
 import { filterArsenalItems, sortArsenalItems } from "./arsenal-filter"
 import type { ArsenalItem, ArsenalSort } from "./types"
 
@@ -18,18 +19,36 @@ export interface ArmaOption {
 export function ArsenalBrowser({
   items,
   armas,
+  likedIds,
+  onToggleLike,
 }: {
   items: ArsenalItem[]
   armas: ArmaOption[]
+  likedIds?: Set<string>
+  onToggleLike?: (
+    id: string,
+  ) => Promise<
+    { liked: boolean; likeCount: number } | { ok: false; error: string }
+  >
 }) {
   const [query, setQuery] = useState("")
   const [arma, setArma] = useState("")
   const [sort, setSort] = useState<ArsenalSort>("popular")
+  const [overrides, setOverrides] = useState(
+    new Map<string, { liked: boolean; likeCount: number }>(),
+  )
 
   const visible = useMemo(
     () => sortArsenalItems(filterArsenalItems(items, query, arma), sort),
     [items, query, arma, sort],
   )
+
+  async function handleLike(id: string) {
+    if (!onToggleLike) return
+    const result = await onToggleLike(id)
+    if (!("liked" in result)) return
+    setOverrides((prev) => new Map(prev).set(id, result))
+  }
 
   return (
     <div className="eq-browser">
@@ -73,14 +92,18 @@ export function ArsenalBrowser({
       </div>
 
       <div className="eq-grid">
-        {visible.map((item) => (
-          <article key={item.id} className="eq-card">
-            <h3 className="eq-card-title">{item.title}</h3>
-            <p className="eq-card-meta">
-              ♥ {item.likeCount} · 👁 {item.views}
-            </p>
-          </article>
-        ))}
+        {visible.map((item) => {
+          const override = overrides.get(item.id)
+          return (
+            <ArsenalCard
+              key={item.id}
+              item={item}
+              liked={override?.liked ?? likedIds?.has(item.id) ?? false}
+              likeCount={override?.likeCount ?? item.likeCount}
+              onLike={handleLike}
+            />
+          )
+        })}
       </div>
 
       {visible.length === 0 ? (

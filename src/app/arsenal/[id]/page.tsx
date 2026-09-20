@@ -1,5 +1,5 @@
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth/options"
 import { getDiscordProfile } from "@/features/profile/profile-session"
@@ -9,6 +9,9 @@ import {
 } from "@/features/registro/registro-store"
 import { GUEST_COOKIE } from "@/features/auth/guest-cookie"
 import { DashboardShell } from "@/features/layout/dashboard-shell"
+import { getArsenalItem, incrementView } from "@/features/arsenal/arsenal"
+import { toggleArsenalLike } from "@/features/arsenal/arsenal-actions"
+import { ArsenalDetail } from "@/features/arsenal/arsenal-detail"
 
 export default async function ArsenalDetallePage({
   params,
@@ -36,12 +39,19 @@ export default async function ArsenalDetallePage({
   if (!registroComplete) redirect("/registro")
 
   const { id } = await params
+  const found = await getArsenalItem(id, profile.id)
+  if (!found) notFound()
+
+  // No bloquea el pintado: el contador nunca rompe la página.
+  void incrementView(id)
 
   return (
     <DashboardShell active="arsenal" breadcrumb="Arsenal" profile={profile}>
-      <section aria-label={`Dotación ${id}`}>
-        <h1 className="hunt-home-heading">Dotación {id}</h1>
-      </section>
+      <ArsenalDetail
+        item={found.item}
+        initialLiked={found.likedByMe}
+        onToggleLike={toggleArsenalLike}
+      />
     </DashboardShell>
   )
 }

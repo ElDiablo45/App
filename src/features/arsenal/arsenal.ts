@@ -60,6 +60,55 @@ export async function getArsenalItems(sort: ArsenalSort): Promise<ArsenalItem[]>
   }
 }
 
+export async function getArsenalItem(
+  id: string,
+  discordId?: string,
+): Promise<{ item: ArsenalItem; likedByMe: boolean } | null> {
+  try {
+    const supabase = getServiceSupabase()
+    if (!supabase) {
+      const mock = MOCK_LOADOUTS.find((m) => m.id === id)
+      return mock ? { item: mockToArsenalItem(mock), likedByMe: false } : null
+    }
+    const { data, error } = await supabase
+      .from("loadouts")
+      .select("*")
+      .eq("id", id)
+      .single()
+    if (error || !data) return null
+    let likedByMe = false
+    if (discordId) {
+      const { data: like } = await supabase
+        .from("loadout_likes")
+        .select("loadout_id")
+        .eq("loadout_id", id)
+        .eq("discord_id", discordId)
+        .maybeSingle()
+      likedByMe = !!like
+    }
+    return { item: mapRowToArsenalItem(data as ArsenalRow), likedByMe }
+  } catch {
+    return null
+  }
+}
+
+export async function getLikedIds(discordId: string): Promise<Set<string>> {
+  try {
+    const supabase = getServiceSupabase()
+    if (!supabase) return new Set()
+    const { data, error } = await supabase
+      .from("loadout_likes")
+      .select("loadout_id")
+      .eq("discord_id", discordId)
+    if (error || !data) return new Set()
+    return new Set(
+      (data as Array<{ loadout_id: string }>).map((r) => r.loadout_id),
+    )
+  } catch {
+    return new Set()
+  }
+}
+
 export async function toggleLike(
   loadoutId: string,
   discordId: string,
