@@ -31,7 +31,7 @@ describe("DashboardShell topnav", () => {
     expect(screen.getByRole("navigation", { name: /navegación superior/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "HOME" })).toHaveAttribute("href", "/")
     expect(screen.getByRole("link", { name: "DOTACIONES" })).toHaveAttribute("href", "/equipo")
-    expect(screen.getByRole("link", { name: "CALENDARIO" })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "ARSENAL" })).toHaveAttribute("href", "/arsenal")
     expect(screen.getByRole("link", { name: "CAZADOR" })).toHaveAttribute("href", "/perfil")
     expect(screen.getByRole("link", { name: "TICKETS" })).toBeInTheDocument()
   })
@@ -61,6 +61,19 @@ describe("DashboardShell topnav", () => {
     expect(screen.getByRole("dialog", { name: /bloqueado/i })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: /iniciar sesión con discord/i })).toBeInTheDocument()
     expect(screen.queryByText("contenido invitado")).not.toBeInTheDocument()
+  })
+
+  it("marks ARSENAL as active when active=arsenal", () => {
+    render(
+      <DashboardShell active="arsenal">
+        <div>contenido</div>
+      </DashboardShell>,
+    )
+
+    expect(screen.getByRole("link", { name: "ARSENAL" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    )
   })
 
   it("marks CAZADOR as active when active=perfil", () => {

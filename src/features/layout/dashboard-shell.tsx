@@ -15,7 +15,7 @@ import { version as appVersion } from "../../../package.json"
 
 interface DashboardShellProps {
   children: ReactNode
-  active?: "home" | "perfil" | "equipo"
+  active?: "home" | "perfil" | "equipo" | "arsenal"
   breadcrumb?: string
   profile?: DiscordProfile | null
   isGuest?: boolean
@@ -68,14 +68,14 @@ export function DashboardShell({ children, active = "perfil", breadcrumb = "Mi P
           >
             {isGuest ? <Lock size={12} aria-hidden="true" /> : null}DOTACIONES
           </Link>
-          <a
-            className={`hunt-topnav-item ${isGuest ? "hunt-topnav-item--locked" : ""}`}
-            href="#"
-            onClick={(e) => e.preventDefault()}
+          <Link
+            href="/arsenal"
+            className={`hunt-topnav-item ${active === "arsenal" ? "hunt-topnav-item--active" : ""} ${isGuest ? "hunt-topnav-item--locked" : ""}`}
+            aria-current={active === "arsenal" ? "page" : undefined}
             title={isGuest ? "Bloqueado" : undefined}
           >
-            {isGuest ? <Lock size={12} aria-hidden="true" /> : null}CALENDARIO
-          </a>
+            {isGuest ? <Lock size={12} aria-hidden="true" /> : null}ARSENAL
+          </Link>
           <Link
             href="/perfil"
             className={`hunt-topnav-item ${active === "perfil" ? "hunt-topnav-item--active" : ""} ${isGuest ? "hunt-topnav-item--locked" : ""}`}
