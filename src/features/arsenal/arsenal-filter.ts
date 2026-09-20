@@ -4,9 +4,11 @@ export function filterArsenalItems(
   items: ArsenalItem[],
   query: string,
   armaSlug: string,
+  topic = "",
 ): ArsenalItem[] {
   const q = query.trim().toLowerCase()
   return items.filter((item) => {
+    if (topic && !item.topics.includes(topic)) return false
     if (armaSlug && !item.armasSlugs.includes(armaSlug)) return false
     if (!q) return true
     return item.title.toLowerCase().includes(q)
@@ -31,5 +33,7 @@ export function sortArsenalItems(
       return copy.sort(
         (a, b) => b.likeCount - a.likeCount || b.views - a.views,
       )
+    case "views":
+      return copy.sort((a, b) => b.views - a.views)
   }
 }

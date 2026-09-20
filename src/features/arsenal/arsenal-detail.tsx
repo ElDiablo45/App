@@ -28,7 +28,7 @@ export function ArsenalDetail({
   }
 
   return (
-    <article aria-label={`Dotación ${item.title}`}>
+    <article className="ar-detail" aria-label={`Dotación ${item.title}`}>
       <p>{item.authorName}</p>
       <h1 className="hunt-home-heading">{item.title}</h1>
       <p className="hunt-support-text">{item.description}</p>
@@ -43,6 +43,7 @@ export function ArsenalDetail({
 
       <button
         type="button"
+        className="ar-like"
         aria-pressed={liked}
         aria-label={`${likeCount} me gusta`}
         onClick={handleLike}

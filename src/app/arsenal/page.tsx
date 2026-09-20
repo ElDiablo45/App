@@ -40,15 +40,11 @@ export default async function ArsenalPage() {
     getWeaponsCatalog().catch(() => []),
     getLikedIds(profile.id),
   ])
-  const armas = catalog.map((w) => ({ slug: w.slug, nombre: w.nombre }))
+  const armas = catalog.map((w) => ({ slug: w.slug, nombre: w.nombre, imagenUrl: w.imagenUrl }))
 
   return (
     <DashboardShell active="arsenal" breadcrumb="Arsenal" profile={profile}>
-      <section aria-label="Arsenal">
-        <h1 className="hunt-home-heading">ARSENAL</h1>
-        <p className="hunt-support-text">Dotaciones publicadas por la comunidad.</p>
-        <ArsenalBrowser items={items} armas={armas} likedIds={likedIds} onToggleLike={toggleArsenalLike} />
-      </section>
+      <ArsenalBrowser items={items} armas={armas} likedIds={likedIds} onToggleLike={toggleArsenalLike} />
     </DashboardShell>
   )
 }

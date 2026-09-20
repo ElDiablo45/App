@@ -118,6 +118,21 @@ describe("sortArsenalItems", () => {
       "a",
     ])
   })
+
+  it("sorts views by views desc", () => {
+    const a = mapRowToArsenalItem({ ...BASE_ROW, id: "a", views: 50 })
+    const b = mapRowToArsenalItem({ ...BASE_ROW, id: "b", views: 9000 })
+    expect(sortArsenalItems([a, b], "views").map((i) => i.id)).toEqual([
+      "b",
+      "a",
+    ])
+  })
+
+  it("filters by topic", () => {
+    const items = [mapRowToArsenalItem(BASE_ROW)]
+    expect(filterArsenalItems(items, "", "", "pvp")).toHaveLength(1)
+    expect(filterArsenalItems(items, "", "", "pve")).toHaveLength(0)
+  })
 })
 
 function likesClient(opts: { existing: unknown; likeCount: number; calls: string[] }) {

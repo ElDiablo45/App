@@ -38,6 +38,7 @@ function mockToArsenalItem(l: (typeof MOCK_LOADOUTS)[number]): ArsenalItem {
 const SORT_COLUMN: Record<ArsenalSort, string> = {
   popular: "like_count",
   top: "like_count",
+  views: "views",
   latest: "created_at",
 }
 

@@ -3928,19 +3928,73 @@ button.eq-create:disabled {
   font-size: 13px;
 }
 
-/* === ARSENAL (filtro armero + likes) === */
-.eq-arma-filter {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--eleven-muted);
-  font-size: 12px;
-  font-weight: 600;
+/* === ARSENAL (comunidad) === */
+.ar-root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.eq-arma-filter select {
+.ar-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ar-head-text {
+  min-width: 0;
+  max-width: 640px;
+}
+
+.ar-title {
+  margin: 0;
+  color: #f2ede1;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.ar-sub {
+  margin: 10px 0 0;
+  color: var(--eleven-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 62ch;
+}
+
+.ar-create {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: #fff;
+  color: #0b0b0b;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ar-create:hover {
+  background: #f0f0f0;
+}
+
+.ar-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.ar-search {
+  flex: 1;
+  min-width: 220px;
   min-height: 38px;
-  max-width: 240px;
   padding: 9px 12px;
   border-radius: 10px;
   border: 1px solid var(--eleven-border);
@@ -3949,19 +4003,281 @@ button.eq-create:disabled {
   font-size: 13px;
 }
 
-[data-theme="light"] .eq-arma-filter select {
-  background: #ffffff;
-  color: #111827;
+.ar-search::placeholder {
+  color: #6f7589;
 }
 
-.eq-card-actions {
+.ar-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--eleven-border);
+  background: oklch(27% 0 0);
+}
+
+.ar-tab {
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #8b90a3;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ar-tab[aria-pressed="true"] {
+  background: #f2ede1;
+  color: #0b0b0b;
+}
+
+.ar-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.ar-side-title {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ar-side .ar-side-title:not(:first-child) {
+  margin-top: 22px;
+}
+
+.ar-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ar-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--eleven-border);
+  background: oklch(27% 0 0);
+  color: #a8aec2;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ar-pill[aria-pressed="true"] {
+  background: #fff;
+  border-color: #fff;
+  color: #0b0b0b;
+}
+
+.ar-weapons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ar-weapon-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--eleven-border);
+  background: var(--eleven-card);
+  cursor: pointer;
+  min-width: 0;
+}
+
+.ar-weapon-tile-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 22 / 9;
+  object-fit: contain;
+  display: block;
+}
+
+.ar-weapon-tile-name {
+  color: #d0d3de;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ar-weapon-tile[aria-pressed="true"] {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 1px #d4af37, 0 0 18px rgba(212, 175, 55, 0.25);
+}
+
+.ar-weapon-tile[aria-pressed="true"] .ar-weapon-tile-name {
+  color: #d4af37;
+}
+
+.ar-side-empty {
+  margin: 0;
+  color: #6f7589;
+  font-size: 12px;
+}
+
+.ar-clear {
+  margin-top: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8b90a3;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.ar-clear:hover {
+  color: #fff;
+}
+
+.ar-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ar-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 16px;
+  padding: 14px;
+  overflow: hidden;
+  border-radius: var(--eleven-radius);
+  border: 1px solid var(--eleven-border);
+  background: var(--eleven-card);
+}
+
+.ar-card-author {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-.eq-like {
+.ar-card-avatar {
+  border-radius: 50%;
+}
+
+.ar-card-avatar-fallback {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ar-card-author-name {
+  color: #a8aec2;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ar-card-title {
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.ar-card-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ar-card-topic {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #d0d3de;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ar-card-weapons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.ar-weapon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--eleven-border);
+  background: rgba(255, 255, 255, 0.02);
+  min-width: 0;
+  max-width: 230px;
+}
+
+.ar-weapon-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 22 / 9;
+  object-fit: contain;
+  display: block;
+}
+
+.ar-weapon-name {
+  color: #a8aec2;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ar-card-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 86px;
+}
+
+.ar-rating-num {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.ar-stars {
+  color: #d4af37;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.ar-like {
+  margin-top: 6px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -3975,30 +4291,142 @@ button.eq-create:disabled {
   cursor: pointer;
 }
 
-.eq-like[aria-pressed="true"] {
+.ar-like[aria-pressed="true"] {
   border-color: #d4af37;
   color: #d4af37;
   background: rgba(212, 175, 55, 0.1);
 }
 
-.eq-card-views {
-  color: var(--eleven-muted);
-  font-size: 12px;
+.ar-card-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--eleven-border);
+  color: #6f7589;
+  font-size: 11px;
   font-weight: 600;
 }
 
-.eq-card-foot a {
-  color: inherit;
+.ar-card-links {
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+}
+
+.ar-card-links a {
+  color: #d0d3de;
   text-decoration: none;
   font-weight: 700;
 }
 
-.eq-card-foot a:hover {
+.ar-card-links a:hover {
   color: #fff;
   text-decoration: underline;
 }
 
-[data-theme="light"] .eq-card-foot a:hover {
+.ar-empty {
+  margin: 18px 0 0;
+  text-align: center;
+  color: #6f7589;
+  font-size: 13px;
+}
+
+.ar-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.ar-detail a {
+  color: #d0d3de;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ar-detail a:hover {
+  color: #fff;
+}
+
+@media (max-width: 960px) {
+  .ar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ar-weapons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ar-card {
+    grid-template-columns: 1fr;
+  }
+
+  .ar-card-side {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+[data-theme="light"] .ar-title,
+[data-theme="light"] .ar-side-title,
+[data-theme="light"] .ar-card-title,
+[data-theme="light"] .ar-rating-num {
+  color: #111827;
+}
+
+[data-theme="light"] .ar-search,
+[data-theme="light"] .ar-tabs,
+[data-theme="light"] .ar-pill,
+[data-theme="light"] .ar-weapon-tile,
+[data-theme="light"] .ar-card {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+
+[data-theme="light"] .ar-search {
+  color: #111827;
+}
+
+[data-theme="light"] .ar-tab,
+[data-theme="light"] .ar-pill {
+  color: #4b5563;
+}
+
+[data-theme="light"] .ar-tab[aria-pressed="true"],
+[data-theme="light"] .ar-pill[aria-pressed="true"] {
+  background: #111827;
+  border-color: #111827;
+  color: #fff;
+}
+
+[data-theme="light"] .ar-weapon-tile-name,
+[data-theme="light"] .ar-card-author-name,
+[data-theme="light"] .ar-card-topic {
+  color: #4b5563;
+}
+
+[data-theme="light"] .ar-card-topic {
+  background: #f3f4f6;
+}
+
+[data-theme="light"] .ar-weapon {
+  border-color: #e5e7eb;
+  background: #f9fafb;
+}
+
+[data-theme="light"] .ar-card-links a,
+[data-theme="light"] .ar-detail a {
+  color: #3730a3;
+}
+
+[data-theme="light"] .ar-card-links a:hover,
+[data-theme="light"] .ar-detail a:hover {
+  color: #111827;
+}
+
+[data-theme="light"] .ar-clear:hover {
   color: #111827;
 }
 
