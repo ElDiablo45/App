@@ -3,6 +3,8 @@ import { MOCK_LOADOUTS } from "../equipo/data"
 import type { LoadoutRow } from "../equipo/loadouts"
 import type { ArsenalItem, ArsenalSort } from "./types"
 
+export { filterArsenalItems, sortArsenalItems } from "./arsenal-filter"
+
 export interface ArsenalRow extends LoadoutRow {
   like_count?: number | string | null
   armas_slugs?: string[] | null
@@ -55,40 +57,6 @@ export async function getArsenalItems(sort: ArsenalSort): Promise<ArsenalItem[]>
   } catch {
     console.warn("[arsenal] supabase read failed, using mocks")
     return MOCK_LOADOUTS.map(mockToArsenalItem)
-  }
-}
-
-export function filterArsenalItems(
-  items: ArsenalItem[],
-  query: string,
-  armaSlug: string,
-): ArsenalItem[] {
-  const q = query.trim().toLowerCase()
-  return items.filter((item) => {
-    if (armaSlug && !item.armasSlugs.includes(armaSlug)) return false
-    if (!q) return true
-    return item.title.toLowerCase().includes(q)
-  })
-}
-
-export function sortArsenalItems(
-  items: ArsenalItem[],
-  sort: ArsenalSort,
-): ArsenalItem[] {
-  const copy = [...items]
-  switch (sort) {
-    case "latest":
-      return copy.sort(
-        (a, b) => +new Date(b.createdAt) - +new Date(a.createdAt),
-      )
-    case "top":
-      return copy.sort(
-        (a, b) => b.likeCount - a.likeCount || b.ratingAvg - a.ratingAvg,
-      )
-    case "popular":
-      return copy.sort(
-        (a, b) => b.likeCount - a.likeCount || b.views - a.views,
-      )
   }
 }
 
